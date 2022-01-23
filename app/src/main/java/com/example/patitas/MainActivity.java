@@ -1,5 +1,6 @@
 package com.example.patitas;
 
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     DrawerLayout drawer;
-    ActionMenuView bottomBar;
+    BottomNavigationView bottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar,menu);
 
-        bottomBar = (ActionMenuView)findViewById(R.id.bottom_toolbar);
+        bottomBar = findViewById(R.id.bottom_toolbar);
         Menu bottomMenu = bottomBar.getMenu();
         getMenuInflater().inflate(R.menu.menu_bottom_toolbar, bottomMenu);
         for (int i = 0; i < bottomMenu.size(); i++) {
