@@ -3,19 +3,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/boton_home"
         android:icon="@drawable/ic_baseline_home_60"
-        android:title="boton_home"
+        android:title="Home"
         app:showAsAction="always" />
     <item
+        android:id="@+id/boton_buscar"
         android:icon="@drawable/ic_baseline_search_60"
-        android:title="boton_buscar"
+        android:title="Buscar"
         app:showAsAction="always" />
     <item
+        android:id="@+id/boton_chats"
         android:icon="@drawable/ic_baseline_chat_bubble_outline_60"
-        android:title="boton_chats"
+        android:title="Chats"
         app:showAsAction="always" />
     <item
+        android:id="@+id/boton_ajustes"
         android:icon="@drawable/ic_baseline_settings_60"
-        android:title="boton_ajustes"
+        android:title="Ajustes"
         app:showAsAction="always" />
 </menu>
