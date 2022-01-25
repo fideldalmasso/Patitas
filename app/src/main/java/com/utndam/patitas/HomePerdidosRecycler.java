@@ -1,4 +1,4 @@
-package com.example.patitas;
+package com.utndam.patitas;
 
 import android.support.design.button.MaterialButton;
 import android.support.v7.widget.RecyclerView;
@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.patitas.databinding.FragmentHomePerdidos2Binding;
-import com.example.patitas.placeholder.PlaceholderContent2.PlaceholderItem2;
-import com.example.patitas.databinding.FragmentHomePerdidosBinding;
-import com.example.patitas.placeholder.PlaceholderContent2;
+
+import com.utndam.patitas.databinding.FragmentCardBasicoBinding;
+import com.utndam.patitas.placeholder.PlaceholderContent2.PlaceholderItem2;
+
 
 import java.util.List;
 
@@ -18,18 +18,18 @@ import java.util.List;
  * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem2}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyclerViewAdapter2.ViewHolder> {
+public class HomePerdidosRecycler extends RecyclerView.Adapter<HomePerdidosRecycler.ViewHolder> {
 
     private final List<PlaceholderItem2> mValues;
 
-    public MyItemRecyclerViewAdapter2(List<PlaceholderItem2> items) {
+    public HomePerdidosRecycler(List<PlaceholderItem2> items) {
         mValues = items;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        return new ViewHolder(FragmentHomePerdidos2Binding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        return new ViewHolder(FragmentCardBasicoBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
 
     }
 
@@ -58,7 +58,7 @@ public class MyItemRecyclerViewAdapter2 extends RecyclerView.Adapter<MyItemRecyc
         public final MaterialButton boton2;
         public PlaceholderItem2 mItem;
 
-        public ViewHolder(FragmentHomePerdidos2Binding binding) {
+        public ViewHolder(FragmentCardBasicoBinding binding) {
             super(binding.getRoot());
             this.mImagen = binding.cardImagen;
             this.titulo = binding.cardTitulo;

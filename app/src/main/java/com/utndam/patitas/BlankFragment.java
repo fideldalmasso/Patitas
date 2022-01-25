@@ -1,4 +1,4 @@
-package com.example.patitas;
+package com.utndam.patitas;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

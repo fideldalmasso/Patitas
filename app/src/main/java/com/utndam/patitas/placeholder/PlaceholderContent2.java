@@ -1,9 +1,6 @@
-package com.example.patitas.placeholder;
+package com.utndam.patitas.placeholder;
 
-import android.media.Image;
-import android.media.ImageReader;
-
-import com.example.patitas.R;
+import com.utndam.patitas.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

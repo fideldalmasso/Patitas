@@ -1,4 +1,4 @@
-package com.example.patitas;
+package com.utndam.patitas;
 
 import org.junit.Test;
 

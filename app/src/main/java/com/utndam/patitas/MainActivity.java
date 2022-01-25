@@ -1,4 +1,4 @@
-package com.example.patitas;
+package com.utndam.patitas;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -6,13 +6,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawer;
     BottomNavigationView bottomBar;
     FragmentManager fragmentManager;
-    HomePerdidosFragment2 homePerdidos;
+    HomePerdidosFragment homePerdidos;
     BlankFragment blankFrag;
 
     @Override
@@ -29,13 +27,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        homePerdidos = new HomePerdidosFragment2();
+        homePerdidos = new HomePerdidosFragment();
         blankFrag = new BlankFragment();
 
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .add(R.id.contenedor_fragmento,homePerdidos)
-                .addToBackStack(null)
+//                .addToBackStack(null)
                 .commit();
 
 
@@ -59,11 +57,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_toolbar,menu);
+        getMenuInflater().inflate(R.menu.menu_toolbar_superior,menu);
 
         bottomBar = findViewById(R.id.bottom_toolbar);
         Menu bottomMenu = bottomBar.getMenu();
-        getMenuInflater().inflate(R.menu.menu_bottom_toolbar, bottomMenu);
+        getMenuInflater().inflate(R.menu.menu_toolbar_inferior, bottomMenu);
 //        for (int i = 0; i < bottomMenu.size(); i++) {
 //            bottomMenu.getItem(i).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 //                @Override
@@ -84,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                         toolbar.setTitle("Home > Perdidos");
                         fragmentManager.beginTransaction()
                                 .replace(R.id.contenedor_fragmento,homePerdidos)
-                                .addToBackStack(null)
+//                                .addToBackStack(null)
                                 .commit();
                         break;
                     case R.id.boton_buscar:
@@ -92,21 +90,21 @@ public class MainActivity extends AppCompatActivity {
 //                        Toast.makeText(getBaseContext(),"xd",Toast.LENGTH_LONG).show();
                         fragmentManager.beginTransaction()
                                 .replace(R.id.contenedor_fragmento,blankFrag)
-                                .addToBackStack(null)
+//                                .addToBackStack(null)
                                 .commit();
                         break;
                     case R.id.boton_chats:
                         toolbar.setTitle("Chats");
                         fragmentManager.beginTransaction()
                                 .replace(R.id.contenedor_fragmento,blankFrag)
-                                .addToBackStack(null)
+//                                .addToBackStack(null)
                                 .commit();
                         break;
                     case R.id.boton_ajustes:
                         toolbar.setTitle("Ajustes");
                         fragmentManager.beginTransaction()
                                 .replace(R.id.contenedor_fragmento,blankFrag)
-                                .addToBackStack(null)
+//                                .addToBackStack(null)
                                 .commit();
                         break;
                 }

@@ -1,4 +1,4 @@
-package com.example.patitas;
+package com.utndam.patitas;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

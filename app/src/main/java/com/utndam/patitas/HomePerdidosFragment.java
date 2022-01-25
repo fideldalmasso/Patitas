@@ -1,4 +1,4 @@
-package com.example.patitas;
+package com.utndam.patitas;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,8 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.example.patitas.placeholder.PlaceholderContent;
+import com.utndam.patitas.placeholder.PlaceholderContent2;
 
 /**
  * A fragment representing a list of Items.
@@ -51,18 +50,19 @@ public class HomePerdidosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home_perdidos_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_home_perdidos, container, false);
 
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+        View view2 = view.findViewById(R.id.listxd);
+        if (view2 instanceof RecyclerView) {
+            Context context = view2.getContext();
+            RecyclerView recyclerView = (RecyclerView) view2;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(PlaceholderContent.ITEMS));
+            recyclerView.setAdapter(new HomePerdidosRecycler(PlaceholderContent2.ITEMS2));
         }
         return view;
     }
