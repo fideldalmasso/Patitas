@@ -4,8 +4,14 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/white</item>
+        <item name="colorAccent">@color/secondaryDarkColor</item>
         <!-- Customize your theme here. -->
 
     </style>
+    <style name="Theme.Patitas.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.Patitas.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Patitas.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

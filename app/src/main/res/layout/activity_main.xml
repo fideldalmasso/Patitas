@@ -39,13 +39,16 @@
 
     </LinearLayout>
 
-    <ListView
+    <android.support.design.widget.NavigationView
         android:id="@+id/left_drawer"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/white"
         android:choiceMode="singleChoice"
+        android:fitsSystemWindows="true"
         android:divider="@android:color/transparent"
-        android:dividerHeight="0dp" />
+        android:dividerHeight="0dp"
+        app:menu="@menu/menu_drawer"
+        app:headerLayout="@layout/nav_header_sample_drawer"/>
 </android.support.v4.widget.DrawerLayout>

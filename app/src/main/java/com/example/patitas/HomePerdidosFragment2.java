@@ -53,9 +53,10 @@ public class HomePerdidosFragment2 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home_perdidos_list2, container, false);
 
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+        View view2 = view.findViewById(R.id.listxd);
+        if (view2 instanceof RecyclerView) {
+            Context context = view2.getContext();
+            RecyclerView recyclerView = (RecyclerView) view2;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
