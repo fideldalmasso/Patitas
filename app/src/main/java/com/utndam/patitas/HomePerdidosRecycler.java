@@ -1,16 +1,15 @@
 package com.utndam.patitas;
 
-import android.support.design.button.MaterialButton;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.utndam.patitas.databinding.FragmentCardBasicoBinding;
 import com.utndam.patitas.placeholder.PlaceholderContent2.PlaceholderItem2;
-
 
 import java.util.List;
 

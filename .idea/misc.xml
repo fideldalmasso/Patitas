@@ -3,42 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.2796875" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/drawable/ic_baseline_chat_bubble_outline_24.xml" value="0.3828125" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/drawable/ic_baseline_chat_bubble_outline_60.xml" value="0.3828125" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/drawable/ic_baseline_home_60.xml" value="0.3828125" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.2791666666666667" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.29907407407407405" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/drawable/ic_baseline_read_more_24.xml" value="0.3828125" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.29907407407407405" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/drawable/ic_baseline_search_60.xml" value="0.3828125" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/drawable/ic_baseline_settings_60.xml" value="0.3828125" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2791666666666667" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/activity_sample_drawer.xml" value="0.3188405797101449" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/app_bar_sample_drawer.xml" value="0.3188405797101449" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/content_sample_drawer.xml" value="0.3188405797101449" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_blank.xml" value="0.32518115942028986" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_blank2.xml" value="0.266304347826087" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_card_basico.xml" value="0.3188405797101449" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_gallery.xml" value="0.3188405797101449" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_home.xml" value="0.3188405797101449" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_home_perdidos.xml" value="0.32518115942028986" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_home_perdidos2.xml" value="0.2635416666666667" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_home_perdidos_list.xml" value="0.32518115942028986" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_home_perdidos_list2.xml" value="0.25" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_slideshow.xml" value="0.3188405797101449" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/nav_header_sample_drawer.xml" value="0.3188405797101449" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/menu/activity_main_drawer.xml" value="0.36666666666666664" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/menu/menu_bottom_toolbar.xml" value="0.2635416666666667" />
+        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/drawer_header.xml" value="0.18802083333333333" />
+        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_card_basico.xml" value="0.36666666666666664" />
+        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_home_perdidos.xml" value="0.36666666666666664" />
+        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_item.xml" value="0.18802083333333333" />
+        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_item_list.xml" value="0.35260416666666666" />
         <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/menu/menu_drawer.xml" value="0.36666666666666664" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/menu/menu_toolbar.xml" value="0.2630208333333333" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/menu/sample_drawer.xml" value="0.36666666666666664" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/menu/toolbar.xml" value="0.36666666666666664" />
-        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3828125" />
+        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/menu/menu_toolbar_inferior.xml" value="0.36666666666666664" />
+        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/menu/menu_toolbar_superior.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
