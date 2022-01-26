@@ -1,12 +1,18 @@
 package com.utndam.patitas;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -14,9 +20,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 public class MapsFragment extends Fragment {
+
+    GoogleMap mapa;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -31,9 +39,20 @@ public class MapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            mapa = googleMap;
+//            LatLng sydney = new LatLng(-34, 151);
+//            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+//            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+//            mapa.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            mapa.getUiSettings().setMyLocationButtonEnabled(true);
+            mapa.getUiSettings().setZoomControlsEnabled(true);
+            LatLngBounds limites_argentina = new LatLngBounds( new LatLng(-54.964913124446696, -74.26678541029585),new LatLng(-21.897337, -54.118911));
+            mapa.moveCamera(CameraUpdateFactory.newLatLngBounds(limites_argentina,0));
+
+            probarActualizarMapa();
+
+
         }
     };
 
@@ -52,6 +71,39 @@ public class MapsFragment extends Fragment {
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
+        }
+    }
+
+
+    @SuppressLint("MissingPermission")
+    public void actualizarMapa(){
+        mapa.setMyLocationEnabled(true);
+    }
+
+    public void probarActualizarMapa(){
+        if(noTienePermisoAcceso()){
+            Toast.makeText(getContext(),"111111",Toast.LENGTH_LONG).show();
+            Log.d(null,"11111");
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},9999);
+        }else{
+            Log.d(null,"22222");
+            actualizarMapa();
+        }
+    }
+
+    private Boolean noTienePermisoAcceso(){
+        return (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getContext(),Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode==9999){
+            if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                actualizarMapa();
+            }else{
+                Toast.makeText(getContext(),"No teni permisos",Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
