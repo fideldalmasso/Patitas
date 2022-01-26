@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     HomePerdidosFragment homePerdidos;
     BlankFragment blankFrag;
+    MapsFragment mapaFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         homePerdidos = new HomePerdidosFragment();
         blankFrag = new BlankFragment();
+        mapaFrag = new MapsFragment();
 
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.boton_ajustes:
                         toolbar.setTitle("Ajustes");
                         fragmentManager.beginTransaction()
-                                .replace(R.id.contenedor_fragmento,blankFrag)
+                                .replace(R.id.contenedor_fragmento,mapaFrag)
 //                                .addToBackStack(null)
                                 .commit();
                         break;
