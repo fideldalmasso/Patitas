@@ -3,11 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/activity_main.xml" value="0.2598958333333333" />
         <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/drawer_header.xml" value="0.18802083333333333" />
         <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_card_basico.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_home_perdidos.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_item.xml" value="0.18802083333333333" />
         <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_item_list.xml" value="0.35260416666666666" />
+        <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_mapa1.xml" value="0.5" />
         <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/layout/fragment_maps.xml" value="0.2604166666666667" />
         <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/menu/menu_drawer.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidStudioProjects/Patitas/app/src/main/res/menu/menu_toolbar_inferior.xml" value="0.36666666666666664" />

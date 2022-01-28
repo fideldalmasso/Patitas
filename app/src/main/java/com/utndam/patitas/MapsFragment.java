@@ -50,6 +50,14 @@ public class MapsFragment extends Fragment {
             LatLngBounds limites_argentina = new LatLngBounds( new LatLng(-54.964913124446696, -74.26678541029585),new LatLng(-21.897337, -54.118911));
             mapa.moveCamera(CameraUpdateFactory.newLatLngBounds(limites_argentina,0));
 
+            mapa.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(@NonNull LatLng latLng) {
+                    latLng = mapa.getCameraPosition().target;
+                    Log.d(null,latLng.latitude+" "+ latLng.longitude);
+                }
+            });
+
             probarActualizarMapa();
 
 
@@ -106,4 +114,5 @@ public class MapsFragment extends Fragment {
             }
         }
     }
+
 }
