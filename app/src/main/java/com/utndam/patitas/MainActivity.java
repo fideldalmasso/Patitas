@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     BlankFragment blankFrag;
 //    MapsFragment mapaFrag;
     Mapa1 mapaFrag2;
+    Fragment loginFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         blankFrag = new BlankFragment();
 //        mapaFrag = new MapsFragment();
         mapaFrag2 = new Mapa1();
+        loginFrag = new SignInFragment();
+
 
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -101,8 +105,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.boton_chats:
                         toolbar.setTitle("Chats");
+
                         fragmentManager.beginTransaction()
-                                .replace(R.id.contenedor_fragmento,blankFrag)
+                                .replace(R.id.contenedor_fragmento,loginFrag)
 //                                .addToBackStack(null)
                                 .commit();
                         break;

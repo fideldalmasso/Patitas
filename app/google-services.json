@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "324198664571",
+    "project_id": "tonal-limiter-339417",
+    "storage_bucket": "tonal-limiter-339417.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324198664571:android:e49a37b7c592b62aac95de",
+        "android_client_info": {
+          "package_name": "com.utndam.patitas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "324198664571-im582cal5sla32dvfma8k1c70eoardsp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.utndam.patitas",
+            "certificate_hash": "d839154aae00ba90131a1f592723d5c7bd5f8998"
+          }
+        },
+        {
+          "client_id": "324198664571-1ma7n7pib7t4ngqdod4ugngmtqquj9cu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNrWXOCMcva19J3EnF64J4yif_jKnO6-E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "324198664571-1ma7n7pib7t4ngqdod4ugngmtqquj9cu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
