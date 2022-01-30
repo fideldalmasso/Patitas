@@ -91,6 +91,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationView drawer2 = findViewById(R.id.left_drawer);
 //        drawer2.setItemTextColor();
 
+        bottomBar2 = findViewById(R.id.bottom_toolbar);
+
+//        bottomBar = findViewById(R.id.bottom_toolbar);
+        Menu bottomMenu = bottomBar2.getMenu();
+        getMenuInflater().inflate(R.menu.menu_toolbar_inferior, bottomMenu);
+
     }
 
     @Override
@@ -98,11 +104,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_toolbar_superior,menu);
 
 
-        bottomBar2 = findViewById(R.id.bottom_toolbar);
 
-//        bottomBar = findViewById(R.id.bottom_toolbar);
-        Menu bottomMenu = bottomBar2.getMenu();
-        getMenuInflater().inflate(R.menu.menu_toolbar_inferior, bottomMenu);
 //        for (int i = 0; i < bottomMenu.size(); i++) {
 //            bottomMenu.getItem(i).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 //                @Override

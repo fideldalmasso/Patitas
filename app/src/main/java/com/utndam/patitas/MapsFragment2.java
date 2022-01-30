@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.transition.MaterialFadeThrough;
 
 public class MapsFragment2 extends Fragment {
 
@@ -115,6 +116,8 @@ public class MapsFragment2 extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setEnterTransition(new MaterialFadeThrough());
+        setExitTransition(new MaterialFadeThrough());
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
          requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), isGranted -> {
             if (isGranted.containsValue(false)) {
