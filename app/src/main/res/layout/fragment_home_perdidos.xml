@@ -17,7 +17,7 @@
         app:layoutManager="LinearLayoutManager"
         tools:context=".HomePerdidosFragment"
         tools:listitem="@layout/fragment_card_basico"
-        android:theme="@style/Theme.Patitas"
+
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -27,8 +27,11 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_baseline_add_48"
         app:layout_anchor="@id/listxd"
         app:layout_anchorGravity="bottom|right|end"
+        android:backgroundTint="@color/primaryColor"
+        app:tint="@color/white"
+        android:src="@drawable/ic_baseline_add_48"
+        app:borderWidth="0dp"
         />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

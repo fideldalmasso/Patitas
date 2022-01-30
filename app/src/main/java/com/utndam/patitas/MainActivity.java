@@ -1,5 +1,6 @@
 package com.utndam.patitas;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -8,20 +9,20 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    Toolbar toolbar;
+    SharedPreferences sharedPreferences;
+    MaterialToolbar toolbar;
     DrawerLayout drawer;
-    BottomNavigationView bottomBar;
     NavigationBarView bottomBar2;
     FragmentManager fragmentManager;
     HomePerdidosFragment homePerdidos;
@@ -29,9 +30,36 @@ public class MainActivity extends AppCompatActivity {
     MapsFragment2 mapaFrag;
     Fragment loginFrag;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+//        setTheme(R.style.DarkThemePatitas);
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.DarkThemePatitas);
+        } else {
+            setTheme(R.style.LightThemePatitas);
+        }
+//
+//        switch1 = findViewById(R.id.tema_oscuro);
+//
+//        switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                if(b){
+//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                } else {
+//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//                }
+//            }
+//        });
+
+
+
+
+
         setContentView(R.layout.activity_main);
 
         homePerdidos = new HomePerdidosFragment();
@@ -42,19 +70,15 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.contenedor_fragmento,homePerdidos)
+                .replace(R.id.contenedor_fragmento,homePerdidos)
 //                .addToBackStack(null)
                 .commit();
 
-
-
-        drawer = findViewById(R.id.drawer_layout);
-
-        toolbar = findViewById(R.id.my_toolbar);
+        toolbar = findViewById(R.id.topAppBar);
         toolbar.setTitle("Home > Perdidos");
-        toolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
+//        toolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
         setSupportActionBar(toolbar);
-
+        drawer = findViewById(R.id.drawer_layout);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,16 +87,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        NavigationView drawer2 = findViewById(R.id.left_drawer);
+//        drawer2.setItemTextColor();
+
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar_superior,menu);
 
 
         bottomBar2 = findViewById(R.id.bottom_toolbar);
 
-        bottomBar = findViewById(R.id.bottom_toolbar);
+//        bottomBar = findViewById(R.id.bottom_toolbar);
         Menu bottomMenu = bottomBar2.getMenu();
         getMenuInflater().inflate(R.menu.menu_toolbar_inferior, bottomMenu);
 //        for (int i = 0; i < bottomMenu.size(); i++) {
@@ -131,4 +159,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.tema_oscuro:{
+
+                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+                    setTheme(R.style.LightThemePatitas);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                } else {
+                    setTheme(R.style.DarkThemePatitas);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                }
+                bottomBar2.setSelectedItemId(R.id.home);
+//                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.map);
+//                if(fragment != null)
+//                    getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+////                Intent intent = new Intent(this, MainActivity.class);
+////                startActivity(intent);
+////                finish();
+//                this.recreate();
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
 }

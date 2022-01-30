@@ -5,7 +5,9 @@
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:backgroundTint="?attr/background"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:text="Titulo xd"
                 android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textColor="?attr/colorOnBackground"
                 />
             <TextView
                 android:id="@+id/card_secundario"
@@ -43,7 +46,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Texto secundario xd"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="?android:attr/textColorSecondary"
+                android:textColor="?attr/colorOnSecondary"
                 />
             <TextView
                 android:id="@+id/card_soporte"
@@ -52,7 +55,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Texto soporte xd"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="?android:attr/textColorSecondary"
+                android:textColor="?attr/colorOnSecondary"
                 />
 
         </LinearLayout>
@@ -71,9 +74,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="Compartir"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnBackground"
                 app:icon="@drawable/ic_baseline_share_24"
-                android:drawableTint="@color/black"
                 />
 
             <com.google.android.material.button.MaterialButton
@@ -82,8 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Más info"
-                android:textColor="@color/black"
-                android:drawableTint="@color/black"
+                android:textColor="?attr/colorOnBackground"
                 app:icon="@drawable/ic_baseline_read_more_24" />
         </LinearLayout>
 

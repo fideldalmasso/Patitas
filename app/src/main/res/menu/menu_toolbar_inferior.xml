@@ -6,12 +6,14 @@
         android:id="@+id/boton_home"
         android:icon="@drawable/ic_baseline_home_60"
         android:title="Home"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:checked="false"/>
     <item
         android:id="@+id/boton_buscar"
         android:icon="@drawable/ic_baseline_search_60"
         android:title="Buscar"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        />
     <item
         android:id="@+id/boton_chats"
         android:icon="@drawable/ic_baseline_chat_bubble_outline_60"
