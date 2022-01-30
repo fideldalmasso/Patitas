@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,11 +22,11 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     DrawerLayout drawer;
     BottomNavigationView bottomBar;
+    NavigationBarView bottomBar2;
     FragmentManager fragmentManager;
     HomePerdidosFragment homePerdidos;
     BlankFragment blankFrag;
-//    MapsFragment mapaFrag;
-    Mapa1 mapaFrag2;
+    MapsFragment2 mapaFrag;
     Fragment loginFrag;
 
     @Override
@@ -35,8 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         homePerdidos = new HomePerdidosFragment();
         blankFrag = new BlankFragment();
-//        mapaFrag = new MapsFragment();
-        mapaFrag2 = new Mapa1();
+        mapaFrag = new MapsFragment2();
         loginFrag = new SignInFragment();
 
 
@@ -69,8 +69,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar_superior,menu);
 
+
+        bottomBar2 = findViewById(R.id.bottom_toolbar);
+
         bottomBar = findViewById(R.id.bottom_toolbar);
-        Menu bottomMenu = bottomBar.getMenu();
+        Menu bottomMenu = bottomBar2.getMenu();
         getMenuInflater().inflate(R.menu.menu_toolbar_inferior, bottomMenu);
 //        for (int i = 0; i < bottomMenu.size(); i++) {
 //            bottomMenu.getItem(i).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -81,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
 //            });
 //        }
 
-        bottomBar.setSelectedItemId(R.id.boton_home);
-        bottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottomBar2.setSelectedItemId(R.id.boton_home);
+        bottomBar2.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
@@ -114,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.boton_ajustes:
                         toolbar.setTitle("Ajustes");
                         fragmentManager.beginTransaction()
-                                .replace(R.id.contenedor_fragmento,mapaFrag2)
+                                .replace(R.id.contenedor_fragmento,mapaFrag)
 //                                .addToBackStack(null)
                                 .commit();
                         break;
