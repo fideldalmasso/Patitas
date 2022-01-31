@@ -2,23 +2,24 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card"
+    android:id="@+id/card_completo"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_height="match_parent"
+
     android:backgroundTint="?attr/background"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
         <ImageView
-            android:id="@+id/card_imagen"
+            android:id="@+id/card_completo_imagen"
             android:layout_width="match_parent"
-            android:layout_height="194dp"
+            android:layout_height="190dp"
             android:contentDescription="Descripcion xd"
             android:scaleType="centerCrop"
+            android:transitionName="transicion_imagen2"
             />
 <!--        android:srcCompat="@drawable/media"-->
 
@@ -32,15 +33,16 @@
 
             <!-- Title, secondary and supporting text -->
             <TextView
-                android:id="@+id/card_titulo"
+                android:id="@+id/card_completo_titulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Titulo xd"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="?attr/colorOnBackground"
+                android:transitionName="transicion_titulo"
                 />
             <TextView
-                android:id="@+id/card_secundario"
+                android:id="@+id/card_completo_secundario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -49,7 +51,7 @@
                 android:textColor="?attr/colorOnSecondary"
                 />
             <TextView
-                android:id="@+id/card_soporte"
+                android:id="@+id/card_completo_soporte"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -68,7 +70,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/card_boton1"
+                android:id="@+id/card_completo_boton1"
                 style="?attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,7 +81,7 @@
                 />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/card_boton2"
+                android:id="@+id/card_completo_boton2"
                 style="?attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

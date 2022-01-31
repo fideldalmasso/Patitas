@@ -40,7 +40,7 @@ public class PlaceholderContent2 {
     }
 
     private static PlaceholderItem2 createPlaceholderItem(int position) {
-        return new PlaceholderItem2(R.drawable.gato3, "Titulo"+String.valueOf(position), "secundario","soporte");
+        return new PlaceholderItem2(position%2==0? R.drawable.gato3 : R.drawable.perro1, "Titulo"+String.valueOf(position), "secundario","soporte");
     }
 
 

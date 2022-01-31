@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.Transition;
+import androidx.transition.TransitionInflater;
 
 import com.google.android.material.transition.MaterialFadeThrough;
 import com.utndam.patitas.placeholder.PlaceholderContent2;
@@ -17,12 +19,19 @@ import com.utndam.patitas.placeholder.PlaceholderContent2;
 /**
  * A fragment representing a list of Items.
  */
-public class HomePerdidosFragment extends Fragment {
+public class HomePerdidosFragment extends Fragment implements  onCardSelectedListener{
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+
+
+
+    LayoutInflater inflater;
+    ViewGroup container;
+
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -51,11 +60,26 @@ public class HomePerdidosFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+
+//        TransitionInflater inflater = TransitionInflater.from(requireContext());
+//        setEnterTransition(inflater.inflateTransition(R.transition.fade));
+
+        Transition transition = TransitionInflater.from(requireContext())
+                .inflateTransition(R.transition.shared_image);
+        setSharedElementEnterTransition(transition);
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        this.inflater = inflater;
+        this.container = container;
+
+
         View view = inflater.inflate(R.layout.fragment_home_perdidos, container, false);
 
         // Set the adapter
@@ -68,8 +92,40 @@ public class HomePerdidosFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new HomePerdidosRecycler(PlaceholderContent2.ITEMS2));
+
+            HomePerdidosRecycler adaptador = new HomePerdidosRecycler(PlaceholderContent2.ITEMS2);
+            adaptador.setListener(this);
+            recyclerView.setAdapter(adaptador);
+
+
+//            recyclerView.addOnItemTouchListener(context,recyclerView, new Recycler);
+
+
         }
+
+
         return view;
+    }
+
+
+    @Override
+    public void onCardSelectedListener(HomePerdidosRecycler.AnimalCardViewHolder holder) {
+//        FragmentCardCompletoBinding  b = new FragmentCardCompletoBinding.inflate(getLayoutInflater());
+        CardCompletoFragment frag = new CardCompletoFragment();
+//        frag.setImagen(holder.mImagen);
+
+//        findNavController().navigate(R.id.detailAction, null, null, extras)
+
+        getParentFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_out,
+                        R.anim.fade_in
+                )
+                .addSharedElement(holder.mImagen,"transicion_imagen2")
+                .addSharedElement(holder.titulo,"transicion_titulo")
+                .replace(R.id.listaPosta, frag)
+                .addToBackStack(null)
+                .commit();
     }
 }

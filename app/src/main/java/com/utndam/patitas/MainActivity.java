@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         homePerdidos = new HomePerdidosFragment();
+        Bundle b = new Bundle();
+        b.putInt("column-count",2);
+        homePerdidos.setArguments(b);
         blankFrag = new BlankFragment();
         mapaFrag = new MapsFragment2();
         loginFrag = new SignInFragment();
@@ -173,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                     setTheme(R.style.DarkThemePatitas);
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 }
-                bottomBar2.setSelectedItemId(R.id.home);
+//                bottomBar2.setSelectedItemId(R.id.home);
 //                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.map);
 //                if(fragment != null)
 //                    getSupportFragmentManager().beginTransaction().remove(fragment).commit();
