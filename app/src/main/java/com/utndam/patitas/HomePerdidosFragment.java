@@ -10,10 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.transition.Transition;
-import androidx.transition.TransitionInflater;
 
 import com.google.android.material.transition.MaterialFadeThrough;
+import com.utndam.patitas.databinding.FragmentCardSimpleBinding;
 import com.utndam.patitas.placeholder.PlaceholderContent2;
 
 /**
@@ -65,9 +64,9 @@ public class HomePerdidosFragment extends Fragment implements  onCardSelectedLis
 //        TransitionInflater inflater = TransitionInflater.from(requireContext());
 //        setEnterTransition(inflater.inflateTransition(R.transition.fade));
 
-        Transition transition = TransitionInflater.from(requireContext())
-                .inflateTransition(R.transition.shared_image);
-        setSharedElementEnterTransition(transition);
+//        Transition transition = TransitionInflater.from(requireContext())
+//                .inflateTransition(R.transition.shared_image);
+//        setSharedElementEnterTransition(transition);
 
 
     }
@@ -109,23 +108,41 @@ public class HomePerdidosFragment extends Fragment implements  onCardSelectedLis
 
 
     @Override
-    public void onCardSelectedListener(HomePerdidosRecycler.AnimalCardViewHolder holder) {
+    public void onCardSelectedListener(HomePerdidosRecycler.AnimalCardViewHolder holder,
+                                       PlaceholderContent2.PlaceholderItem2 item,
+                                       FragmentCardSimpleBinding binding) {
 //        FragmentCardCompletoBinding  b = new FragmentCardCompletoBinding.inflate(getLayoutInflater());
-        CardCompletoFragment frag = new CardCompletoFragment();
-//        frag.setImagen(holder.mImagen);
+        CardCompletoFragment frag = new CardCompletoFragment(item);
+//        frag.setId_imagen(item.pImagen);
+//        frag.setId_imagen(R.drawable.gato3);
+//        frag.setId_imagen();
 
 //        findNavController().navigate(R.id.detailAction, null, null, extras)
+
+//        frag.setImagen2(holder.mImagen.getId());
+
+
 
         getParentFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(
-                        R.anim.slide_out,
-                        R.anim.fade_in
-                )
-                .addSharedElement(holder.mImagen,"transicion_imagen2")
-                .addSharedElement(holder.titulo,"transicion_titulo")
+//                        android.R.anim.slide_in_left,
+//                        android.R.anim.fade_out,
+//                        android.R.anim.fade_in,
+//                        android.R.anim.slide_out_right
+                       R.anim.slide_in,
+                       R.anim.fade_out,
+                       R.anim.fade_in,
+                       R.anim.slide_out
+                        )
+//                .addSharedElement(holder.mImagen,"transicion_imagen")
+                .addSharedElement(binding.cardImagen,"transicion_imagen")
+//                .addSharedElement(holder.titulo,"transicion_titulo")
                 .replace(R.id.listaPosta, frag)
+//                .replace(R.id.contenedor_fragmento,frag)
                 .addToBackStack(null)
                 .commit();
+
+//        frag.setImagen2(R.drawable.gato3);
     }
 }

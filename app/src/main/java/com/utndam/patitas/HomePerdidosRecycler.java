@@ -41,21 +41,24 @@ public class HomePerdidosRecycler extends RecyclerView.Adapter<HomePerdidosRecyc
         holder.mImagen.setImageResource(mValues.get(position).pImagen);
         holder.titulo.setText(mValues.get(position).pTitulo);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(listener!=null){
-//                    Publicacion p = new Publicacion(holder.mItem.pTitulo, holder.mItem.pSecundario, holder.mItem.pImagen);
-                    listener.onCardSelectedListener(holder);
-                }
-            }
-        });
+
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(listener!=null){
+////                    Publicacion p = new Publicacion(holder.mItem.pTitulo, holder.mItem.pSecundario, holder.mItem.pImagen);
+//                    listener.onCardSelectedListener(holder);
+//                }
+//            }
+//        });
 
 //        holder.secundario.setText(mValues.get(position).pSecundario);
 //        holder.soporte.setText(mValues.get(position).pSoporte);
 //        holder.boton1.setText("accion11");
 //        holder.boton2.setText("accion22");
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -78,12 +81,25 @@ public class HomePerdidosRecycler extends RecyclerView.Adapter<HomePerdidosRecyc
         public AnimalCardViewHolder(FragmentCardSimpleBinding binding) {
             super(binding.getRoot());
             this.mImagen = binding.cardImagen;
+            this.mImagen.setTransitionName("transicion_imagen");
             this.titulo = binding.cardTitulo;
-
+            AnimalCardViewHolder yo = this;
 //            this.secundario = binding.cardSecundario;
 //            this.soporte = binding.cardSoporte;
 //            this.boton1 = binding.cardBoton1;
 //            this.boton2 = binding.cardBoton2;
+
+//            binding.getRoot().setOnClickListener(new View.OnClickListener() {
+            this.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener!=null){
+                        Integer posicion = getAdapterPosition();
+                        listener.onCardSelectedListener(yo, mValues.get(posicion),binding);
+                    }
+                }
+            });
+
         }
 
         @Override

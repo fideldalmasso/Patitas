@@ -19,7 +19,7 @@
             android:layout_height="190dp"
             android:contentDescription="Descripcion xd"
             android:scaleType="centerCrop"
-            android:transitionName="transicion_imagen2"
+            android:transitionName="transicion_imagen"
             />
 <!--        android:srcCompat="@drawable/media"-->
 

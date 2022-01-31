@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         homePerdidos = new HomePerdidosFragment();
         Bundle b = new Bundle();
-        b.putInt("column-count",2);
+        b.putInt("column-count",2); //2 columnas
         homePerdidos.setArguments(b);
         blankFrag = new BlankFragment();
         mapaFrag = new MapsFragment2();
