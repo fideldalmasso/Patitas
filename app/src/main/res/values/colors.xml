@@ -5,8 +5,22 @@
     <color name="gris1">#757575</color>
     <color name="gris2">#91A3B5</color>
 
-    <color name="primaryColor">#ff7043</color>
-    <color name="primaryLightColor">#ffa270</color>
-    <color name="primaryDarkColor">#c63f17</color>
+<!--    Rojo claro (Original)-->
+<!--    <color name="primaryColor">#ff7043</color>-->
+<!--    <color name="primaryLightColor">#ffa270</color>-->
+<!--    <color name="primaryDarkColor">#c63f17</color>-->
+<!--    <color name="primaryTextColor">#000000</color>-->
+
+<!--    Ambar (este me gusta)-->
+    <color name="primaryColor">#ffb300</color>
+    <color name="primaryLightColor">#ffe54c</color>
+    <color name="primaryDarkColor">#c68400</color>
     <color name="primaryTextColor">#000000</color>
+
+
+<!--    Rosa (tb me gusta) -->
+<!--    <color name="primaryColor">#ec407a</color>-->
+<!--    <color name="primaryLightColor">#ff77a9</color>-->
+<!--    <color name="primaryDarkColor">#b4004e</color>-->
+<!--    <color name="primaryTextColor">#000000</color>-->
 </resources>
