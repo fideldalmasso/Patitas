@@ -1,4 +1,4 @@
-package com.utndam.patitas;
+package com.utndam.patitas.gui;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,6 +17,11 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
+import com.utndam.patitas.gui.home.BlankFragment;
+import com.utndam.patitas.R;
+import com.utndam.patitas.gui.home.HomePerdidosFragment;
+import com.utndam.patitas.gui.ingreso.MapsFragment;
+import com.utndam.patitas.gui.ingreso.SignUpFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     HomePerdidosFragment homePerdidos;
     BlankFragment blankFrag;
-    MapsFragment2 mapaFrag;
+    MapsFragment mapaFrag;
     Fragment loginFrag;
 
 
@@ -67,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
         b.putInt("column-count",2); //2 columnas
         homePerdidos.setArguments(b);
         blankFrag = new BlankFragment();
-        mapaFrag = new MapsFragment2();
-        loginFrag = new SignInFragment();
+        mapaFrag = new MapsFragment();
+        loginFrag = new SignUpFragment();
 
 
         fragmentManager = getSupportFragmentManager();

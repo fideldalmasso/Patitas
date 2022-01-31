@@ -1,4 +1,4 @@
-package com.utndam.patitas;
+package com.utndam.patitas.gui.ingreso;
 
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
@@ -24,10 +24,10 @@ import com.utndam.patitas.databinding.FragmentSignInBinding;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SignInFragment#newInstance} factory method to
+ * Use the {@link SignUpFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SignInFragment extends Fragment {
+public class SignUpFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,7 +42,7 @@ public class SignInFragment extends Fragment {
     private FirebaseAuth mAuth;
 
 
-    public SignInFragment() {
+    public SignUpFragment() {
         // Required empty public constructor
     }
 
@@ -55,8 +55,8 @@ public class SignInFragment extends Fragment {
      * @return A new instance of fragment SignInFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SignInFragment newInstance(String param1, String param2) {
-        SignInFragment fragment = new SignInFragment();
+    public static SignUpFragment newInstance(String param1, String param2) {
+        SignUpFragment fragment = new SignUpFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

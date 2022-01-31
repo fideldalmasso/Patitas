@@ -1,4 +1,4 @@
-package com.utndam.patitas;
+package com.utndam.patitas.gui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+
+import com.utndam.patitas.R;
 
 /**
  * A simple {@link Fragment} subclass.

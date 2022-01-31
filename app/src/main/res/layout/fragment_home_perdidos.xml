@@ -17,7 +17,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".HomePerdidosFragment"
+        tools:context=".gui.home.HomePerdidosFragment"
         tools:listitem="@layout/fragment_card_simple"
 
         />

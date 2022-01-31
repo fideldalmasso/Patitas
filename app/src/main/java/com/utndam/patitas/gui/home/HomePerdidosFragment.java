@@ -1,4 +1,4 @@
-package com.utndam.patitas;
+package com.utndam.patitas.gui.home;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,13 +12,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.transition.MaterialFadeThrough;
+import com.utndam.patitas.gui.CardCompletoFragment;
+import com.utndam.patitas.R;
 import com.utndam.patitas.databinding.FragmentCardSimpleBinding;
-import com.utndam.patitas.placeholder.PlaceholderContent2;
+import com.utndam.patitas.model.PublicacionModel;
+import com.utndam.patitas.model.ListaEjemploPublicaciones;
 
 /**
  * A fragment representing a list of Items.
  */
-public class HomePerdidosFragment extends Fragment implements  onCardSelectedListener{
+public class HomePerdidosFragment extends Fragment implements onCardSelectedListener {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -92,7 +95,9 @@ public class HomePerdidosFragment extends Fragment implements  onCardSelectedLis
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            HomePerdidosRecycler adaptador = new HomePerdidosRecycler(PlaceholderContent2.ITEMS2);
+            ListaEjemploPublicaciones holderContent = new ListaEjemploPublicaciones();
+
+            HomePerdidosRecycler adaptador = new HomePerdidosRecycler(holderContent.getItems());
             adaptador.setListener(this);
             recyclerView.setAdapter(adaptador);
 
@@ -109,7 +114,7 @@ public class HomePerdidosFragment extends Fragment implements  onCardSelectedLis
 
     @Override
     public void onCardSelectedListener(HomePerdidosRecycler.AnimalCardViewHolder holder,
-                                       PlaceholderContent2.PlaceholderItem2 item,
+                                       PublicacionModel item,
                                        FragmentCardSimpleBinding binding) {
 //        FragmentCardCompletoBinding  b = new FragmentCardCompletoBinding.inflate(getLayoutInflater());
         CardCompletoFragment frag = new CardCompletoFragment(item);

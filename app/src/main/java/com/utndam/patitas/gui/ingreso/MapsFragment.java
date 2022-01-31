@@ -1,4 +1,4 @@
-package com.utndam.patitas;
+package com.utndam.patitas.gui.ingreso;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -33,8 +33,9 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.transition.MaterialFadeThrough;
+import com.utndam.patitas.R;
 
-public class MapsFragment2 extends Fragment {
+public class MapsFragment extends Fragment {
 
     private GoogleMap mapa;
     private FusedLocationProviderClient fusedLocationClient;
@@ -91,7 +92,7 @@ public class MapsFragment2 extends Fragment {
         }
     };
 
-    public MapsFragment2() {
+    public MapsFragment() {
     }
 
     @Nullable

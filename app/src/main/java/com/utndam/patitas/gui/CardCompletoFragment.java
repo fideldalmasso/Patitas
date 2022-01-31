@@ -1,4 +1,4 @@
-package com.utndam.patitas;
+package com.utndam.patitas.gui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
-import com.utndam.patitas.placeholder.PlaceholderContent2.PlaceholderItem2;
+import com.utndam.patitas.R;
+import com.utndam.patitas.model.PublicacionModel;
 
 public class CardCompletoFragment extends Fragment {
 
@@ -25,13 +26,13 @@ public class CardCompletoFragment extends Fragment {
 
 
 
-    PlaceholderItem2 item;
+    PublicacionModel item;
 
 
     public CardCompletoFragment() {
 
     }
-    public CardCompletoFragment(PlaceholderItem2 i){
+    public CardCompletoFragment(PublicacionModel i){
         super();
         item = i;
     }

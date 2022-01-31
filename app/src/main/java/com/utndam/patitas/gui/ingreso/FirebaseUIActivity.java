@@ -1,4 +1,4 @@
-package com.utndam.patitas;
+package com.utndam.patitas.gui.ingreso;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.utndam.patitas.R;
 
 import java.util.Arrays;
 import java.util.Collections;

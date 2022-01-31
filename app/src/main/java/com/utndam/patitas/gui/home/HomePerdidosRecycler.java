@@ -1,4 +1,4 @@
-package com.utndam.patitas;
+package com.utndam.patitas.gui.home;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,20 +9,21 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.utndam.patitas.databinding.FragmentCardSimpleBinding;
-import com.utndam.patitas.placeholder.PlaceholderContent2.PlaceholderItem2;
+import com.utndam.patitas.model.PublicacionModel;
+//import com.utndam.patitas.placeholder.PlaceholderContent2.PlaceholderItem2;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem2}.
+ * {@link RecyclerView.Adapter} that can display a {@link PublicacionModel}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class HomePerdidosRecycler extends RecyclerView.Adapter<HomePerdidosRecycler.AnimalCardViewHolder> {
 
-    private final List<PlaceholderItem2> mValues;
+    private final List<PublicacionModel> mValues;
     onCardSelectedListener listener;
 
-    public HomePerdidosRecycler(List<PlaceholderItem2> items) {
+    public HomePerdidosRecycler(List<PublicacionModel> items) {
         mValues = items;
     }
 
@@ -76,7 +77,7 @@ public class HomePerdidosRecycler extends RecyclerView.Adapter<HomePerdidosRecyc
 //        public final TextView soporte;
 //        public final MaterialButton boton1;
 //        public final MaterialButton boton2;
-        public PlaceholderItem2 mItem;
+        public PublicacionModel mItem;
 
         public AnimalCardViewHolder(FragmentCardSimpleBinding binding) {
             super(binding.getRoot());
