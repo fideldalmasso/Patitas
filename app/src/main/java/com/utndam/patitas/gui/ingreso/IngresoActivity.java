@@ -2,6 +2,7 @@ package com.utndam.patitas.gui.ingreso;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -30,6 +31,7 @@ public class IngresoActivity extends FragmentActivity {
      */
     public static ViewPager2 viewPager;
 //    public static FirebaseAuth mAuth;
+    public static GoogleSignInClient mGoogleSignInClient;
 
     /**
      * The pager adapter, which provides the pages to the view pager widget.
@@ -60,7 +62,7 @@ public class IngresoActivity extends FragmentActivity {
                 .build();
 
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
+        Log.d(null,"xd");
     }
 
     @Override
