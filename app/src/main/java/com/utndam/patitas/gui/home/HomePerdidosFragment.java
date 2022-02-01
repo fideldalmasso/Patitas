@@ -3,18 +3,22 @@ package com.utndam.patitas.gui.home;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.transition.MaterialFadeThrough;
 import com.utndam.patitas.gui.CardCompletoFragment;
 import com.utndam.patitas.R;
 import com.utndam.patitas.databinding.FragmentCardSimpleBinding;
+import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.model.PublicacionModel;
 import com.utndam.patitas.model.ListaEjemploPublicaciones;
 
@@ -32,6 +36,7 @@ public class HomePerdidosFragment extends Fragment implements onCardSelectedList
 
     LayoutInflater inflater;
     ViewGroup container;
+    FloatingActionButton floatingActionButton;
 
 
 
@@ -64,6 +69,8 @@ public class HomePerdidosFragment extends Fragment implements onCardSelectedList
         }
 
 
+
+
 //        TransitionInflater inflater = TransitionInflater.from(requireContext());
 //        setEnterTransition(inflater.inflateTransition(R.transition.fade));
 
@@ -83,6 +90,47 @@ public class HomePerdidosFragment extends Fragment implements onCardSelectedList
 
 
         View view = inflater.inflate(R.layout.fragment_home_perdidos, container, false);
+
+
+        floatingActionButton = view.findViewById(R.id.fab);
+/*        floatingActionButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Toast.makeText(getContext(), "HOLA", Toast.LENGTH_SHORT).show();
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(
+                                R.anim.slide_in,
+                                R.anim.fade_out,
+                                R.anim.fade_in,
+                                R.anim.slide_out
+                        )
+                        .replace(R.id.listaPosta, new AltaPublicacionFragment())
+//                .replace(R.id.contenedor_fragmento,frag)
+                        .addToBackStack(null)
+                        .commit();
+                return true;
+            }
+        }); */
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(
+                                R.anim.slide_in,
+                                R.anim.fade_out,
+                                R.anim.fade_in,
+                                R.anim.slide_out
+                        )
+                        .replace(R.id.listaPosta,((MainActivity)getActivity()).getAltaPublicacionFragment())
+//                .replace(R.id.contenedor_fragmento,frag)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
 
         // Set the adapter
         View view2 = view.findViewById(R.id.listxd);
