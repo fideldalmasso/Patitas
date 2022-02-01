@@ -66,11 +66,11 @@ public class InicioFragment extends Fragment {
         FragmentIngresoBinding binding = FragmentIngresoBinding.inflate(inflater,container,false);
 
         binding.botonLogin.setOnClickListener(view -> {
-            IngresoActivity.viewPager.setCurrentItem(1);
+            IngresoActivity.viewPager.setCurrentItem(1,true);
         });
 
         binding.botonSignup.setOnClickListener(view ->{
-            IngresoActivity.viewPager.setCurrentItem(2);
+            IngresoActivity.viewPager.setCurrentItem(2,true);
         });
 
         return binding.getRoot();

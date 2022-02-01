@@ -1,35 +1,44 @@
 {
   "project_info": {
-    "project_number": "324198664571",
-    "project_id": "tonal-limiter-339417",
-    "storage_bucket": "tonal-limiter-339417.appspot.com"
+    "project_number": "923959721270",
+    "project_id": "patitas2-f92e8",
+    "storage_bucket": "patitas2-f92e8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:324198664571:android:b93cfd9b9509f336ac95de",
+        "mobilesdk_app_id": "1:923959721270:android:cce65fb1818aa8e794c797",
         "android_client_info": {
           "package_name": "com.utndam.patitas"
         }
       },
       "oauth_client": [
         {
-          "client_id": "324198664571-hqdagagh2gg0d6jm6b0abjl6o6qp4ti8.apps.googleusercontent.com",
+          "client_id": "923959721270-ckstbgeaus7k4nv60rblo73hs080uh6k.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.utndam.patitas",
             "certificate_hash": "d839154aae00ba90131a1f592723d5c7bd5f8998"
           }
+        },
+        {
+          "client_id": "923959721270-cfoakjos2d8ekvefepna71i6qmtcis3a.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDx-r_V5Yp9td2EfP_VYDXJO9H0-xUwmks"
+          "current_key": "AIzaSyBvU9qIHmRUIwFPLGgcYqrj0kmmz8DbtaQ"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "923959721270-cfoakjos2d8ekvefepna71i6qmtcis3a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
