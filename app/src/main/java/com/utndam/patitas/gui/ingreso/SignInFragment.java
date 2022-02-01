@@ -2,7 +2,6 @@ package com.utndam.patitas.gui.ingreso;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -20,23 +19,22 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
-import com.utndam.patitas.databinding.FragmentSignUpBinding;
+import com.utndam.patitas.databinding.FragmentSignInBinding;
 import com.utndam.patitas.gui.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SignUpFragment#newInstance} factory method to
+ * Use the {@link SignInFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SignUpFragment extends Fragment {
+public class SignInFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final String TAG = "fidel";
+    private static final String TAG = "lol";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -45,7 +43,7 @@ public class SignUpFragment extends Fragment {
 //    private FirebaseAuth mAuth;
 
 
-    public SignUpFragment() {
+    public SignInFragment() {
         // Required empty public constructor
     }
 
@@ -58,8 +56,8 @@ public class SignUpFragment extends Fragment {
      * @return A new instance of fragment SignInFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SignUpFragment newInstance(String param1, String param2) {
-        SignUpFragment fragment = new SignUpFragment();
+    public static SignInFragment newInstance(String param1, String param2) {
+        SignInFragment fragment = new SignInFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -95,7 +93,7 @@ public class SignUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        FragmentSignUpBinding binding = FragmentSignUpBinding.inflate(inflater,container,false);
+        FragmentSignInBinding binding = FragmentSignInBinding.inflate(inflater,container,false);
 //        return inflater.inflate(R.layout.fragment_sign_in, container, false);
 
 
@@ -117,11 +115,11 @@ public class SignUpFragment extends Fragment {
             }
         });
 
-        binding.celularEdit.addTextChangedListener(new PhoneNumberFormattingTextWatcher("AR"){});
+//        binding.celularEdit.addTextChangedListener(new PhoneNumberFormattingTextWatcher("AR"){});
 
 
 
-        binding.botonRegistro.setOnClickListener(new View.OnClickListener() {
+        binding.botonIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean todoOk=true;
@@ -138,7 +136,7 @@ public class SignUpFragment extends Fragment {
                 }
 
                 if(todoOk) {
-                    createAccount(binding.emailEdit.getText().toString(),binding.contraseniaEdit.getText().toString());
+                    iniciarSesion(binding.emailEdit.getText().toString(),binding.contraseniaEdit.getText().toString());
                 }
             }
         });
@@ -155,19 +153,19 @@ public class SignUpFragment extends Fragment {
         return (!TextUtils.isEmpty(contrasenia) && contrasenia.length()>4);
     }
 
-    private void createAccount(String email, String password) {
+    private void iniciarSesion(String email, String password) {
         // [START create_user_with_email]
 
         FirebaseAuth mAuth =FirebaseAuth.getInstance();
-        mAuth.createUserWithEmailAndPassword(email, password)
+        mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
+                            Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(getContext(), "Usuario creado correctamente!! xd.",
+                            Toast.makeText(getContext(), "Usuario logueado correctamente!! xd.",
                                     Toast.LENGTH_LONG).show();
                             Intent i = new Intent(getActivity(), MainActivity.class);
                             getActivity().finish();
@@ -175,15 +173,7 @@ public class SignUpFragment extends Fragment {
 //                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            if(task.getException() instanceof FirebaseAuthUserCollisionException){
-                                Log.w(TAG, "Ya existe un usuario con ese email", task.getException());
-                                Toast.makeText(getContext(), "Ya existe un usuario con ese email",
-                                        Toast.LENGTH_LONG).show();
-                                return;
-                            }
-
-
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(getContext(), "Authentication failed.",
                                     Toast.LENGTH_LONG).show();
 //                            updateUI(null);

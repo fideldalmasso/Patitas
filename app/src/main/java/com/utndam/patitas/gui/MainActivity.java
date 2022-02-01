@@ -1,5 +1,6 @@
 package com.utndam.patitas.gui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -17,9 +18,11 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.utndam.patitas.gui.home.BlankFragment;
 import com.utndam.patitas.R;
 import com.utndam.patitas.gui.home.HomePerdidosFragment;
+import com.utndam.patitas.gui.ingreso.IngresoActivity;
 import com.utndam.patitas.gui.ingreso.MapsFragment;
 import com.utndam.patitas.gui.ingreso.SignUpFragment;
 
@@ -189,6 +192,13 @@ public class MainActivity extends AppCompatActivity {
 ////                startActivity(intent);
 ////                finish();
 //                this.recreate();
+                return true;
+            }
+            case R.id.logout:{
+                FirebaseAuth.getInstance().signOut();
+                Intent i = new Intent(this, IngresoActivity.class);
+                finish();
+                startActivity(i);
                 return true;
             }
             default:

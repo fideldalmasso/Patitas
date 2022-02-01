@@ -7,38 +7,29 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:324198664571:android:e49a37b7c592b62aac95de",
+        "mobilesdk_app_id": "1:324198664571:android:b93cfd9b9509f336ac95de",
         "android_client_info": {
           "package_name": "com.utndam.patitas"
         }
       },
       "oauth_client": [
         {
-          "client_id": "324198664571-im582cal5sla32dvfma8k1c70eoardsp.apps.googleusercontent.com",
+          "client_id": "324198664571-hqdagagh2gg0d6jm6b0abjl6o6qp4ti8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.utndam.patitas",
             "certificate_hash": "d839154aae00ba90131a1f592723d5c7bd5f8998"
           }
-        },
-        {
-          "client_id": "324198664571-1ma7n7pib7t4ngqdod4ugngmtqquj9cu.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDNrWXOCMcva19J3EnF64J4yif_jKnO6-E"
+          "current_key": "AIzaSyDx-r_V5Yp9td2EfP_VYDXJO9H0-xUwmks"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "324198664571-1ma7n7pib7t4ngqdod4ugngmtqquj9cu.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
