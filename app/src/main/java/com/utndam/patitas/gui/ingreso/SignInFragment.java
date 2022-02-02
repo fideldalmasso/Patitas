@@ -3,9 +3,7 @@ package com.utndam.patitas.gui.ingreso;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -142,25 +140,13 @@ public class SignInFragment extends Fragment {
 //        return inflater.inflate(R.layout.fragment_sign_in, container, false);
 
 
-        binding.emailEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-//                binding.emailInput.setErrorEnabled(false);
-                binding.emailInput.setError(null);
-            }
+        binding.emailEdit.addTextChangedListener((AfterTextChangedTextWatcher) e ->{
+            binding.emailInput.setError(null);
         });
 
-//        binding.celularEdit.addTextChangedListener(new PhoneNumberFormattingTextWatcher("AR"){});
+        binding.contraseniaEdit.addTextChangedListener((AfterTextChangedTextWatcher) e ->{
+            binding.contraseniaInput.setError(null);
+        });
 
 
         binding.signInGoogle.setOnClickListener(view -> {
@@ -174,12 +160,12 @@ public class SignInFragment extends Fragment {
 
                 if(!emailValido(binding.emailEdit.getText())){
                     binding.emailInput.setErrorEnabled(true);
-                    binding.emailInput.setError("invalido xd");
+                    binding.emailInput.setError("E-mail no válido");
                     todoOk=false;
                 }
                 if(!contraseniaValida(binding.contraseniaEdit.getText())){
                     binding.contraseniaInput.setErrorEnabled(true);
-                    binding.contraseniaInput.setError("Necesita mas de 4 caracteres xd");
+                    binding.contraseniaInput.setError("Contraseña inválida");
                     todoOk=false;
                 }
 
@@ -223,7 +209,7 @@ public class SignInFragment extends Fragment {
     }
 
     public static boolean contraseniaValida(CharSequence contrasenia) {
-        return (!TextUtils.isEmpty(contrasenia) && contrasenia.length()>4);
+        return (!TextUtils.isEmpty(contrasenia) && contrasenia.length()>=6);
     }
 
     private void iniciarSesion(String email, String password) {

@@ -3,9 +3,8 @@ package com.utndam.patitas.gui.ingreso;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
-import android.text.Editable;
+import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -99,22 +98,20 @@ public class SignUpFragment extends Fragment {
 //        return inflater.inflate(R.layout.fragment_sign_in, container, false);
 
 
-        binding.emailEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        binding.emailEdit.addTextChangedListener((AfterTextChangedTextWatcher) e ->{
+            binding.emailInput.setError(null);
+        });
 
-            }
+        binding.contraseniaEdit.addTextChangedListener((AfterTextChangedTextWatcher) e ->{
+            binding.contraseniaInput.setError(null);
+        });
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        binding.repetirContraseniaEdit.addTextChangedListener((AfterTextChangedTextWatcher) e ->{
+            binding.repetirContraseniaInput.setError(null);
+        });
 
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-//                binding.emailInput.setErrorEnabled(false);
-                binding.emailInput.setError(null);
-            }
+        binding.celularEdit.addTextChangedListener((AfterTextChangedTextWatcher) e ->{
+            binding.celularInput.setError(null);
         });
 
         binding.celularEdit.addTextChangedListener(new PhoneNumberFormattingTextWatcher("AR"){});
@@ -128,12 +125,23 @@ public class SignUpFragment extends Fragment {
 
                 if(!emailValido(binding.emailEdit.getText())){
                     binding.emailInput.setErrorEnabled(true);
-                    binding.emailInput.setError("invalido xd");
+                    binding.emailInput.setError("E-mail no válido");
                     todoOk=false;
                 }
                 if(!contraseniaValida(binding.contraseniaEdit.getText())){
                     binding.contraseniaInput.setErrorEnabled(true);
-                    binding.contraseniaInput.setError("Necesita mas de 4 caracteres xd");
+                    binding.contraseniaInput.setError("6 caracteres como mínimo");
+                    todoOk=false;
+                } else {
+                    if(!repetirContraseniaValida(binding.contraseniaEdit.getText(),binding.repetirContraseniaEdit.getText())){
+                        binding.repetirContraseniaInput.setErrorEnabled(true);
+                        binding.repetirContraseniaInput.setError("Las contraseñas no son iguales");
+                        todoOk=false;
+                    }
+                }
+                if(!telefonoValido(binding.celularEdit.getText())){
+                    binding.celularInput.setErrorEnabled(true);
+                    binding.celularInput.setError("Número no válido");
                     todoOk=false;
                 }
 
@@ -147,12 +155,26 @@ public class SignUpFragment extends Fragment {
         return binding.getRoot();
     }
 
+
+
     public static boolean emailValido(CharSequence email) {
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
     public static boolean contraseniaValida(CharSequence contrasenia) {
-        return (!TextUtils.isEmpty(contrasenia) && contrasenia.length()>4);
+        return (!TextUtils.isEmpty(contrasenia) && contrasenia.length()>=6);
+    }
+
+    private boolean repetirContraseniaValida(CharSequence contrasenia1, CharSequence contrasenia2) {
+        return (!TextUtils.isEmpty(contrasenia2) && contrasenia1.equals(contrasenia2));
+    }
+
+    private boolean telefonoValido(CharSequence telefono){
+        return TextUtils.isEmpty(telefono) || PhoneNumberUtils.isGlobalPhoneNumber(obtenerTelefono(telefono));
+    }
+
+    private String obtenerTelefono(CharSequence telefono){
+        return PhoneNumberUtils.stripSeparators("+54"+telefono);
     }
 
     private void createAccount(String email, String password) {

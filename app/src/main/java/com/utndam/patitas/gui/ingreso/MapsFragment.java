@@ -120,12 +120,13 @@ public class MapsFragment extends Fragment {
         setEnterTransition(new MaterialFadeThrough());
         setExitTransition(new MaterialFadeThrough());
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
-         requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), isGranted -> {
-            if (isGranted.containsValue(false)) {
-                Toast.makeText(getContext(),"No teni permisos",Toast.LENGTH_LONG).show();
-            } else {
-                moverMapaAUbicacionActual();
-            }
+
+        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), isGranted -> {
+        if (isGranted.containsValue(false)) {
+            Toast.makeText(getContext(),"No teni permisos",Toast.LENGTH_LONG).show();
+        } else {
+            moverMapaAUbicacionActual();
+        }
         });
     }
 
