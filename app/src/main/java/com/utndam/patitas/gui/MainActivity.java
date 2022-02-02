@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     MapsFragment mapaFrag;
     MensajesFragment mensajesFrag;
     AltaPublicacionFragment altaPublicacionFragment;
+    /*
     private static int REQUEST_IMAGE_CAPTURE = 1;
     private static int REQUEST_IMAGE_SAVE = 2;
     String pathFoto;
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 altaPublicacionFragment.setImagen(result);
         }
     });
-
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -247,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
+/*
     private File createImageFile() throws IOException {
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
@@ -279,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
         }
         mTakePicture.launch(photoURI);
     }
-
+*/
 
 
 /*
@@ -325,10 +326,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 */
+
     public AltaPublicacionFragment getAltaPublicacionFragment() {
         return altaPublicacionFragment;
     }
-
+/*
     private void showBottomSheetDialog() {
 
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
@@ -352,4 +354,6 @@ public class MainActivity extends AppCompatActivity {
         });
         bottomSheetDialog.show();
     }
+    */
+
 }

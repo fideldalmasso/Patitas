@@ -3,21 +3,33 @@ package com.utndam.patitas.gui.home;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.utndam.patitas.R;
 import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.gui.ingreso.MapsFragment;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AltaPublicacionFragment extends Fragment {
 
@@ -33,6 +45,24 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
     FragmentManager fragmentManager;
     MapsFragment mapaFrag;
     ImageView mImageView;
+    String pathFoto;
+    private final ActivityResultLauncher<Uri> mTakePicture = registerForActivityResult(new ActivityResultContracts.TakePicture(), new ActivityResultCallback<Boolean>() {
+        @Override
+        public void onActivityResult(Boolean result) {
+            if(result){
+                mImageView.setImageURI(photoURI);
+            }
+
+        }
+    });
+    Uri photoURI;
+    private final ActivityResultLauncher<String> mPickPicture = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+        @Override
+        public void onActivityResult(Uri result) {
+            if(result!=null)
+                mImageView.setImageURI(result);
+        }
+    });
 
     @Nullable
     @Override
@@ -51,8 +81,8 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                ((MainActivity)getActivity()).getImagen();
+                showBottomSheetDialog();
+                //((MainActivity)getActivity()).getImagen();
             }
         });
 
@@ -73,12 +103,65 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
 
 
     }
-
+/*
     public void setImagen(Bitmap bitmap){
         this.mImageView.setImageBitmap(bitmap);
     }
     public void setImagen(Uri uri){
         this.mImageView.setImageURI(uri);
+    }
+
+*/
+    private void showBottomSheetDialog() {
+
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getActivity());
+        bottomSheetDialog.setContentView(R.layout.card_agregar_imagen);
+
+        LinearLayout galeria = bottomSheetDialog.findViewById(R.id.galeria);
+        LinearLayout foto = bottomSheetDialog.findViewById(R.id.foto);
+        galeria.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPickPicture.launch("image/*");
+                bottomSheetDialog.dismiss();
+            }
+        });
+        foto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getImageFoto();
+                bottomSheetDialog.dismiss();
+            }
+        });
+        bottomSheetDialog.show();
+    }
+    private File createImageFile() throws IOException {
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+                .format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File dir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName, //prefix
+                ".jpg", //suffix
+                dir //directory
+        );
+        pathFoto = image.getAbsolutePath();
+        return image;
+    }
+
+
+    private void getImageFoto(){
+        File photoFile = null;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException ex) { }
+        if (photoFile != null) {
+            photoURI = FileProvider.getUriForFile(getActivity(),
+                    "com.utndam.patitas",
+                    photoFile);
+        }
+        mTakePicture.launch(photoURI);
     }
 
 
