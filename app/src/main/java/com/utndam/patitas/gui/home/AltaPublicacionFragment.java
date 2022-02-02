@@ -1,6 +1,7 @@
 package com.utndam.patitas.gui.home;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,7 +54,6 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
             @Override
             public void onClick(View view) {
                 ((MainActivity)getActivity()).getImagen();
-
             }
         });
 
@@ -74,6 +74,9 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
 
     public void setImagen(Bitmap bitmap){
         this.mImageView.setImageBitmap(bitmap);
+    }
+    public void setImagen(Uri uri){
+        this.mImageView.setImageURI(uri);
     }
 
 

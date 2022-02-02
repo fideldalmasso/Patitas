@@ -12,6 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -53,6 +56,16 @@ public class MainActivity extends AppCompatActivity {
     private static int REQUEST_IMAGE_CAPTURE = 1;
     private static int REQUEST_IMAGE_SAVE = 2;
     String pathFoto;
+    private final ActivityResultLauncher<Uri> mTakePicture = registerForActivityResult(new ActivityResultContracts.TakePicture(), new ActivityResultCallback<Boolean>() {
+        @Override
+        public void onActivityResult(Boolean result) {
+            if(result){
+                altaPublicacionFragment.setImagen(photoURI);
+            }
+
+        }
+    });
+    Uri photoURI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,7 +244,37 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private File createImageFile() throws IOException {
 
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+                .format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName, //prefix
+                ".jpg", //suffix
+                dir //directory
+        );
+        pathFoto = image.getAbsolutePath();
+        return image;
+    }
+
+    public void getImagen(){
+        File photoFile = null;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException ex) { }
+        if (photoFile != null) {
+            photoURI = FileProvider.getUriForFile(this,
+                    "com.utndam.patitas",
+                    photoFile);
+        }
+        mTakePicture.launch(photoURI);
+    }
+
+
+
+/*
     public void getImagen(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -247,21 +290,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_SAVE);
             }
         }
-    }
-
-    private File createImageFile() throws IOException {
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-                .format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName, /* prefix */
-                ".jpg", /* suffix */
-                dir /* directory */
-        );
-        pathFoto = image.getAbsolutePath();
-        return image;
     }
 
 
@@ -288,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
+*/
     public AltaPublicacionFragment getAltaPublicacionFragment() {
         return altaPublicacionFragment;
     }
