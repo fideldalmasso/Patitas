@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -23,6 +24,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -66,6 +68,13 @@ public class MainActivity extends AppCompatActivity {
         }
     });
     Uri photoURI;
+    private final ActivityResultLauncher<String> mPickPicture = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+        @Override
+        public void onActivityResult(Uri result) {
+            if(result!=null)
+                altaPublicacionFragment.setImagen(result);
+        }
+    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -260,6 +269,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getImagen(){
+        showBottomSheetDialog();
+    }
+
+    private void getImageFoto(){
         File photoFile = null;
         try {
             photoFile = createImageFile();
@@ -319,5 +332,29 @@ public class MainActivity extends AppCompatActivity {
 */
     public AltaPublicacionFragment getAltaPublicacionFragment() {
         return altaPublicacionFragment;
+    }
+
+    private void showBottomSheetDialog() {
+
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(R.layout.card_agregar_imagen);
+
+        LinearLayout galeria = bottomSheetDialog.findViewById(R.id.galeria);
+        LinearLayout foto = bottomSheetDialog.findViewById(R.id.foto);
+        galeria.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPickPicture.launch("image/*");
+                bottomSheetDialog.dismiss();
+            }
+        });
+        foto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getImageFoto();
+                bottomSheetDialog.dismiss();
+            }
+        });
+        bottomSheetDialog.show();
     }
 }

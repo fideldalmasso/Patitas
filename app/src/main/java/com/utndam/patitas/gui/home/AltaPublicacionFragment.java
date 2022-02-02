@@ -53,6 +53,7 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 ((MainActivity)getActivity()).getImagen();
             }
         });
@@ -78,6 +79,8 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
     public void setImagen(Uri uri){
         this.mImageView.setImageURI(uri);
     }
+
+
 
 
 }
