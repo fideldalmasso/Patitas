@@ -2,11 +2,9 @@ package com.utndam.patitas.gui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -106,10 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        homePerdidos = new HomeFragment();
-        Bundle b = new Bundle();
-        b.putInt("column-count",2); //2 columnas
-        homePerdidos.setArguments(b);
+        homePerdidos = HomeFragment.newInstance(2);
         blankFrag = new BlankFragment();
         mapaFrag = new MapsFragment();
         altaPublicacionFragment = new AltaPublicacionFragment();

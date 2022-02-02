@@ -10,13 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 
-import androidx.appcompat.widget.MenuPopupWindow;
-import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.transition.MaterialFadeThrough;
 import com.utndam.patitas.R;
 import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.gui.ingreso.MapsFragment;
@@ -58,18 +56,21 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
             }
         });
 
-        mapaFrag = new MapsFragment();
-        fragmentManager = getChildFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.contenedor_mapa,mapaFrag)
-//                .addToBackStack(null)
-                .commit();
+
         return view;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mapaFrag = new MapsFragment();
+        fragmentManager = getChildFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.contenedor_mapa,mapaFrag)
+//                .addToBackStack(null)
+                .commit();
+
+
 
     }
 
