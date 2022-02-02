@@ -3,7 +3,6 @@ package com.utndam.patitas.gui;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,24 +17,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.FileProvider;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.utndam.patitas.R;
 import com.utndam.patitas.gui.home.AltaPublicacionFragment;
 import com.utndam.patitas.gui.home.BlankFragment;
-import com.utndam.patitas.R;
 import com.utndam.patitas.gui.home.HomePerdidosFragment;
 import com.utndam.patitas.gui.ingreso.IngresoActivity;
 import com.utndam.patitas.gui.ingreso.MapsFragment;
-import com.utndam.patitas.gui.ingreso.SignUpFragment;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+//import android.icu.text.SimpleDateFormat;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
     HomePerdidosFragment homePerdidos;
     BlankFragment blankFrag;
     MapsFragment mapaFrag;
-    Fragment loginFrag;
     AltaPublicacionFragment altaPublicacionFragment;
     private static int REQUEST_IMAGE_CAPTURE = 1;
     private static int REQUEST_IMAGE_SAVE = 2;
@@ -89,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
         homePerdidos.setArguments(b);
         blankFrag = new BlankFragment();
         mapaFrag = new MapsFragment();
-        loginFrag = new SignUpFragment();
         altaPublicacionFragment = new AltaPublicacionFragment();
 
         fragmentManager = getSupportFragmentManager();
@@ -168,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.boton_chats:
                         toolbar.setTitle("Chats");
                         fragmentManager.beginTransaction()
-                                .replace(R.id.contenedor_fragmento,loginFrag)
+                                .replace(R.id.contenedor_fragmento,blankFrag)
 //                                .addToBackStack(null)
                                 .commit();
                         break;
@@ -248,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private File createImageFile() throws IOException {
+
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
                 .format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
@@ -264,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int reqCode,int resCode, Intent data) {
+        super.onActivityResult(reqCode,resCode,data);
         if (reqCode == REQUEST_IMAGE_CAPTURE && resCode == RESULT_OK) {
             //Bundle extras = data.getExtras();
             //Bitmap imageBitmap = (Bitmap) extras.get("data");
