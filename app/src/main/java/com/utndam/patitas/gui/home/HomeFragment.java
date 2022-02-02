@@ -15,7 +15,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.transition.MaterialFadeThrough;
 import com.utndam.patitas.R;
 import com.utndam.patitas.gui.CardCompletoFragment;
-import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.model.PublicacionModel;
 
 /**
@@ -78,6 +77,8 @@ public class HomeFragment extends Fragment implements onCardSelectedListener {
 
         floatingActionButton = view.findViewById(R.id.fab);
 
+        AltaPublicacionFragment frag = new AltaPublicacionFragment();
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,7 +90,8 @@ public class HomeFragment extends Fragment implements onCardSelectedListener {
                                 R.anim.fade_in,
                                 R.anim.slide_out
                         )
-                        .replace(R.id.listaPosta,((MainActivity)getActivity()).getAltaPublicacionFragment())
+//                        .replace(R.id.listaPosta,((MainActivity)getActivity()).getAltaPublicacionFragment())
+                        .replace(R.id.listaPosta,frag)
                         .addToBackStack(null)
                         .commit();
             }

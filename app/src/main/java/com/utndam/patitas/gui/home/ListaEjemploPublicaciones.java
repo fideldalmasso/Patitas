@@ -29,8 +29,10 @@ public class ListaEjemploPublicaciones {
     private static final int COUNT = 25;
 
     public ListaEjemploPublicaciones() {
-        for (int i = 1; i <= COUNT; i++) {
-            addItem(createPlaceholderItem(i));
+        if(ITEMS.isEmpty()){
+            for (int i = 1; i <= COUNT; i++) {
+                addItem(createPlaceholderItem(i));
+            }
         }
     }
 

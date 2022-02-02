@@ -2,27 +2,20 @@ package com.utndam.patitas.gui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.content.FileProvider;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,11 +26,6 @@ import com.utndam.patitas.gui.home.HomeFragment;
 import com.utndam.patitas.gui.ingreso.IngresoActivity;
 import com.utndam.patitas.gui.ingreso.MapsFragment;
 import com.utndam.patitas.gui.mensajes.MensajesFragment;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 //import android.icu.text.SimpleDateFormat;
 
@@ -171,6 +159,10 @@ public class MainActivity extends AppCompatActivity {
                 switch (id){
                     case R.id.boton_home:
                         toolbar.setTitle("Home > Perdidos");
+
+                        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                        }
                         fragmentManager.beginTransaction()
                                 .replace(R.id.contenedor_fragmento,homePerdidos)
 //                                .addToBackStack(null)
