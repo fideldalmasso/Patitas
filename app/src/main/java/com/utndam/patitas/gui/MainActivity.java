@@ -144,6 +144,11 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                 int id = menuItem.getItemId();
+
+                MenuItem luz = toolbar.getMenu().findItem(R.id.tema_oscuro);
+                if(id == R.id.boton_home) luz.setVisible(true);
+                else luz.setVisible(false);
+
                 switch (id){
                     case R.id.boton_home:
                         toolbar.setTitle("Home > Perdidos");
@@ -162,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.boton_chats:
                         toolbar.setTitle("Chats");
-
                         fragmentManager.beginTransaction()
                                 .replace(R.id.contenedor_fragmento,loginFrag)
 //                                .addToBackStack(null)
@@ -190,7 +194,12 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.tema_oscuro:{
 
-                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+//                 item.setVisible(false);
+//                if(toolbar.getTitle() != "Home > Perdidos"){
+//                    System.out.println("HOLA");
+//                }
+//                else
+                    if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                     setTheme(R.style.LightThemePatitas);
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 } else {
@@ -219,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 
     public void getImagen(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
