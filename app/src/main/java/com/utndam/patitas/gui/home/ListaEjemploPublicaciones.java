@@ -1,6 +1,7 @@
-package com.utndam.patitas.model;
+package com.utndam.patitas.gui.home;
 
 import com.utndam.patitas.R;
+import com.utndam.patitas.model.PublicacionModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;

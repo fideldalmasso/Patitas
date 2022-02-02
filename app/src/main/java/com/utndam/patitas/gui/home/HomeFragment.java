@@ -3,10 +3,8 @@ package com.utndam.patitas.gui.home;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -15,17 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.transition.MaterialFadeThrough;
-import com.utndam.patitas.gui.CardCompletoFragment;
 import com.utndam.patitas.R;
-import com.utndam.patitas.databinding.FragmentCardSimpleBinding;
+import com.utndam.patitas.gui.CardCompletoFragment;
 import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.model.PublicacionModel;
-import com.utndam.patitas.model.ListaEjemploPublicaciones;
 
 /**
  * A fragment representing a list of Items.
  */
-public class HomePerdidosFragment extends Fragment implements onCardSelectedListener {
+public class HomeFragment extends Fragment implements onCardSelectedListener {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -44,13 +40,13 @@ public class HomePerdidosFragment extends Fragment implements onCardSelectedList
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public HomePerdidosFragment() {
+    public HomeFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static HomePerdidosFragment newInstance(int columnCount) {
-        HomePerdidosFragment fragment = new HomePerdidosFragment();
+    public static HomeFragment newInstance(int columnCount) {
+        HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -69,16 +65,6 @@ public class HomePerdidosFragment extends Fragment implements onCardSelectedList
         }
 
 
-
-
-//        TransitionInflater inflater = TransitionInflater.from(requireContext());
-//        setEnterTransition(inflater.inflateTransition(R.transition.fade));
-
-//        Transition transition = TransitionInflater.from(requireContext())
-//                .inflateTransition(R.transition.shared_image);
-//        setSharedElementEnterTransition(transition);
-
-
     }
 
     @Override
@@ -88,30 +74,9 @@ public class HomePerdidosFragment extends Fragment implements onCardSelectedList
         this.inflater = inflater;
         this.container = container;
 
-
-        View view = inflater.inflate(R.layout.fragment_home_perdidos, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         floatingActionButton = view.findViewById(R.id.fab);
-/*        floatingActionButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                Toast.makeText(getContext(), "HOLA", Toast.LENGTH_SHORT).show();
-                getParentFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(
-                                R.anim.slide_in,
-                                R.anim.fade_out,
-                                R.anim.fade_in,
-                                R.anim.slide_out
-                        )
-                        .replace(R.id.listaPosta, new AltaPublicacionFragment())
-//                .replace(R.id.contenedor_fragmento,frag)
-                        .addToBackStack(null)
-                        .commit();
-                return true;
-            }
-        }); */
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +90,6 @@ public class HomePerdidosFragment extends Fragment implements onCardSelectedList
                                 R.anim.slide_out
                         )
                         .replace(R.id.listaPosta,((MainActivity)getActivity()).getAltaPublicacionFragment())
-//                .replace(R.id.contenedor_fragmento,frag)
                         .addToBackStack(null)
                         .commit();
             }
@@ -145,12 +109,9 @@ public class HomePerdidosFragment extends Fragment implements onCardSelectedList
 
             ListaEjemploPublicaciones holderContent = new ListaEjemploPublicaciones();
 
-            HomePerdidosRecycler adaptador = new HomePerdidosRecycler(holderContent.getItems());
+            HomeRecyclerAdapter adaptador = new HomeRecyclerAdapter(holderContent.getItems());
             adaptador.setListener(this);
             recyclerView.setAdapter(adaptador);
-
-
-//            recyclerView.addOnItemTouchListener(context,recyclerView, new Recycler);
 
 
         }
@@ -161,41 +122,21 @@ public class HomePerdidosFragment extends Fragment implements onCardSelectedList
 
 
     @Override
-    public void onCardSelectedListener(HomePerdidosRecycler.AnimalCardViewHolder holder,
-                                       PublicacionModel item,
-                                       FragmentCardSimpleBinding binding) {
-//        FragmentCardCompletoBinding  b = new FragmentCardCompletoBinding.inflate(getLayoutInflater());
+    public void onCardSelectedListener(PublicacionModel item) {
+
         CardCompletoFragment frag = new CardCompletoFragment(item);
-//        frag.setId_imagen(item.pImagen);
-//        frag.setId_imagen(R.drawable.gato3);
-//        frag.setId_imagen();
-
-//        findNavController().navigate(R.id.detailAction, null, null, extras)
-
-//        frag.setImagen2(holder.mImagen.getId());
-
-
 
         getParentFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(
-//                        android.R.anim.slide_in_left,
-//                        android.R.anim.fade_out,
-//                        android.R.anim.fade_in,
-//                        android.R.anim.slide_out_right
                        R.anim.slide_in,
                        R.anim.fade_out,
                        R.anim.fade_in,
                        R.anim.slide_out
-                        )
-//                .addSharedElement(holder.mImagen,"transicion_imagen")
-                .addSharedElement(binding.cardImagen,"transicion_imagen")
-//                .addSharedElement(holder.titulo,"transicion_titulo")
+                )
                 .replace(R.id.listaPosta, frag)
-//                .replace(R.id.contenedor_fragmento,frag)
                 .addToBackStack(null)
                 .commit();
 
-//        frag.setImagen2(R.drawable.gato3);
     }
 }

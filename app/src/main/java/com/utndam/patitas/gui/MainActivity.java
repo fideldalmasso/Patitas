@@ -26,9 +26,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.utndam.patitas.R;
 import com.utndam.patitas.gui.home.AltaPublicacionFragment;
 import com.utndam.patitas.gui.home.BlankFragment;
-import com.utndam.patitas.gui.home.HomePerdidosFragment;
+import com.utndam.patitas.gui.home.HomeFragment;
 import com.utndam.patitas.gui.ingreso.IngresoActivity;
 import com.utndam.patitas.gui.ingreso.MapsFragment;
+import com.utndam.patitas.gui.mensajes.MensajesFragment;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,9 +45,10 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawer;
     NavigationBarView bottomBar2;
     FragmentManager fragmentManager;
-    HomePerdidosFragment homePerdidos;
+    HomeFragment homePerdidos;
     BlankFragment blankFrag;
     MapsFragment mapaFrag;
+    MensajesFragment mensajesFrag;
     AltaPublicacionFragment altaPublicacionFragment;
     private static int REQUEST_IMAGE_CAPTURE = 1;
     private static int REQUEST_IMAGE_SAVE = 2;
@@ -82,13 +84,14 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        homePerdidos = new HomePerdidosFragment();
+        homePerdidos = new HomeFragment();
         Bundle b = new Bundle();
         b.putInt("column-count",2); //2 columnas
         homePerdidos.setArguments(b);
         blankFrag = new BlankFragment();
         mapaFrag = new MapsFragment();
         altaPublicacionFragment = new AltaPublicacionFragment();
+        mensajesFrag = new MensajesFragment();
 
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -165,8 +168,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.boton_chats:
                         toolbar.setTitle("Chats");
+
                         fragmentManager.beginTransaction()
-                                .replace(R.id.contenedor_fragmento,blankFrag)
+                                .replace(R.id.contenedor_fragmento,mensajesFrag)
 //                                .addToBackStack(null)
                                 .commit();
                         break;
