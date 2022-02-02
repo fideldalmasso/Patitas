@@ -166,7 +166,7 @@ public class SignUpFragment extends Fragment {
     }
 
     private boolean repetirContraseniaValida(CharSequence contrasenia1, CharSequence contrasenia2) {
-        return (!TextUtils.isEmpty(contrasenia2) && contrasenia1.equals(contrasenia2));
+        return (!TextUtils.isEmpty(contrasenia2) && contrasenia1.toString().equals(contrasenia2.toString()));
     }
 
     private boolean telefonoValido(CharSequence telefono){

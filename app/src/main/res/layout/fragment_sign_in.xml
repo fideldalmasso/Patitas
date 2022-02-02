@@ -68,29 +68,13 @@
 
 
 
-        <TextView
-            android:id="@+id/o_bien"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="- o bien - "
-            android:gravity="center"
-            android:layout_marginBottom="24dp"
-            />
-
-
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/sign_in_google"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-
 
 
         <Button
             android:id="@+id/boton_iniciar_sesion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+
             android:layout_gravity="center"
             android:text="Continuar"/>
 
