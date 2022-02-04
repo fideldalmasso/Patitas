@@ -111,7 +111,7 @@ public class CardCompletoFragment extends Fragment {
         intent.putExtra(Intent.EXTRA_STREAM, uri);
 
         // adding text to share
-        intent.putExtra(Intent.EXTRA_TEXT, titulo.getText());
+        intent.putExtra(Intent.EXTRA_TEXT, titulo.getText() + " \nDescarga Patitas en el siguiente link: ");
 
         // Add subject Here
         intent.putExtra(Intent.EXTRA_SUBJECT, "Subject Here");
