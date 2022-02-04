@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -58,12 +59,14 @@ public class MapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            //onStart();
             mapa = googleMap;
             mapa.getUiSettings().setZoomControlsEnabled(true);
             mapa.getUiSettings().setTiltGesturesEnabled(false);
             LatLngBounds limites_argentina = new LatLngBounds( new LatLng(-54.964913124446696, -74.26678541029585),new LatLng(-21.897337, -54.118911));
 
             if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+//            if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES)
                 mapa.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.mapa_dark));
 
             mapa.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
@@ -89,6 +92,12 @@ public class MapsFragment extends Fragment {
             }
             probarMoverMapaAUbicacionActual();
 
+        }
+
+        private void onStart() {
+            MapsFragment.super.onStart();
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+                mapa.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.mapa_dark));
         }
     };
 
