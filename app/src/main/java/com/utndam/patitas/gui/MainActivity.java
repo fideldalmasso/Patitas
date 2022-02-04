@@ -1,7 +1,9 @@
 package com.utndam.patitas.gui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -31,7 +33,8 @@ import com.utndam.patitas.gui.mensajes.MensajesFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    SharedPreferences sharedPreferences;
+    SharedPreferences sharedPref;
+    SharedPreferences.Editor editor;
     MaterialToolbar toolbar;
     DrawerLayout drawer;
     NavigationBarView bottomBar2;
@@ -68,11 +71,24 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 //        setTheme(R.style.DarkThemePatitas);
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.DarkThemePatitas);
-        } else {
-            setTheme(R.style.LightThemePatitas);
-        }
+       // SharedPreferences sharedPref = this.getActivity().getPreferences(Context.MODE_PRIVATE);
+//        sharedPref = getSharedPreferences("tema_oscuro", Context.MODE_PRIVATE );
+//
+//        editor = sharedPref.edit();
+//
+//        sharedPref = getPreferences(Context.MODE_PRIVATE);
+//        Boolean actualTheme = sharedPref.getBoolean("actual_theme", false);
+//        if(actualTheme == true) {
+//            setTheme(R.style.DarkThemePatitas);
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//        }
+//        else {
+//            setTheme(R.style.LightThemePatitas);
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//        }
+
+//        setTheme(R.style.LightThemePatitas);
+       onStart();
 //
 //        switch1 = findViewById(R.id.tema_oscuro);
 //
@@ -211,12 +227,17 @@ public class MainActivity extends AppCompatActivity {
 //                    System.out.println("HOLA");
 //                }
 //                else
-                    if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+
+//                SharedPreferences.Editor editor = sharedPref.edit();
+
+                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                     setTheme(R.style.LightThemePatitas);
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//                    editor.putBoolean("actual_theme", false);
                 } else {
                     setTheme(R.style.DarkThemePatitas);
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                    editor.putBoolean("actual_theme", true);
                 }
 //                bottomBar2.setSelectedItemId(R.id.home);
 //                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.map);
@@ -347,5 +368,34 @@ public class MainActivity extends AppCompatActivity {
         bottomSheetDialog.show();
     }
     */
+    protected void onStart() {
+        super.onStart();
+//        sharedPref = getPreferences(Context.MODE_PRIVATE);
+//        Boolean actualTheme = sharedPref.getBoolean("actual_theme", true);
+//        System.out.println(actualTheme);
+//        SharedPreferences.Editor editor = sharedPref.edit();
+//        if(actualTheme == true)  setTheme(R.style.DarkThemePatitas);
+//        else setTheme(R.style.LightThemePatitas);
+        switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+            case Configuration.UI_MODE_NIGHT_YES:
+                setTheme(R.style.DarkThemePatitas);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case Configuration.UI_MODE_NIGHT_NO:
+                setTheme(R.style.LightThemePatitas);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+        }
+
+//        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+//            setTheme(R.style.DarkThemePatitas);
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+////            editor.putBoolean("actual_theme", true);
+//        } else {
+//            setTheme(R.style.LightThemePatitas);
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+////            editor.putBoolean("actual_theme", false);
+//        }
+    }
 
 }
