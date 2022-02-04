@@ -1,6 +1,5 @@
 package com.utndam.patitas.gui.home;
 
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,8 +22,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.utndam.patitas.R;
-import com.utndam.patitas.gui.MainActivity;
-import com.utndam.patitas.gui.ingreso.MapsFragment;
+import com.utndam.patitas.gui.ingreso.MapsFragmentSimple;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +41,7 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
     AutoCompleteTextView tipoPublicacion;
     AutoCompleteTextView tipoAnimal;
     FragmentManager fragmentManager;
-    MapsFragment mapaFrag;
+    MapsFragmentSimple mapaFrag;
     ImageView mImageView;
     String pathFoto;
     private final ActivityResultLauncher<Uri> mTakePicture = registerForActivityResult(new ActivityResultContracts.TakePicture(), new ActivityResultCallback<Boolean>() {
@@ -93,7 +91,7 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mapaFrag = new MapsFragment();
+        mapaFrag = new MapsFragmentSimple();
         fragmentManager = getChildFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.contenedor_mapa,mapaFrag)

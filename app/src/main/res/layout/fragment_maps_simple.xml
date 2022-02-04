@@ -8,15 +8,15 @@
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
+        android:id="@+id/map_simple"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".gui.ingreso.MapsFragment"
+        tools:context=".gui.ingreso.MapsFragmentSimple"
         />
 
     <ImageView
-        android:id="@+id/pin"
+        android:id="@+id/pin_simple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -24,15 +24,5 @@
         app:tint="@color/primaryColor"
         android:paddingBottom="50dp"
         />
-
-    <Button
-        android:id="@+id/confirmar_ubicacion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginBottom="16dp"
-        android:text="Confirmar ubicación"/>
 
 </RelativeLayout>
