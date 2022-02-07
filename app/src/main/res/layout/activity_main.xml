@@ -35,7 +35,9 @@
             android:id="@+id/contenedor_fragmento"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="?attr/background"
+            />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_toolbar"
@@ -43,8 +45,8 @@
             app:itemIconSize="24dp"
             android:layout_height="56dp"
 
-            android:background="?attr/background"
             app:labelVisibilityMode="unlabeled"
+
             />
 
 
