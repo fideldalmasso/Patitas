@@ -1,6 +1,7 @@
 package com.utndam.patitas.gui.mensajes;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,11 +25,17 @@ public class MisMensajesRecyclerAdapter extends RecyclerView.Adapter<MisMensajes
         listaMensajes = items;
     }
 
+    private onMensajeSelectedListener listener;
+
     @Override
     public MensajeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         return new MensajeViewHolder(FragmentMensajeSimpleBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
 
+    }
+
+    public void setListener(onMensajeSelectedListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -59,6 +66,16 @@ public class MisMensajesRecyclerAdapter extends RecyclerView.Adapter<MisMensajes
             this.senderNombre = binding.remitenteNombre;
             this.contenido = binding.contenido;
             this.publicacionAsociada = binding.publicacionAsociada;
+
+            this.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener!=null){
+                        listener.onMensajeSelected(listaMensajes.get(getAdapterPosition()));
+                    }
+                }
+            });
+
         }
 
         @Override

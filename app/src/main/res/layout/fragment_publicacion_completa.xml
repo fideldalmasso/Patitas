@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="?attr/background"
     >
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_completo"
@@ -13,6 +12,7 @@
         android:layout_height="match_parent"
         android:clickable="true"
         android:backgroundTint="?attr/background"
+        android:layout_margin="4dp"
         >
 
         <LinearLayout

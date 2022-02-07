@@ -28,6 +28,13 @@ public class ListaEjemploMensajes {
 
     private static final int COUNT = 25;
 
+    private static final int foto = R.drawable.ic_baseline_person_24;
+    private static final String nombre = "Juan Pablo Cobol";
+    private static final String infoContacto = "Teléfono: +54342111222\nBarrio Centro";
+    private static final String contenido = "Hola, lo vi entre San Martin y Suipacha y lo agarré. Quedó en mi laburo. Está muy asustado, vení cuanto antes. Me encuentro entre 8 y 18hs en el local informático de la esquina. Llamame cualquier cosa.";
+    private static final String publicacion = "Publicación: Firulais";
+
+
     static {
         // Add some sample items.
         for (int i = 1; i <= COUNT; i++) {
@@ -41,7 +48,7 @@ public class ListaEjemploMensajes {
     }
 
     private static MensajeModel createPlaceholderItem(int position) {
-        return new MensajeModel(R.drawable.ic_baseline_person_24,"Pepito","nombrePublicacion","contenido xd","info contacto");
+        return new MensajeModel(foto,nombre,contenido,publicacion,infoContacto);
     }
 
     private static String makeDetails(int position) {

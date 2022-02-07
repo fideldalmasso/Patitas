@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.utndam.patitas.R;
+import com.utndam.patitas.model.MensajeModel;
 
 /**
  * A fragment representing a list of Items.
  */
-public class MisMensajesFragment extends Fragment {
+public class MisMensajesFragment extends Fragment  implements onMensajeSelectedListener {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -55,16 +56,40 @@ public class MisMensajesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mis_mensajes, container, false);
 
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+        View view2 = view.findViewById(R.id.lista_mensajes_xd);
+        if (view2 instanceof RecyclerView) {
+            Context context = view2.getContext();
+            RecyclerView recyclerView = (RecyclerView) view2;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MisMensajesRecyclerAdapter(ListaEjemploMensajes.ITEMS));
+            MisMensajesRecyclerAdapter adaptador = new MisMensajesRecyclerAdapter(ListaEjemploMensajes.ITEMS);
+            adaptador.setListener(this);
+            recyclerView.setAdapter(adaptador);
+
         }
         return view;
     }
+
+    @Override
+    public void onMensajeSelected(MensajeModel item) {
+
+        MensajeCompletoFragment frag = new MensajeCompletoFragment(item);
+
+        getParentFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out,
+                        R.anim.fade_in,
+                        R.anim.slide_out
+                )
+                .replace(R.id.listaPosta2, frag)
+                .addToBackStack(null)
+                .commit();
+
+    }
+
 }

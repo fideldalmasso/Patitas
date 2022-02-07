@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:name="com.utndam.patitas.PublicacionModel2Fragment"
+
+<FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutManager="LinearLayoutManager"
-    tools:context=".gui.mensajes.MisMensajesFragment"
-    tools:listitem="@layout/fragment_mensaje_simple"
-    android:background="?attr/background"/>
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listaPosta2"
+    android:background="?attr/background"
+    >
+
+
+    <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/lista_mensajes_xd"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:name="com.utndam.patitas.MisMensajesFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".gui.mensajes.MisMensajesFragment"
+        tools:listitem="@layout/fragment_mensaje_simple"
+
+        />
+
+
+</FrameLayout>
+

@@ -1,77 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_completo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="4dp"
-        android:background="?attr/background"
-        android:clickable="true">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mensaje_completo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="4dp"
+    android:orientation="vertical"
+    android:background="?attr/background"
+    android:clickable="true"
 
+    >
 
-        <ImageView
-            android:id="@+id/remitente_foto"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:adjustViewBounds="true"
-            android:contentDescription="Descripcion xd"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_baseline_person_24"
-            android:transitionName="transicion_imagen"
-            app:layout_constraintBottom_toTopOf="@+id/contenido"
-            app:layout_constraintEnd_toStartOf="@+id/remitente_nombre"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/remitente_nombre"
-            android:layout_width="wrap_content"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="147dp"
-            android:layout_marginRight="147dp"
-            android:text="Juan Pablo Cobol"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            android:textColor="?attr/colorOnBackground"
-            android:transitionName="transicion_titulo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/remitente_foto"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:cardCornerRadius="8dp"
+            android:layout_marginBottom="4dp"
+            android:backgroundTint="?attr/background"
+            >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
 
-        <TextView
-            android:id="@+id/publicacion_asociada"
-            android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/remitente_foto"
+                    android:layout_width="84dp"
+                    android:layout_height="84dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:transitionName="transicion_imagen"
+                    android:src="@drawable/ic_baseline_person_24"
+                    app:tint="?attr/colorOnSecondary"
+                    />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    >
+
+
+                        <TextView
+                            android:id="@+id/remitente_nombre"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Juan Pablo Cobol"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            android:textColor="?attr/colorOnBackground"
+
+                            android:transitionName="transicion_titulo"
+                            />
+
+
+                        <TextView
+                            android:id="@+id/publicacion_asociada"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Publicación: Firulais"
+                            android:maxLines="1"
+                            android:textAppearance="?attr/textAppearanceSubtitle2"
+                            android:textColor="?attr/colorOnSecondary"
+                            android:transitionName="transicion_titulo"
+                            />
+
+
+
+
+
+
+
+
+                </LinearLayout>
+                </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:text="Publicación: Firulais"
-            android:textAppearance="?attr/textAppearanceSubtitle2"
-            android:textColor="?attr/colorOnSecondary"
-            android:transitionName="transicion_titulo"
-            app:layout_constraintStart_toStartOf="@+id/remitente_nombre"
-            app:layout_constraintTop_toBottomOf="@+id/remitente_nombre" />
+            android:backgroundTint="?attr/background"
+            app:cardCornerRadius="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+
+            >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                        <TextView
+                            android:paddingTop="12dp"
+                            android:paddingHorizontal="12dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Info de contacto"
+                            android:maxLines="10"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            android:textColor="?attr/colorOnBackground"
+                            android:transitionName="transicion_titulo"
+                            />
+                        <TextView
+                            android:paddingTop="2dp"
+                            android:paddingHorizontal="12dp"
+                            android:id="@+id/info_contacto"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:text="Teléfono: +54342111222\nBarrio Centro"
+                            android:maxLines="10"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textColor="?attr/colorOnBackground"
+                            android:transitionName="transicion_titulo"
+                            />
+                </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/contenido"
-            android:layout_width="wrap_content"
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="599dp"
+            android:backgroundTint="?attr/background"
+            app:cardCornerRadius="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                        <TextView
+                            android:paddingTop="12dp"
+                            android:paddingHorizontal="12dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Mensaje"
+                            android:maxLines="10"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            android:textColor="?attr/colorOnBackground"
+                            android:transitionName="transicion_titulo"
+                            />
+                        <TextView
+                            android:paddingTop="2dp"
+                            android:paddingHorizontal="12dp"
+                            android:id="@+id/contenido"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:text="Hola, lo vi entre San Martin y Suipacha y lo agarré. Quedó en mi laburo. Está muy asustado, vení cuanto antes. Me encuentro entre 8 y 18hs en el local informático de la esquina. Llamame cualquier cosa."
+                            android:maxLines="10"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textColor="?attr/colorOnBackground"
+                            android:transitionName="transicion_titulo"
+                            />
+                </LinearLayout>
 
-            android:text="Hola si, yo lo vi por calle San Martin blablablablablalblabla"
-            android:textAppearance="?attr/textAppearanceBody1"
-            android:textColor="?attr/colorOnBackground"
-            android:transitionName="transicion_titulo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/remitente_foto"
-            app:layout_constraintTop_toBottomOf="@+id/remitente_foto" />
+        </com.google.android.material.card.MaterialCardView>
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+</LinearLayout>
