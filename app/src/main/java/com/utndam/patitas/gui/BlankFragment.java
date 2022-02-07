@@ -1,4 +1,4 @@
-package com.utndam.patitas.gui.home;
+package com.utndam.patitas.gui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

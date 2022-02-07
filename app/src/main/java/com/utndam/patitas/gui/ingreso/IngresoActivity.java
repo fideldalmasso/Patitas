@@ -105,13 +105,13 @@ public class IngresoActivity extends FragmentActivity {
 
             switch(position){
                 case 0:
-                    return new InicioFragment();
+                    return new BienvenidaFragment();
                 case 1:
                     return new SignInFragment();
                 case 2:
                     return new SignUpFragment();
                 default:
-                    return new InicioFragment();
+                    return new BienvenidaFragment();
             }
 
         }

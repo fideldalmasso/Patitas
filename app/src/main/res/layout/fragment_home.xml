@@ -20,7 +20,7 @@
         android:layout_marginRight="0dp"
         app:layoutManager="LinearLayoutManager"
         tools:context=".gui.home.HomeFragment"
-        tools:listitem="@layout/fragment_card_simple"
+        tools:listitem="@layout/fragment_publicacion_simple"
 
         />
 

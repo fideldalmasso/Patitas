@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".gui.ingreso.InicioFragment"
+    tools:context=".gui.ingreso.BienvenidaFragment"
 
     >
 
@@ -19,13 +19,24 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:src="@drawable/logo_patitas_foreground"
             android:layout_gravity="center"
             android:layout_marginBottom="24dp"
+            android:scaleX="1.8"
+            android:scaleY="1.8"
             />
 
+        <TextView
+            android:id="@+id/bienvenido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bienvenido/a a Patitas.\nElegí un método de ingreso"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            />
         <Button
             android:id="@+id/boton_login"
             android:layout_width="wrap_content"

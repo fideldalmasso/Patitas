@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.transition.MaterialFadeThrough;
 import com.utndam.patitas.R;
-import com.utndam.patitas.gui.CardCompletoFragment;
 import com.utndam.patitas.model.PublicacionModel;
 
 /**
@@ -126,7 +125,7 @@ public class HomeFragment extends Fragment implements onCardSelectedListener {
     @Override
     public void onCardSelectedListener(PublicacionModel item) {
 
-        CardCompletoFragment frag = new CardCompletoFragment(item);
+        PublicacionCompletaFragment frag = new PublicacionCompletaFragment(item);
 
         getParentFragmentManager()
                 .beginTransaction()

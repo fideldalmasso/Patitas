@@ -16,7 +16,7 @@ import com.utndam.patitas.R;
 /**
  * A fragment representing a list of Items.
  */
-public class MensajesFragment extends Fragment {
+public class MisMensajesFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -27,13 +27,13 @@ public class MensajesFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public MensajesFragment() {
+    public MisMensajesFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static MensajesFragment newInstance(int columnCount) {
-        MensajesFragment fragment = new MensajesFragment();
+    public static MisMensajesFragment newInstance(int columnCount) {
+        MisMensajesFragment fragment = new MisMensajesFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -52,7 +52,7 @@ public class MensajesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mensajes, container, false);
+        View view = inflater.inflate(R.layout.fragment_mis_mensajes, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -63,7 +63,7 @@ public class MensajesFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MensajesRecyclerAdapter(ListaEjemploMensajes.ITEMS));
+            recyclerView.setAdapter(new MisMensajesRecyclerAdapter(ListaEjemploMensajes.ITEMS));
         }
         return view;
     }

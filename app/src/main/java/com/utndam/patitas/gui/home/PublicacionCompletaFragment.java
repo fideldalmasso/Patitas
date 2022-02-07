@@ -1,4 +1,4 @@
-package com.utndam.patitas.gui;
+package com.utndam.patitas.gui.home;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,7 +24,7 @@ import com.utndam.patitas.model.PublicacionModel;
 import java.io.File;
 import java.io.FileOutputStream;
 
-public class CardCompletoFragment extends Fragment {
+public class PublicacionCompletaFragment extends Fragment {
 
     public ImageView imagen;
     public TextView titulo;
@@ -38,16 +38,16 @@ public class CardCompletoFragment extends Fragment {
     PublicacionModel item;
 
 
-    public CardCompletoFragment() {
+    public PublicacionCompletaFragment() {
 
     }
-    public CardCompletoFragment(PublicacionModel i){
+    public PublicacionCompletaFragment(PublicacionModel i){
         super();
         item = i;
     }
 
-    public static CardCompletoFragment newInstance(String param1, String param2) {
-        CardCompletoFragment fragment = new CardCompletoFragment();
+    public static PublicacionCompletaFragment newInstance(String param1, String param2) {
+        PublicacionCompletaFragment fragment = new PublicacionCompletaFragment();
         return fragment;
     }
 
@@ -74,7 +74,7 @@ public class CardCompletoFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v =  inflater.inflate(R.layout.fragment_card_completo, container, false);
+        View v =  inflater.inflate(R.layout.fragment_publicacion_completa, container, false);
 
         imagen = v.findViewById(R.id.card_completo_imagen);
         titulo = v.findViewById(R.id.card_completo_titulo);

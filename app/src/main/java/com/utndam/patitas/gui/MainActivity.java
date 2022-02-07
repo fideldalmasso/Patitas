@@ -17,71 +17,67 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.utndam.patitas.R;
-import com.utndam.patitas.gui.home.AltaPublicacionFragment;
-import com.utndam.patitas.gui.home.BlankFragment;
 import com.utndam.patitas.gui.home.HomeFragment;
 import com.utndam.patitas.gui.ingreso.IngresoActivity;
-import com.utndam.patitas.gui.ingreso.MapsFragment;
-import com.utndam.patitas.gui.mensajes.MensajesFragment;
+import com.utndam.patitas.gui.mensajes.MisMensajesFragment;
 
 
 public class MainActivity extends AppCompatActivity {
 
 
-    MaterialToolbar toolbar;
-    DrawerLayout drawer;
-    NavigationBarView bottomBar2;
-    FragmentManager fragmentManager;
-    HomeFragment homePerdidos;
-    BlankFragment blankFrag;
-    MapsFragment mapaFrag;
-    MensajesFragment mensajesFrag;
-    AltaPublicacionFragment altaPublicacionFragment;
-    int pantallaActual;
+    private MaterialToolbar barraSuperior;
+    private DrawerLayout drawer;
+    private NavigationBarView barraInferior;
+    private FragmentManager fragmentManager;
+    private HomeFragment homeFrag;
+    private BlankFragment blankFrag;
+    private MisMensajesFragment mensajesFrag;
+    private int pantallaActual;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        if(savedInstanceState!=null)
+            savedInstanceState.clear();
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
+        //asignar tema correspondiente
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.DarkThemePatitas);
         } else {
             setTheme(R.style.LightThemePatitas);
         }
 
+
         pantallaActual=R.id.boton_home;
 
         //cargar fragmentos
-        homePerdidos = HomeFragment.newInstance(2);
+        homeFrag = HomeFragment.newInstance(2);
         blankFrag = new BlankFragment();
-        mapaFrag = new MapsFragment();
-        altaPublicacionFragment = new AltaPublicacionFragment();
-        mensajesFrag = new MensajesFragment();
+        mensajesFrag = new MisMensajesFragment();
 
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.contenedor_fragmento,homePerdidos)
+                .replace(R.id.contenedor_fragmento, homeFrag)
                 .commit();
 
         //barra superior
-        toolbar = findViewById(R.id.topAppBar);
-        toolbar.setTitle("Home > Perdidos");
-        setSupportActionBar(toolbar);
+        barraSuperior = findViewById(R.id.topAppBar);
+        barraSuperior.setTitle("Home > Perdidos");
+        setSupportActionBar(barraSuperior);
 
         //drawer
         drawer = findViewById(R.id.drawer_layout);
-        toolbar.setNavigationOnClickListener(v -> drawer.openDrawer(Gravity.LEFT));
+        barraSuperior.setNavigationOnClickListener(v -> drawer.openDrawer(Gravity.LEFT));
 
         //barra inferior
-        bottomBar2 = findViewById(R.id.bottom_toolbar);
-        Menu bottomMenu = bottomBar2.getMenu();
-        getMenuInflater().inflate(R.menu.menu_toolbar_inferior, bottomMenu);
-        bottomBar2.setSelectedItemId(R.id.boton_home);
-        bottomBar2.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        barraInferior = findViewById(R.id.bottom_toolbar);
+        Menu barraInferiorMenu = barraInferior.getMenu();
+        getMenuInflater().inflate(R.menu.menu_toolbar_inferior, barraInferiorMenu);
+        barraInferior.setSelectedItemId(R.id.boton_home);
+        barraInferior.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -95,32 +91,33 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (id){
                     case R.id.boton_home:
-                        toolbar.setTitle("Home > Perdidos");
+                        barraSuperior.setTitle("Home > Perdidos");
 
+                        //quitar todos los fragmentos basura
                         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
                             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
                         }
 
                         fragmentManager.beginTransaction()
-                                .replace(R.id.contenedor_fragmento,homePerdidos)
+                                .replace(R.id.contenedor_fragmento, homeFrag)
                                 .commit();
                         break;
                     case R.id.boton_buscar:
-                        toolbar.setTitle("Buscar");
+                        barraSuperior.setTitle("Buscar");
                         fragmentManager.beginTransaction()
                                 .replace(R.id.contenedor_fragmento,blankFrag)
                                 .commit();
                         break;
                     case R.id.boton_chats:
-                        toolbar.setTitle("Chats");
+                        barraSuperior.setTitle("Chats");
                         fragmentManager.beginTransaction()
                                 .replace(R.id.contenedor_fragmento,mensajesFrag)
                                 .commit();
                         break;
                     case R.id.boton_ajustes:
-                        toolbar.setTitle("Ajustes");
+                        barraSuperior.setTitle("Ajustes");
                         fragmentManager.beginTransaction()
-                                .replace(R.id.contenedor_fragmento,mapaFrag)
+                                .replace(R.id.contenedor_fragmento,blankFrag)
                                 .commit();
                         break;
                 }
@@ -144,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.tema_oscuro:{
 
+                //cambiar el tema
                 if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 } else {
@@ -158,10 +156,13 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.logout:{
+                //cerrar sesion
                 FirebaseAuth.getInstance().signOut();
+
+                //reiniciar aplicacion
                 Intent i = new Intent(this, IngresoActivity.class);
-                finish();
                 startActivity(i);
+                finish();
                 return true;
             }
             default:

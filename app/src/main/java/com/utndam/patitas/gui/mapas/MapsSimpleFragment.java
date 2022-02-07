@@ -1,4 +1,4 @@
-package com.utndam.patitas.gui.ingreso;
+package com.utndam.patitas.gui.mapas;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,9 +13,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -39,7 +39,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.transition.MaterialFadeThrough;
 import com.utndam.patitas.R;
 
-public class MapsFragment extends Fragment {
+public class MapsSimpleFragment extends Fragment {
 
     private GoogleMap mapa;
     private FusedLocationProviderClient fusedLocationClient;
@@ -47,8 +47,11 @@ public class MapsFragment extends Fragment {
 
 
     private ActivityResultLauncher<String[]> requestPermissionLauncher;
-    private LatLng ubicacionElegida;
+    private ActivityResultLauncher<Intent> abrirMapaCompletoLauncher;
 
+    private void cambiarPosicion(LatLng pos){
+        mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(pos,15));
+    }
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
@@ -60,29 +63,39 @@ public class MapsFragment extends Fragment {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
+
+
+
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            //onStart();
             mapa = googleMap;
-            mapa.getUiSettings().setZoomControlsEnabled(true);
-            mapa.getUiSettings().setTiltGesturesEnabled(false);
+//            mapa.getUiSettings().setZoomGesturesEnabled(false);
+//            mapa.getUiSettings().setTiltGesturesEnabled(false);
+            mapa.getUiSettings().setAllGesturesEnabled(false);
+            mapa.getUiSettings().setMyLocationButtonEnabled(false);
+
             LatLngBounds limites_argentina = new LatLngBounds( new LatLng(-54.964913124446696, -74.26678541029585),new LatLng(-21.897337, -54.118911));
 
-            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-//            if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES)
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                 mapa.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.mapa_dark));
-
-
-            ubicacionElegida = mapa.getCameraPosition().target;
+            }
 
             mapa.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
                 @Override
                 public void onCameraMove() {
-                    ubicacionElegida = mapa.getCameraPosition().target;
+                    LatLng latLng = mapa.getCameraPosition().target;
+                    Log.d(null,latLng.latitude+" "+ latLng.longitude);
                 }
-
             });
-            mapa.getUiSettings().setMyLocationButtonEnabled(true);
+
+            mapa.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(@NonNull LatLng latLng) {
+                    Intent i = new Intent(getActivity(), ElegirUbicacionActivity.class);
+                    abrirMapaCompletoLauncher.launch(i);
+                }
+            });
+
 
 //            mapa.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
 //                @Override
@@ -98,15 +111,9 @@ public class MapsFragment extends Fragment {
             probarMoverMapaAUbicacionActual();
 
         }
-
-        private void onStart() {
-            MapsFragment.super.onStart();
-            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-                mapa.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.mapa_dark));
-        }
     };
 
-    public MapsFragment() {
+    public MapsSimpleFragment() {
     }
 
     @Nullable
@@ -114,24 +121,14 @@ public class MapsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_maps, container, false);
-
-        Button botonConfirmar = view.findViewById(R.id.confirmar_ubicacion);
-        botonConfirmar.setOnClickListener(view1 -> {
-            Intent intentResultado = new Intent();
-            intentResultado.putExtra("lat",ubicacionElegida.latitude);
-            intentResultado.putExtra("lng",ubicacionElegida.longitude);
-            getActivity().setResult(Activity.RESULT_OK,intentResultado);
-            getActivity().finish();
-        });
-        return view;
+        return inflater.inflate(R.layout.fragment_maps_simple, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment =
-                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_simple);
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
@@ -152,6 +149,24 @@ public class MapsFragment extends Fragment {
             moverMapaAUbicacionActual();
         }
         });
+
+
+
+        abrirMapaCompletoLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            // There are no request codes
+                            Intent data = result.getData();
+                            LatLng pos = new LatLng(
+                                    data.getDoubleExtra("lat",0.0),
+                                    data.getDoubleExtra("lng",0.0));
+                            cambiarPosicion(pos);
+                        }
+                    }
+                });
     }
 
     @SuppressLint("MissingPermission")
@@ -164,8 +179,8 @@ public class MapsFragment extends Fragment {
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
-                            ubicacionElegida = new LatLng(location.getLatitude(),location.getLongitude());
-                            mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacionElegida,15),3,null);
+                            LatLng ubicacionUsuario = new LatLng(location.getLatitude(),location.getLongitude());
+                            mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacionUsuario,15),3,null);
                         }
                     }
                 });

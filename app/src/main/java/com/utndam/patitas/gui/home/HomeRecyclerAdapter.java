@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.utndam.patitas.databinding.FragmentCardSimpleBinding;
+import com.utndam.patitas.databinding.FragmentPublicacionSimpleBinding;
 import com.utndam.patitas.model.PublicacionModel;
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     @Override
     public PublicacionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        return new PublicacionViewHolder(FragmentCardSimpleBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        return new PublicacionViewHolder(FragmentPublicacionSimpleBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
 
     }
 
@@ -43,17 +43,11 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     }
 
 
-
-
-
-
-
-
     public class PublicacionViewHolder extends RecyclerView.ViewHolder {
         public final ImageView imagen;
         public final TextView titulo;
 
-        public PublicacionViewHolder(FragmentCardSimpleBinding binding) {
+        public PublicacionViewHolder(FragmentPublicacionSimpleBinding binding) {
             super(binding.getRoot());
             this.imagen = binding.cardImagen;
             this.titulo = binding.cardTitulo;

@@ -29,16 +29,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.utndam.patitas.R;
-import com.utndam.patitas.databinding.FragmentInicioBinding;
+import com.utndam.patitas.databinding.FragmentBienvenidaBinding;
 import com.utndam.patitas.gui.MainActivity;
 
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link InicioFragment#newInstance} factory method to
+ * Use the {@link BienvenidaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InicioFragment extends Fragment {
+public class BienvenidaFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,7 +54,7 @@ public class InicioFragment extends Fragment {
     private ActivityResultLauncher<Intent> someActivityResultLauncher;
 
 
-    public InicioFragment() {
+    public BienvenidaFragment() {
         // Required empty public constructor
     }
 
@@ -67,8 +67,8 @@ public class InicioFragment extends Fragment {
      * @return A new instance of fragment Ingreso.
      */
     // TODO: Rename and change types and number of parameters
-    public static InicioFragment newInstance(String param1, String param2) {
-        InicioFragment fragment = new InicioFragment();
+    public static BienvenidaFragment newInstance(String param1, String param2) {
+        BienvenidaFragment fragment = new BienvenidaFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -121,7 +121,7 @@ public class InicioFragment extends Fragment {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_ingreso, container, false);
 
-        FragmentInicioBinding binding = FragmentInicioBinding.inflate(inflater,container,false);
+        FragmentBienvenidaBinding binding = FragmentBienvenidaBinding.inflate(inflater,container,false);
 
         binding.botonLogin.setOnClickListener(view -> {
             IngresoActivity.viewPager.setCurrentItem(1,true);

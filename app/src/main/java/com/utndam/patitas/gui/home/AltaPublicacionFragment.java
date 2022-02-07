@@ -14,18 +14,16 @@ import android.widget.LinearLayout;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.utndam.patitas.R;
-import com.utndam.patitas.gui.ingreso.MapsFragmentSimple;
+import com.utndam.patitas.gui.mapas.MapsSimpleFragment;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +42,7 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
     AutoCompleteTextView tipoPublicacion;
     AutoCompleteTextView tipoAnimal;
     FragmentManager fragmentManager;
-    MapsFragmentSimple mapaFrag;
+    MapsSimpleFragment mapaFrag;
     ImageView mImageView;
     String pathFoto;
     private final ActivityResultLauncher<Uri> mTakePicture = registerForActivityResult(new ActivityResultContracts.TakePicture(), new ActivityResultCallback<Boolean>() {
@@ -98,7 +96,7 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mapaFrag = new MapsFragmentSimple();
+        mapaFrag = new MapsSimpleFragment();
         fragmentManager = getChildFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.contenedor_mapa,mapaFrag)

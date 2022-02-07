@@ -7,5 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".gui.mensajes.MensajesFragment"
-    tools:listitem="@layout/fragment_mensaje_simple" />
+    tools:context=".gui.mensajes.MisMensajesFragment"
+    tools:listitem="@layout/fragment_mensaje_simple"
+    android:background="?attr/background"/>

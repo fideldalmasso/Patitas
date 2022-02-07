@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/LightThemePatitas">
         <activity
-            android:name=".gui.home.MapsCompleto"
+            android:name=".gui.mapas.ElegirUbicacionActivity"
             android:exported="false" />
 
         <meta-data
