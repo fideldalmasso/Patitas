@@ -3,7 +3,6 @@ package com.utndam.patitas.gui.mapas;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -21,7 +20,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -48,6 +46,7 @@ public class MapsSimpleFragment extends Fragment {
 
     private ActivityResultLauncher<String[]> requestPermissionLauncher;
     private ActivityResultLauncher<Intent> abrirMapaCompletoLauncher;
+    private LatLng ubicacionElegida;
 
     private void cambiarPosicion(LatLng pos){
         mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(pos,15));
@@ -69,10 +68,10 @@ public class MapsSimpleFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             mapa = googleMap;
-//            mapa.getUiSettings().setZoomGesturesEnabled(false);
-//            mapa.getUiSettings().setTiltGesturesEnabled(false);
+
             mapa.getUiSettings().setAllGesturesEnabled(false);
             mapa.getUiSettings().setMyLocationButtonEnabled(false);
+            ubicacionElegida = mapa.getCameraPosition().target;
 
             LatLngBounds limites_argentina = new LatLngBounds( new LatLng(-54.964913124446696, -74.26678541029585),new LatLng(-21.897337, -54.118911));
 
@@ -80,29 +79,13 @@ public class MapsSimpleFragment extends Fragment {
                 mapa.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.mapa_dark));
             }
 
-            mapa.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
-                @Override
-                public void onCameraMove() {
-                    LatLng latLng = mapa.getCameraPosition().target;
-                    Log.d(null,latLng.latitude+" "+ latLng.longitude);
-                }
-            });
 
-            mapa.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                @Override
-                public void onMapClick(@NonNull LatLng latLng) {
-                    Intent i = new Intent(getActivity(), ElegirUbicacionActivity.class);
-                    abrirMapaCompletoLauncher.launch(i);
-                }
+            mapa.setOnMapClickListener(latLng -> {
+                Intent i = new Intent(getActivity(), ElegirUbicacionActivity.class);
+                abrirMapaCompletoLauncher.launch(i);
             });
 
 
-//            mapa.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-//                @Override
-//                public void onMapLoaded() {
-//
-//                }
-//            });
             try {
                 mapa.moveCamera(CameraUpdateFactory.newLatLngBounds(limites_argentina,0));
             }catch (Exception e){
@@ -179,8 +162,9 @@ public class MapsSimpleFragment extends Fragment {
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
-                            LatLng ubicacionUsuario = new LatLng(location.getLatitude(),location.getLongitude());
-                            mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacionUsuario,15),3,null);
+                            ubicacionElegida = new LatLng(location.getLatitude(),location.getLongitude());
+                            mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacionElegida,15),3,null);
+
                         }
                     }
                 });
@@ -189,49 +173,11 @@ public class MapsSimpleFragment extends Fragment {
     }
 
 
-
     public void probarMoverMapaAUbicacionActual(){
 
         if (tienePermisoAcceso()) {
             moverMapaAUbicacionActual();
-        } else {
-            if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
-                    || shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                explicarPermisos();
-            }
-            else{
-                pedirPermisos();
-            }
         }
-
-    }
-
-    private void explicarPermisos() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-        builder
-                .setCancelable(false)
-                .setTitle("NECESITO LOS PERMISOS !!!!")
-                .setMessage("es por la ciencia")
-//                .setPositiveButton("Dale!", (dialog, id) -> Toast.makeText( getContext(), "aca deberia pedir los permisos ", Toast.LENGTH_LONG).show())
-                .setPositiveButton("Dale!", new DialogInterface.OnClickListener(){
-
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        pedirPermisos();
-                    }
-                })
-                .setNegativeButton("No!", (dialog, id) -> { dialog.dismiss();Toast.makeText( getContext(), " Vos te lo perdes ", Toast.LENGTH_LONG).show();});
-
-        AlertDialog dialogo = builder.create();
-        dialogo.show();
-
-    }
-
-    private void pedirPermisos() {
-        requestPermissionLauncher.launch(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION});
 
     }
 
