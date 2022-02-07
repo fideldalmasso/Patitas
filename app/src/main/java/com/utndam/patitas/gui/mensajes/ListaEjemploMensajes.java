@@ -37,7 +37,7 @@ public class ListaEjemploMensajes {
 
     private static void addItem(MensajeModel item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.senderNombre +item.publicacionAsociada, item);
+        ITEM_MAP.put(item.remitenteNombre +item.publicacionAsociada, item);
     }
 
     private static MensajeModel createPlaceholderItem(int position) {

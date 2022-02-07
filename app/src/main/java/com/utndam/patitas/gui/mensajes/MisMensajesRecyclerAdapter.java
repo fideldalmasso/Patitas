@@ -35,8 +35,8 @@ public class MisMensajesRecyclerAdapter extends RecyclerView.Adapter<MisMensajes
     public void onBindViewHolder(final MensajeViewHolder holder, int position) {
 //        holder.mItem = listaMensajes.get(position);
 
-        holder.senderFoto.setImageResource(listaMensajes.get(position).senderFoto);
-        holder.senderNombre.setText(listaMensajes.get(position).senderNombre);
+        holder.senderFoto.setImageResource(listaMensajes.get(position).remitenteFoto);
+        holder.senderNombre.setText(listaMensajes.get(position).remitenteNombre);
         holder.contenido.setText(listaMensajes.get(position).contenido);
         holder.publicacionAsociada.setText(listaMensajes.get(position).publicacionAsociada);
     }
@@ -55,8 +55,8 @@ public class MisMensajesRecyclerAdapter extends RecyclerView.Adapter<MisMensajes
 
         public MensajeViewHolder(FragmentMensajeSimpleBinding binding) {
             super(binding.getRoot());
-            this.senderFoto = binding.senderFoto;
-            this.senderNombre = binding.senderNombre;
+            this.senderFoto = binding.remitenteFoto;
+            this.senderNombre = binding.remitenteNombre;
             this.contenido = binding.contenido;
             this.publicacionAsociada = binding.publicacionAsociada;
         }
