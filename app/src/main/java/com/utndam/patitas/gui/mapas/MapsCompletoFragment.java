@@ -3,7 +3,6 @@ package com.utndam.patitas.gui.mapas;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -13,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -129,7 +127,7 @@ public class MapsCompletoFragment extends Fragment {
 
         requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), isGranted -> {
         if (isGranted.containsValue(false)) {
-            Toast.makeText(getContext(),"No teni permisos",Toast.LENGTH_LONG).show();
+
         } else {
             moverMapaAUbicacionActual();
         }
@@ -175,20 +173,17 @@ public class MapsCompletoFragment extends Fragment {
 
         builder
                 .setCancelable(false)
-                .setTitle("NECESITO LOS PERMISOS !!!!")
-                .setMessage("es por la ciencia")
-                .setPositiveButton("Dale!", new DialogInterface.OnClickListener(){
-
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        pedirPermisos();
-                    }
+                .setTitle("¿Querés localización automática?")
+                .setMessage("El siguiente permiso facilitará encontrarte en el mapa ")
+                .setPositiveButton("Dale!", (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                    pedirPermisos();
                 })
-                .setNegativeButton("No!", (dialog, id) -> { dialog.dismiss();Toast.makeText( getContext(), " Vos te lo perdes ", Toast.LENGTH_LONG).show();});
-
-        AlertDialog dialogo = builder.create();
-        dialogo.show();
+                .setNegativeButton("Por ahora no", (dialog, id) -> {
+                    dialog.dismiss();
+                })
+                .create()
+                .show();
 
     }
 

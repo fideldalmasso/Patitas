@@ -98,11 +98,11 @@ public class BienvenidaFragment extends Fragment {
                             try {
                                 // Google Sign In was successful, authenticate with Firebase
                                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                                Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
+//                                Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
                                 firebaseAuthWithGoogle(account.getIdToken());
                             } catch (ApiException e) {
                                 // Google Sign In failed, update UI appropriately
-                                Log.w(TAG, "Google sign in failed", e);
+//                                Log.w(TAG, "Google sign in failed", e);
                             }
 
 
@@ -161,9 +161,9 @@ public class BienvenidaFragment extends Fragment {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            Toast.makeText(getContext(), "Usuario logueado con Google!! xd.",
-                                    Toast.LENGTH_LONG).show();
+                            FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
+                            if(usuario!=null)
+                                Toast.makeText(getContext(), "Bienvenido "+usuario.getDisplayName(), Toast.LENGTH_LONG).show();
                             Intent i = new Intent(getActivity(), MainActivity.class);
                             getActivity().finish();
                             startActivity(i);

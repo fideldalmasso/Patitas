@@ -127,7 +127,7 @@ public class MapsSimpleFragment extends Fragment {
 
         requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), isGranted -> {
         if (isGranted.containsValue(false)) {
-            Toast.makeText(getContext(),"No teni permisos",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),"Permisos rechazados",Toast.LENGTH_LONG).show();
         } else {
             moverMapaAUbicacionActual();
         }

@@ -81,9 +81,9 @@ public class IngresoActivity extends FragmentActivity {
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(currentUser != null){
-            Toast.makeText(this, "usuario logueado:"+currentUser.getEmail(), Toast.LENGTH_LONG).show();
+        FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
+        if(usuario != null){
+            Toast.makeText(this, "Bienvenido "+usuario.getDisplayName(), Toast.LENGTH_LONG).show();
             Intent i = new Intent(this, MainActivity.class);
             finish();
             startActivity(i);

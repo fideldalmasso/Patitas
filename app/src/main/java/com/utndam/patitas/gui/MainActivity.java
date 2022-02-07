@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -141,17 +142,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.tema_oscuro:{
 
-                //cambiar el tema
-                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                }
-
-                //reiniciar la actividad
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                pedirConfirmacionCambioTema();
 
                 return true;
             }
@@ -170,4 +161,39 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+    private void pedirConfirmacionCambioTema(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder
+                .setCancelable(false)
+                .setTitle("¿Cambiar de tema?")
+                .setMessage("La app se reiniciará")
+                .setPositiveButton("Continuar", (dialog, i) -> {
+                    dialog.dismiss();
+                    cambiarTema();
+                })
+                .setNegativeButton("Cancelar", (dialog, id) -> {
+                    dialog.dismiss();
+                })
+                .create()
+                .show();
+
+    }
+
+
+    private void cambiarTema(){
+        //cambiar el tema
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+
+        //reiniciar la actividad
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 }
