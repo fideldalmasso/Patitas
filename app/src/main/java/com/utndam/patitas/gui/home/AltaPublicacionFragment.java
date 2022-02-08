@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -24,6 +26,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.utndam.patitas.R;
 import com.utndam.patitas.gui.mapas.MapsSimpleFragment;
+import com.utndam.patitas.service.CloudStorageService;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +48,7 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
     MapsSimpleFragment mapaFrag;
     ImageView mImageView;
     String pathFoto;
+    Button buttonAltaPublicacion;
     private final ActivityResultLauncher<Uri> mTakePicture = registerForActivityResult(new ActivityResultContracts.TakePicture(), new ActivityResultCallback<Boolean>() {
         @Override
         public void onActivityResult(Boolean result) {
@@ -88,7 +92,14 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
                 //((MainActivity)getActivity()).getImagen();
             }
         });
-
+        buttonAltaPublicacion = view.findViewById(R.id.boton_alta);
+        buttonAltaPublicacion.setTag(this);
+        buttonAltaPublicacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new CloudStorageService().subirImagen((AltaPublicacionFragment) buttonAltaPublicacion.getTag(),mImageView, "damianlips" ,"abc");
+            }
+        });
 
         return view;
     }
@@ -165,6 +176,10 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
                     photoFile);
         }
         mTakePicture.launch(photoURI);
+    }
+
+    public void subirAFirestore(String url){
+        Toast.makeText(this.getActivity(), url, Toast.LENGTH_SHORT).show();
     }
 
 
