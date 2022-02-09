@@ -18,8 +18,12 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.utndam.patitas.R;
 import com.utndam.patitas.model.PublicacionModel;
+import com.utndam.patitas.model.UsuarioModel;
+import com.utndam.patitas.service.CloudFirestoreService;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -32,6 +36,7 @@ public class PublicacionCompletaFragment extends Fragment {
     public TextView soporte;
     public MaterialButton botonShare;
     public MaterialButton boton2;
+    ExtendedFloatingActionButton floatingActionButton;
 
 
 
@@ -81,7 +86,34 @@ public class PublicacionCompletaFragment extends Fragment {
         secundario = v.findViewById(R.id.card_completo_secundario);
         soporte = v.findViewById(R.id.card_completo_soporte);
         botonShare = v.findViewById(R.id.card_completo_boton1);
+
+        floatingActionButton = v.findViewById(R.id.fab2);
+        floatingActionButton.setTag(this);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UsuarioModel usuarioModel= new UsuarioModel();
+                usuarioModel.setTipoCuenta("Google");
+                usuarioModel.setId(null);
+                usuarioModel.setNombreCompleto("Juan Perez");
+                usuarioModel.setTelefono("4222222");
+                usuarioModel.setMail("juanperez@gmail.com");
+                usuarioModel.setFotoUrl(null);
+                CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
+                cloudFirestoreService.guardarUsuario(usuarioModel, (Fragment) floatingActionButton.getTag());
+            }
+        });
+
+
         boton2 = v.findViewById(R.id.card_completo_boton2);
+
+        boton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
+                cloudFirestoreService.buscarUsuario("juanperez@gmail.com","Google", (Fragment) floatingActionButton.getTag());
+            }
+        });
 
         imagen.setImageResource(item.pImagen);
         imagen.setTransitionName("transicion_imagen");

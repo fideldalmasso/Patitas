@@ -24,7 +24,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CloudStorageService {
-    public CloudStorageService(){}
+
+    FirebaseStorage storage;
+    public CloudStorageService(){
+        storage = FirebaseStorage.getInstance();
+
+    }
 
     public void setImagen(ImageView imageView, String url, Context context){
         // Reference to an image file in Cloud Storage
@@ -49,7 +54,7 @@ public class CloudStorageService {
                 .format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
 
-        StorageReference ref = FirebaseStorage.getInstance().getReference()
+        StorageReference ref = storage.getReference()
                 .child("images/" + idUsuario + "/" + timeStamp + "1" + ".jpg");
 
         UploadTask uploadTask = ref.putBytes(data);
