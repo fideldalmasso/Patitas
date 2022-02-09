@@ -2,7 +2,7 @@ package com.utndam.patitas.gui.ingreso;
 
 import android.text.TextWatcher;
 
-interface AfterTextChangedTextWatcher extends TextWatcher
+public interface AfterTextChangedTextWatcher extends TextWatcher
 {
     @Override
     public default void beforeTextChanged(CharSequence s, int start, int count, int after) {}

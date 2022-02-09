@@ -14,11 +14,13 @@
         android:orientation="vertical"
         android:padding="16dp"
         android:showDividers="middle"
-        android:divider="@drawable/empty_tall_divider">
+        android:divider="@drawable/empty_tall_divider"
+        >
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/menu_publicaciones"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            app:errorEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Tipo de publicación*"
@@ -29,7 +31,7 @@
                 android:id="@+id/menu_publicaciones_texto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none" />
+                android:inputType="none"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -38,6 +40,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:errorEnabled="true"
             android:hint="Tipo de animal*"
             app:helperText="@string/requerido"
             >
@@ -54,8 +57,10 @@
             android:id="@+id/titulo_publicacion_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:errorEnabled="true"
             android:hint="Título de la publicación"
-            app:helperText="@string/requerido">
+            app:helperText="@string/requerido"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/titulo_publicacion_edit"
@@ -69,8 +74,8 @@
             android:id="@+id/descripcion_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Descripción de la publicación"
             app:errorEnabled="true"
+            android:hint="Descripción de la publicación"
             app:helperText="@string/requerido">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -85,6 +90,7 @@
 
         <TextView
             android:id="@+id/titulo_imagen"
+            app:errorEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -95,7 +101,18 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="190dp"/>
+            android:layout_height="190dp"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/imageHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            android:gravity="center"
+            app:helperText="  Requerido*\n  Puede agregar hasta 3 imagenes"
+            >
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/titulo_ubicacion"

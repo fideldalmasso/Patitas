@@ -11,6 +11,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
@@ -19,12 +20,17 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.utndam.patitas.R;
+import com.utndam.patitas.gui.ingreso.AfterTextChangedTextWatcher;
 import com.utndam.patitas.gui.mapas.MapsSimpleFragment;
 import com.utndam.patitas.service.CloudStorageService;
 
@@ -42,11 +48,19 @@ public class AltaPublicacionFragment extends Fragment {
 val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
 (textField.editText as? AutoCompleteTextView)?.setAdapter(adapter)
      */
-    AutoCompleteTextView tipoPublicacion;
-    AutoCompleteTextView tipoAnimal;
+    TextInputLayout tipoPublicacion;
+    TextInputLayout tipoAnimal;
+    AutoCompleteTextView tipoPublicacionEdit;
+    AutoCompleteTextView tipoAnimalEdit;
+    TextInputLayout tituloPublicacionInput;
+    TextInputLayout descripcionPublicacionInput;
+    TextInputEditText tituloPublicacionEdit;
+    TextInputEditText descripcionPublicacionEdit;
     FragmentManager fragmentManager;
     MapsSimpleFragment mapaFrag;
+    TextView tituloImagen;
     ImageView mImageView;
+    TextInputLayout imageHint;
     String pathFoto;
     Button buttonAltaPublicacion;
     private final ActivityResultLauncher<Uri> mTakePicture = registerForActivityResult(new ActivityResultContracts.TakePicture(), new ActivityResultCallback<Boolean>() {
@@ -62,8 +76,10 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
     private final ActivityResultLauncher<String> mPickPicture = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
         @Override
         public void onActivityResult(Uri result) {
-            if(result!=null)
+            if(result!=null) {
+                mImageView.setTag(true);
                 mImageView.setImageURI(result);
+            }
         }
     });
 
@@ -79,25 +95,95 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
         }
         else view.setBackgroundColor(getResources().getColor(R.color.white, getActivity().getTheme()));
 
-        tipoPublicacion = view.findViewById(R.id.menu_publicaciones_texto);
-        tipoAnimal = view.findViewById(R.id.menu_animal_texto);
-        tipoPublicacion.setAdapter(ArrayAdapter.createFromResource(requireContext(),R.array.tipos_de_publicacion,R.layout.support_simple_spinner_dropdown_item));
-        tipoAnimal.setAdapter(ArrayAdapter.createFromResource(requireContext(),R.array.tipos_de_animal,R.layout.support_simple_spinner_dropdown_item));
+        tipoPublicacion = view.findViewById(R.id.menu_publicaciones);
+        tipoPublicacionEdit = view.findViewById(R.id.menu_publicaciones_texto);
+        tipoAnimal = view.findViewById(R.id.menu_animal);
+        tipoAnimalEdit = view.findViewById(R.id.menu_animal_texto);
+        tipoPublicacionEdit.setAdapter(ArrayAdapter.createFromResource(requireContext(),R.array.tipos_de_publicacion,R.layout.support_simple_spinner_dropdown_item));
+        tipoAnimalEdit.setAdapter(ArrayAdapter.createFromResource(requireContext(),R.array.tipos_de_animal,R.layout.support_simple_spinner_dropdown_item));
+        tituloPublicacionInput = view.findViewById(R.id.titulo_publicacion_input);
+        tituloPublicacionEdit = view.findViewById(R.id.titulo_publicacion_edit);
+        descripcionPublicacionInput = view.findViewById(R.id.descripcion_input);
+        descripcionPublicacionEdit = view.findViewById(R.id.descripcion_edit);
+        tituloImagen = view.findViewById(R.id.titulo_imagen);
         mImageView = view.findViewById(R.id.imageView);
         mImageView.setImageResource(R.drawable.outline_add_photo_alternate_24);
+        mImageView.setTag(false);
+        imageHint = view.findViewById(R.id.imageHint);
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 showBottomSheetDialog();
                 //((MainActivity)getActivity()).getImagen();
             }
         });
+
+
+        tipoPublicacionEdit.addTextChangedListener((AfterTextChangedTextWatcher) e ->{
+            tipoPublicacion.setError(null);
+        });
+        tipoAnimalEdit.addTextChangedListener((AfterTextChangedTextWatcher) e ->{
+            tipoAnimal.setError(null);
+        });
+        tituloPublicacionEdit.addTextChangedListener((AfterTextChangedTextWatcher) e ->{
+            tituloPublicacionInput.setError(null);
+        });
+        descripcionPublicacionEdit.addTextChangedListener((AfterTextChangedTextWatcher) e ->{
+            descripcionPublicacionInput.setError(null);
+        });
+
+
+
         buttonAltaPublicacion = view.findViewById(R.id.boton_alta);
         buttonAltaPublicacion.setTag(this);
         buttonAltaPublicacion.setOnClickListener(new View.OnClickListener() {
             @Override
+//            public void onClick(View view) {
+//                new CloudStorageService().subirImagen((AltaPublicacionFragment) buttonAltaPublicacion.getTag(),mImageView, "damianlips" ,"abc");
+//            }
             public void onClick(View view) {
-                new CloudStorageService().subirImagen((AltaPublicacionFragment) buttonAltaPublicacion.getTag(),mImageView, "damianlips" ,"abc");
+                boolean todoOk=true;
+
+                if(tipoPublicacionEdit.getText().toString().isEmpty()){
+                    tipoPublicacion.setErrorEnabled(true);
+                    tipoPublicacion.setError("Selecciona uno de los 4 tipos.");
+                    todoOk=false;
+                }
+                if(tipoAnimalEdit.getText().toString().isEmpty()){
+                    tipoAnimal.setErrorEnabled(true);
+                    tipoAnimal.setError("Selecciona un tipo de animal.");
+                    todoOk=false;
+                }
+
+                if(tituloPublicacionEdit.getText().toString().isEmpty()) {
+                    tituloPublicacionInput.setErrorEnabled(true);
+                    tituloPublicacionInput.setError("El titulo no puede estar vacio.");
+                    todoOk=false;
+                }
+                if(descripcionPublicacionEdit.getText().toString().isEmpty()) {
+                    descripcionPublicacionInput.setErrorEnabled(true);
+                    descripcionPublicacionInput.setError("La descripcion no puede estar vacia. (en realidad si)");
+                    todoOk = false;
+                }
+                if(mImageView.getTag().equals(false)){
+                    imageHint.setError("No ha seleccionado una imagen");
+                    tituloImagen.setError("Imagen no seleccionada");
+                    todoOk = false;
+                }
+                else {
+                    tituloImagen.setError(null, null);
+                    imageHint.setError(null);
+                }
+                if(todoOk) {
+                    Toast toast =  Toast.makeText(getContext(), "Publicacion creada", Toast.LENGTH_LONG);
+                    toast.show();
+                    new CloudStorageService().subirImagen((AltaPublicacionFragment) buttonAltaPublicacion.getTag(),mImageView, "damianlips" ,"abc");
+               }
+                else {
+                    Toast toast =  Toast.makeText(getContext(), "Contiene errores", Toast.LENGTH_LONG);
+                    toast.show();
+                }
             }
         });
 
@@ -174,6 +260,7 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
             photoURI = FileProvider.getUriForFile(getActivity(),
                     "com.utndam.patitas",
                     photoFile);
+            mImageView.setTag(true);
         }
         mTakePicture.launch(photoURI);
     }
