@@ -56,6 +56,7 @@ public class CloudFirestoreService {
     public void buscarUsuario(String mail, String tipoCuenta, Fragment fragment){
         db.collection("usuarios")
                 .whereEqualTo("tipoCuenta", tipoCuenta)
+                .whereEqualTo("mail", mail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
