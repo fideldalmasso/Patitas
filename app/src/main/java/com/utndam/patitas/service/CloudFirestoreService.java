@@ -96,6 +96,7 @@ public class CloudFirestoreService {
     public void buscarUsuario(String mail, String tipoCuenta, MainActivity mainActivity){
         db.collection("usuarios")
                 .whereEqualTo("tipoCuenta", tipoCuenta)
+                .whereEqualTo("mail", mail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -159,7 +160,7 @@ public class CloudFirestoreService {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
+                        fragment.notificarExito();
                         //Toast.makeText(fragment.getActivity(), "DocumentSnapshot successfully written!", Toast.LENGTH_LONG).show();
                     }
                 })
