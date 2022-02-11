@@ -19,6 +19,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.utndam.patitas.R;
+import com.utndam.patitas.gui.busqueda.BusquedaFragment;
 import com.utndam.patitas.gui.home.HomeFragment;
 import com.utndam.patitas.gui.ingreso.IngresoActivity;
 import com.utndam.patitas.gui.mensajes.MisMensajesFragment;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private NavigationBarView barraInferior;
     private FragmentManager fragmentManager;
     private HomeFragment homeFrag;
+    private BusquedaFragment busquedaFrag;
     private BlankFragment blankFrag;
     private MisMensajesFragment mensajesFrag;
     private int pantallaActual;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         //cargar fragmentos
         homeFrag = HomeFragment.newInstance(2);
+        busquedaFrag = new BusquedaFragment();
         blankFrag = new BlankFragment();
         mensajesFrag = new MisMensajesFragment();
 
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.boton_buscar:
                         barraSuperior.setTitle("Buscar");
                         fragmentManager.beginTransaction()
-                                .replace(R.id.contenedor_fragmento,blankFrag)
+                                .replace(R.id.contenedor_fragmento, busquedaFrag)
                                 .commit();
                         break;
                     case R.id.boton_chats:
