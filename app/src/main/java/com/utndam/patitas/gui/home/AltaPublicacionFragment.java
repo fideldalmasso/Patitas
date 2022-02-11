@@ -1,8 +1,10 @@
 package com.utndam.patitas.gui.home;
 
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,8 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -70,7 +74,14 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
         @Override
         public void onActivityResult(Boolean result) {
             if(result){
-                mImageView.setImageURI(photoURI);
+                //mImageView.setImageURI(photoURI);
+                RequestOptions myOptions = new RequestOptions()
+                        .override(dpAPixel(190), dpAPixel(190));
+                Glide.with(getContext())
+                        .asBitmap()
+                        .apply(myOptions)
+                        .load(photoURI)
+                        .into(mImageView);
             }
 
         }
@@ -80,8 +91,17 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
         @Override
         public void onActivityResult(Uri result) {
             if(result!=null) {
+
                 mImageView.setTag(true);
-                mImageView.setImageURI(result);
+                RequestOptions myOptions = new RequestOptions()
+                        .override(dpAPixel(190), dpAPixel(190));
+                Glide.with(getContext())
+                        .asBitmap()
+                        .apply(myOptions)
+                        .load(result)
+                        .into(mImageView);
+
+                //mImageView.setImageURI(result);
             }
         }
     });
@@ -297,7 +317,16 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
         Toast.makeText(this.getActivity(), "Publicacion creada", Toast.LENGTH_LONG).show();
     }
 
-
+    private int dpAPixel(int dp){
+        float dip = (float)dp;
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dip,
+                r.getDisplayMetrics()
+        );
+        return (int)px;
+    }
 
 
 }
