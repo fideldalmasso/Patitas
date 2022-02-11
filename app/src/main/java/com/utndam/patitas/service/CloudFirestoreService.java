@@ -1,5 +1,6 @@
 package com.utndam.patitas.service;
 
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,14 +13,21 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.utndam.patitas.gui.MainActivity;
+import com.utndam.patitas.gui.busqueda.BusquedaFragment;
 import com.utndam.patitas.gui.home.AltaPublicacionFragment;
 import com.utndam.patitas.model.PublicacionModel;
 import com.utndam.patitas.model.UsuarioModel;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CloudFirestoreService {
 
@@ -161,9 +169,104 @@ public class CloudFirestoreService {
                     }
                 });
     }
-/*
-    public void buscarPublicaciones(String idUsuario, Fragment fragment){
+
+    public void buscarPublicaciones(String tipoPublicacion, String tipoAnimal, BusquedaFragment busquedaFragment){
+        // Create a reference to the cities collection
+        CollectionReference publicacionesRef = db.collection("publicaciones");
+        if(tipoPublicacion==null && tipoAnimal==null){
+            publicacionesRef.get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                ArrayList<PublicacionModel> lista;
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    lista = (ArrayList<PublicacionModel>) task.getResult().getDocuments().stream()
+                                            .map( p -> armarPublicacion((QueryDocumentSnapshot) p))
+                                            .collect(Collectors.toList());
+                                }
+                                else{
+                                    lista = new ArrayList<PublicacionModel>();
+                                    for (QueryDocumentSnapshot p : task.getResult()) {
+                                        lista.add(armarPublicacion(p));
+                                    }
+                                }
+                                busquedaFragment.resultadoQuery(lista);
+
+                            } else {
+                                //Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
+        else {
+            Query query;
+            if(tipoPublicacion!=null){
+                query = publicacionesRef.whereEqualTo("tipoPublicacion",tipoPublicacion);
+                if(tipoAnimal!=null)
+                    query.whereEqualTo("tipoAnimal",tipoAnimal);
+            }
+            else query = publicacionesRef.whereEqualTo("tipoAnimal",tipoAnimal);
+
+            query.get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        ArrayList<PublicacionModel> lista;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            lista = (ArrayList<PublicacionModel>) task.getResult().getDocuments().stream()
+                                    .map( p -> armarPublicacion((QueryDocumentSnapshot) p))
+                                    .collect(Collectors.toList());
+                        }
+                        else{
+                            lista = new ArrayList<PublicacionModel>();
+                            for (QueryDocumentSnapshot p : task.getResult()) {
+                                lista.add(armarPublicacion(p));
+                            }
+                        }
+                        busquedaFragment.resultadoQuery(lista);
+
+                    } else {
+                        //Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        /*
+        db.collection("cities")
+        .whereEqualTo("capital", true)
+        .get()
+        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+         */
 
     }
-*/
+
+    private PublicacionModel armarPublicacion(QueryDocumentSnapshot p){
+        PublicacionModel publicacionModel = new PublicacionModel();
+        publicacionModel.setIdUsuario(p.getString("idUsuario"));
+        publicacionModel.setpTitulo(p.getString("pTitulo"));
+        publicacionModel.setUrlImagen(p.getString("urlImagen"));
+        publicacionModel.setId(p.getId());
+        publicacionModel.setDescripcion(p.getString("descripcion"));
+        publicacionModel.setTipoAnimal(p.getString("tipoAnimal"));
+        publicacionModel.setTipoPublicacion(p.getString("tipoPublicacion"));
+        publicacionModel.setFecha(p.getDate("fecha"));
+        publicacionModel.setLongitud(p.getDouble("longitud"));
+        publicacionModel.setLatitud(p.getDouble("latitud"));
+        return publicacionModel;
+    }
+
 }

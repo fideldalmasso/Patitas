@@ -94,7 +94,7 @@ public class BusquedaFragment extends Fragment {
         return view;
     }
 
-    private ArrayList<PublicacionModel> resultadoQuery(ArrayList<PublicacionModel> publis) {
+    public ArrayList<PublicacionModel> resultadoQuery(ArrayList<PublicacionModel> publis) {
         ArrayList<PublicacionModel> aux = new ArrayList<PublicacionModel>();
         return aux;
     }
