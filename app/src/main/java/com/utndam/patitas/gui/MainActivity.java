@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -16,6 +18,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.utndam.patitas.R;
@@ -24,20 +27,23 @@ import com.utndam.patitas.gui.home.HomeFragment;
 import com.utndam.patitas.gui.ingreso.IngresoActivity;
 import com.utndam.patitas.gui.mensajes.MisMensajesFragment;
 import com.utndam.patitas.model.UsuarioModel;
-import com.utndam.patitas.service.CloudFirestoreService;
 
 
 public class MainActivity extends AppCompatActivity {
 
 
     private MaterialToolbar barraSuperior;
-    private DrawerLayout drawer;
+    private DrawerLayout drawerLayout;
     private NavigationBarView barraInferior;
     private FragmentManager fragmentManager;
     private HomeFragment homeFrag;
     private BusquedaFragment busquedaFrag;
     private BlankFragment blankFrag;
     private MisMensajesFragment mensajesFrag;
+    private TextView drawerEmailUsuario;
+    private TextView drawerNombreCompletoUsuario;
+
+
     private int pantallaActual;
     public UsuarioModel usuarioModel;
 
@@ -77,8 +83,14 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(barraSuperior);
 
         //drawer
-        drawer = findViewById(R.id.drawer_layout);
-        barraSuperior.setNavigationOnClickListener(v -> drawer.openDrawer(Gravity.LEFT));
+        {
+            drawerLayout = findViewById(R.id.drawer_layout);
+            barraSuperior.setNavigationOnClickListener(v -> drawerLayout.openDrawer(Gravity.LEFT));
+            NavigationView drawer = findViewById(R.id.left_drawer);
+            View drawerHeader = drawer.getHeaderView(0);
+            drawerNombreCompletoUsuario = drawerHeader.findViewById(R.id.nombre_completo_usuario);
+            drawerEmailUsuario = drawerHeader.findViewById(R.id.email_usuario);
+        }
 
         //barra inferior
         barraInferior = findViewById(R.id.bottom_toolbar);
@@ -132,11 +144,24 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
-        FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
-        cloudFirestoreService.buscarUsuario(usuario.getEmail(),usuario.getProviderId(),this);
+
+        cargarDatosUsuario();
+    }
+
+    public void cargarDatosUsuario(){
+
+       new Thread(() -> {
+           FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
+//           CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
+//           cloudFirestoreService.buscarUsuario(usuario.getEmail(),usuario.getProviderId(),MainActivity.this);
+           MainActivity.this.runOnUiThread(() -> {
+               drawerNombreCompletoUsuario.setText(usuario.getDisplayName());
+               drawerEmailUsuario.setText(usuario.getEmail());
+           });
+       }).start();
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
