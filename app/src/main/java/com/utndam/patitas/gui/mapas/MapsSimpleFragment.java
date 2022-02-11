@@ -181,6 +181,13 @@ public class MapsSimpleFragment extends Fragment {
 
     }
 
+    public LatLng getUbicacionElegida() {
+        return ubicacionElegida;
+    }
+
+    public void setUbicacionElegida(LatLng ubicacionElegida) {
+        this.ubicacionElegida = ubicacionElegida;
+    }
 
     private Boolean tienePermisoAcceso(){
         return (Build.VERSION.SDK_INT < Build.VERSION_CODES.M

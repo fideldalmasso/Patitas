@@ -17,6 +17,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.utndam.patitas.gui.MainActivity;
+import com.utndam.patitas.gui.home.AltaPublicacionFragment;
+import com.utndam.patitas.model.PublicacionModel;
 import com.utndam.patitas.model.UsuarioModel;
 
 public class CloudFirestoreService {
@@ -141,4 +143,27 @@ public class CloudFirestoreService {
                 });
     }
 
+
+    public void guardarPublicacion(PublicacionModel publicacionModel, AltaPublicacionFragment fragment){
+        DocumentReference newPublicationRef = db.collection("publicaciones").document();
+        newPublicationRef.set(publicacionModel)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        //Toast.makeText(fragment.getActivity(), "DocumentSnapshot successfully written!", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(fragment.getActivity(), "Error writing document" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+/*
+    public void buscarPublicaciones(String idUsuario, Fragment fragment){
+
+    }
+*/
 }

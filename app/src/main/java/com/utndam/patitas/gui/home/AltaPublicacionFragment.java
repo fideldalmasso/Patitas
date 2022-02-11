@@ -30,8 +30,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.utndam.patitas.R;
+import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.gui.ingreso.AfterTextChangedTextWatcher;
 import com.utndam.patitas.gui.mapas.MapsSimpleFragment;
+import com.utndam.patitas.model.PublicacionModel;
+import com.utndam.patitas.service.CloudFirestoreService;
 import com.utndam.patitas.service.CloudStorageService;
 
 import java.io.File;
@@ -176,9 +179,7 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
                     imageHint.setError(null);
                 }
                 if(todoOk) {
-                    Toast toast =  Toast.makeText(getContext(), "Publicacion creada", Toast.LENGTH_LONG);
-                    toast.show();
-                    new CloudStorageService().subirImagen((AltaPublicacionFragment) buttonAltaPublicacion.getTag(),mImageView, "damianlips" ,"abc");
+                    new CloudStorageService().subirImagen((AltaPublicacionFragment) buttonAltaPublicacion.getTag(),mImageView, ((MainActivity)getActivity()).usuarioModel.getMail() ,((MainActivity)getActivity()).usuarioModel.getId());
                }
                 else {
                     Toast toast =  Toast.makeText(getContext(), "Contiene errores", Toast.LENGTH_LONG);
@@ -266,7 +267,34 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
     }
 
     public void subirAFirestore(String url){
-        Toast.makeText(this.getActivity(), url, Toast.LENGTH_SHORT).show();
+        PublicacionModel publicacionModel = new PublicacionModel();
+        publicacionModel.setId(null);
+        publicacionModel.setTipoPublicacion(tipoPublicacionEdit.getText().toString());
+        publicacionModel.setTipoAnimal(tipoAnimalEdit.getText().toString());
+        publicacionModel.setpTitulo(tituloPublicacionEdit.getText().toString());
+        publicacionModel.setDescripcion(descripcionPublicacionEdit.getText().toString());
+        publicacionModel.setUrlImagen(url);
+        publicacionModel.setLatitud(mapaFrag.getUbicacionElegida().latitude);
+        publicacionModel.setLongitud(mapaFrag.getUbicacionElegida().longitude);
+
+        publicacionModel.setIdUsuario(((MainActivity)getActivity()).usuarioModel.getId());
+
+        publicacionModel.setpImagen(0);
+        publicacionModel.setpSecundario(null);
+        publicacionModel.setpSoporte(null);
+
+        if(((MainActivity)getActivity()).usuarioModel.getId()==null) {
+            Toast.makeText(this.getActivity(), "Usuario invalido", Toast.LENGTH_LONG).show();
+        }
+        else {
+            CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
+            cloudFirestoreService.guardarPublicacion(publicacionModel,this);
+        }
+
+    }
+
+    public void notificarExito(){
+        Toast.makeText(this.getActivity(), "Publicacion creada", Toast.LENGTH_LONG).show();
     }
 
 
