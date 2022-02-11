@@ -17,10 +17,13 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.utndam.patitas.R;
 import com.utndam.patitas.gui.home.HomeFragment;
 import com.utndam.patitas.gui.ingreso.IngresoActivity;
 import com.utndam.patitas.gui.mensajes.MisMensajesFragment;
+import com.utndam.patitas.model.UsuarioModel;
+import com.utndam.patitas.service.CloudFirestoreService;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private BlankFragment blankFrag;
     private MisMensajesFragment mensajesFrag;
     private int pantallaActual;
+    public UsuarioModel usuarioModel;
 
 
     @Override
@@ -125,8 +129,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-
+        CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
+        FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
+        cloudFirestoreService.buscarUsuario(usuario.getEmail(),usuario.getProviderId(),this);
 
     }
 
@@ -196,4 +201,7 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    public void setUsuarioModel(UsuarioModel usuarioModel) {
+        this.usuarioModel = usuarioModel;
+    }
 }
