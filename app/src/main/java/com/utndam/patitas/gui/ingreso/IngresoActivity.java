@@ -1,10 +1,15 @@
 package com.utndam.patitas.gui.ingreso;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -13,10 +18,13 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.utndam.patitas.R;
 import com.utndam.patitas.gui.MainActivity;
+import com.utndam.patitas.gui.mapas.ElegirUbicacionActivity;
+import com.utndam.patitas.model.UsuarioActual;
 
 public class IngresoActivity extends FragmentActivity {
 
@@ -37,6 +45,8 @@ public class IngresoActivity extends FragmentActivity {
      * The pager adapter, which provides the pages to the view pager widget.
      */
     private FragmentStateAdapter pagerAdapter;
+    private ActivityResultLauncher<Intent> abrirMapaCompletoLauncher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +62,6 @@ public class IngresoActivity extends FragmentActivity {
         viewPager.setAdapter(pagerAdapter);
 
 
-        viewPager.setUserInputEnabled(true);
-
         viewPager.setUserInputEnabled(false);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -63,6 +71,51 @@ public class IngresoActivity extends FragmentActivity {
 
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         Log.d(null,"xd");
+
+
+        abrirMapaCompletoLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (result.getResultCode() == Activity.RESULT_OK) {
+                                    Intent data = result.getData();
+                                    LatLng pos = new LatLng(
+                                            data.getDoubleExtra("lat",0.0),
+                                            data.getDoubleExtra("lng",0.0));
+                                    UsuarioActual.getInstance().setUbicacionActual(pos);
+                                    lanzarMainActivity();
+                                }else{
+                                    IngresoActivity.this.finish();
+                                }
+                            }
+                        });
+
+                    }
+                });
+
+
+        FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
+        if(usuario != null){
+            Toast.makeText(this, "Bienvenido "+usuario.getDisplayName(), Toast.LENGTH_LONG).show();
+            pedirUbicacion();
+        }
+
+    }
+
+    private void lanzarMainActivity() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        IngresoActivity.this.finish();
+    }
+
+    public void reiniciarActivity(){
+        Intent i = getIntent();
+        startActivity(i);
+        IngresoActivity.this.finish();
     }
 
     @Override
@@ -78,16 +131,12 @@ public class IngresoActivity extends FragmentActivity {
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
-        if(usuario != null){
-            Toast.makeText(this, "Bienvenido "+usuario.getDisplayName(), Toast.LENGTH_LONG).show();
-            Intent i = new Intent(this, MainActivity.class);
-            finish();
-            startActivity(i);
-        }
+
+
+    public void pedirUbicacion(){
+        Intent i = new Intent(this, ElegirUbicacionActivity.class);
+//        i.putExtra("allowBack",false);
+        abrirMapaCompletoLauncher.launch(i);
     }
 
 

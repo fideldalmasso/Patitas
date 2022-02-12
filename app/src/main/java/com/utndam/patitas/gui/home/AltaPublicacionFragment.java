@@ -36,6 +36,7 @@ import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.gui.ingreso.AfterTextChangedTextWatcher;
 import com.utndam.patitas.gui.mapas.MapsSimpleFragment;
 import com.utndam.patitas.model.PublicacionModel;
+import com.utndam.patitas.model.UsuarioActual;
 import com.utndam.patitas.service.CloudFirestoreService;
 import com.utndam.patitas.service.CloudStorageService;
 
@@ -68,6 +69,9 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
     TextInputLayout imageHint;
     String pathFoto;
     Button buttonAltaPublicacion;
+
+    UsuarioActual usuarioActual;
+
     private final ActivityResultLauncher<Uri> mTakePicture = registerForActivityResult(new ActivityResultContracts.TakePicture(), new ActivityResultCallback<Boolean>() {
         @Override
         public void onActivityResult(Boolean result) {
@@ -198,7 +202,12 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
                     imageHint.setError(null);
                 }
                 if(todoOk) {
-                    new CloudStorageService().subirImagen((AltaPublicacionFragment) buttonAltaPublicacion.getTag(),mImageView, ((MainActivity)getActivity()).usuarioModel.getMail() ,((MainActivity)getActivity()).usuarioModel.getId());
+
+                    new CloudStorageService()
+                            .subirImagen((AltaPublicacionFragment) buttonAltaPublicacion.getTag(),
+                                    mImageView,
+                                    usuarioActual.getMail() ,
+                                    usuarioActual.getId());
                }
                 else {
                     Toast toast =  Toast.makeText(getContext(), "Contiene errores", Toast.LENGTH_LONG);
@@ -219,6 +228,7 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        usuarioActual = UsuarioActual.getInstance();
         mapaFrag = new MapsSimpleFragment();
         fragmentManager = getChildFragmentManager();
         fragmentManager.beginTransaction()
@@ -302,11 +312,11 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
         publicacionModel.setLatitud(mapaFrag.getUbicacionElegida().latitude);
         publicacionModel.setLongitud(mapaFrag.getUbicacionElegida().longitude);
 
-        publicacionModel.setIdUsuario(((MainActivity)getActivity()).usuarioModel.getId());
+        publicacionModel.setIdUsuario(usuarioActual.getId());
 
 
 
-        if(((MainActivity)getActivity()).usuarioModel.getId()==null) {
+        if(usuarioActual.getId()==null) {
             Toast.makeText(this.getActivity(), "Usuario invalido", Toast.LENGTH_LONG).show();
         }
         else {

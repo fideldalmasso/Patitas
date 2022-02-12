@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,7 +29,6 @@ import com.utndam.patitas.gui.busqueda.BusquedaFragment;
 import com.utndam.patitas.gui.home.HomeFragment;
 import com.utndam.patitas.gui.ingreso.IngresoActivity;
 import com.utndam.patitas.gui.mensajes.MisMensajesFragment;
-import com.utndam.patitas.model.UsuarioModel;
 import com.utndam.patitas.service.CloudFirestoreService;
 
 
@@ -45,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
     private MisMensajesFragment mensajesFrag;
     private TextView drawerEmailUsuario;
     private TextView drawerNombreCompletoUsuario;
-
+    private ImageView drawerFotoUsuario;
 
     private int pantallaActual;
-    public UsuarioModel usuarioModel;
+//    public UsuarioModel usuarioModel;
 
 
     @Override
@@ -105,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
         View drawerHeader = drawer.getHeaderView(0);
         drawerNombreCompletoUsuario = drawerHeader.findViewById(R.id.nombre_completo_usuario);
         drawerEmailUsuario = drawerHeader.findViewById(R.id.email_usuario);
+        drawerFotoUsuario = drawerHeader.findViewById(R.id.foto_usuario);
+
 //        drawer.setBackgroundColor(R.attr.background);
 //        drawerHeader.setBackgroundColor(R.attr.background);
 
@@ -174,6 +176,8 @@ public class MainActivity extends AppCompatActivity {
            MainActivity.this.runOnUiThread(() -> {
                drawerNombreCompletoUsuario.setText(usuario.getDisplayName());
                drawerEmailUsuario.setText(usuario.getEmail());
+               //falta cargar imagen de usuario con URL y setearla en drawerFotoUsuario
+
            });
        }).start();
 
@@ -248,9 +252,9 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    public void setUsuarioModel(UsuarioModel usuarioModel) {
-        this.usuarioModel = usuarioModel;
-    }
+//    public void setUsuarioModel(UsuarioModel usuarioModel) {
+//        this.usuarioModel = usuarioModel;
+//    }
 
     public void cambiarTextoBarraSuperior(String texto){
         if(!TextUtils.isEmpty(texto) && texto.length()>0)

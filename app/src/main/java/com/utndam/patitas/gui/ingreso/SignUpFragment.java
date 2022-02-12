@@ -1,6 +1,5 @@
 package com.utndam.patitas.gui.ingreso;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.telephony.PhoneNumberUtils;
@@ -23,7 +22,6 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.utndam.patitas.databinding.FragmentSignUpBinding;
-import com.utndam.patitas.gui.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -187,8 +185,10 @@ public class SignUpFragment extends Fragment {
                         }
                     });
         }
-        cambiarAMainActivity();
+//        cambiarAMainActivity();
+        ((IngresoActivity)getActivity()).reiniciarActivity();
     }
+
 
     private boolean nombreValido(CharSequence nombre) {
         return (!TextUtils.isEmpty(nombre) && nombre.length()<=32 && nombre.toString().matches("[a-zA-Z ]+ [a-zA-Z ]+"));
@@ -251,11 +251,11 @@ public class SignUpFragment extends Fragment {
         // [END create_user_with_email]
     }
 
-    private void cambiarAMainActivity() {
-        Intent i = new Intent(getActivity(), MainActivity.class);
-        getActivity().finish();
-        startActivity(i);
-    }
+//    private void cambiarAMainActivity() {
+//        Intent i = new Intent(getActivity(), MainActivity.class);
+//        getActivity().finish();
+//        startActivity(i);
+//    }
 
 
 }

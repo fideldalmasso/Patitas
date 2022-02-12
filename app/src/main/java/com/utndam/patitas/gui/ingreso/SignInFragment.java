@@ -20,7 +20,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.utndam.patitas.databinding.FragmentSignInBinding;
-import com.utndam.patitas.gui.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -151,9 +150,10 @@ public class SignInFragment extends Fragment {
                             FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
                             if(usuario!=null)
                                 Toast.makeText(getContext(), "Bienvenido "+usuario.getDisplayName(), Toast.LENGTH_LONG).show();
-                            Intent i = new Intent(getActivity(), MainActivity.class);
-                            getActivity().finish();
-                            startActivity(i);
+//                            Intent i = new Intent(getActivity(), MainActivity.class);
+//                            getActivity().finish();
+//                            startActivity(i);
+                            ((IngresoActivity)getActivity()).reiniciarActivity();
 //                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.

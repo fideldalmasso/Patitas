@@ -22,6 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.gui.home.AltaPublicacionFragment;
 import com.utndam.patitas.model.PublicacionModel;
+import com.utndam.patitas.model.UsuarioActual;
 import com.utndam.patitas.model.UsuarioModel;
 
 import java.util.ArrayList;
@@ -154,7 +155,8 @@ public class CloudFirestoreService {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
                                                 usuarioModel.setId(documentReference.getId());
-                                                mainActivity.setUsuarioModel(usuarioModel);
+//                                                mainActivity.setUsuarioModel(usuarioModel);
+                                                UsuarioActual.getInstance().copiar(usuarioModel); // ----> es preferible usar este Singleton
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -177,7 +179,8 @@ public class CloudFirestoreService {
                                 usuarioModel.setTelefono(document.getString("telefono"));
                                 usuarioModel.setNombreCompleto(document.getString("nombreCompleto"));
                                 usuarioModel.setTipoCuenta(document.getString("tipoCuenta"));
-                                mainActivity.setUsuarioModel(usuarioModel);
+//                                mainActivity.setUsuarioModel(usuarioModel);
+                                UsuarioActual.getInstance().copiar(usuarioModel); // ----> es preferible usar este Singleton
                                 //Toast.makeText(mainActivity, usuarioModel.toString(), Toast.LENGTH_LONG).show();
                             }
 
