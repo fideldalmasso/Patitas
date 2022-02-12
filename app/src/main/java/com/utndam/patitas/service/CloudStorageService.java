@@ -36,9 +36,13 @@ public class CloudStorageService {
         StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(url);
         // Download directly from StorageReference using Glide
         // (See MyAppGlideModule for Loader registration)
-        Glide.with(context /* context */)
-             .load(storageReference)
-             .into(imageView);
+        GlideApp.with(context)
+                .load(storageReference)
+                .into(imageView);
+
+        //Glide.with(context /* context */)
+         //    .load(storageReference)
+          //   .into(imageView);
     }
 
     public void subirImagen(AltaPublicacionFragment altaPublicacionFragment, ImageView imageView, String nombreUsuario, String idUsuario){
