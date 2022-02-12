@@ -310,6 +310,7 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
             Toast.makeText(this.getActivity(), "Usuario invalido", Toast.LENGTH_LONG).show();
         }
         else {
+
             CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
             cloudFirestoreService.guardarPublicacion(publicacionModel,this);
         }

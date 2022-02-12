@@ -208,7 +208,7 @@ public class CloudFirestoreService {
             if(tipoPublicacion!=null){
                 query = publicacionesRef.whereEqualTo("tipoPublicacion",tipoPublicacion);
                 if(tipoAnimal!=null)
-                    query.whereEqualTo("tipoAnimal",tipoAnimal);
+                    query = query.whereEqualTo("tipoAnimal",tipoAnimal);
             }
             else query = publicacionesRef.whereEqualTo("tipoAnimal",tipoAnimal);
 
