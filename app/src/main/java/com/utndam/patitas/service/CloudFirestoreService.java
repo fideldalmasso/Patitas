@@ -16,9 +16,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Transaction;
 import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.gui.home.AltaPublicacionFragment;
 import com.utndam.patitas.model.PublicacionModel;
@@ -26,6 +28,9 @@ import com.utndam.patitas.model.UsuarioActual;
 import com.utndam.patitas.model.UsuarioModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,14 +76,7 @@ public class CloudFirestoreService {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 // Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                UsuarioModel usuarioModel = new UsuarioModel();
-                                usuarioModel.setId(document.getId());
-                                usuarioModel.setFotoUrl(document.getString("fotoUrl"));
-                                usuarioModel.setMail(document.getString("mail"));
-                                usuarioModel.setTelefono(document.getString("telefono"));
-                                usuarioModel.setNombreCompleto(document.getString("nombreCompleto"));
-                                usuarioModel.setTipoCuenta(document.getString("tipoCuenta"));
-                                destinoQueryUsuario.recibirUsuario(usuarioModel);
+                                destinoQueryUsuario.recibirUsuario(armarUsuario(document));
                             } else {
                                 // Log.d(TAG, "No such document");
                             }
@@ -213,6 +211,9 @@ public class CloudFirestoreService {
                 });
     }
 
+
+
+
     public void buscarPublicaciones(String tipoPublicacion, String tipoAnimal, DestinoQueryPublicaciones destinoQueryPublicaciones){
         // Create a reference to the cities collection
         CollectionReference publicacionesRef = db.collection("publicaciones");
@@ -223,18 +224,73 @@ public class CloudFirestoreService {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 ArrayList<PublicacionModel> lista;
+                                HashSet<String> userIds = new HashSet<String>();
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                     lista = (ArrayList<PublicacionModel>) task.getResult().getDocuments().stream()
                                             .map( p -> armarPublicacion((QueryDocumentSnapshot) p))
                                             .collect(Collectors.toList());
+                                    lista.stream()
+                                            .forEach(p -> userIds.add(p.getIdUsuario()));
                                 }
                                 else{
                                     lista = new ArrayList<PublicacionModel>();
                                     for (QueryDocumentSnapshot p : task.getResult()) {
-                                        lista.add(armarPublicacion(p));
+                                        PublicacionModel publicacionModel = armarPublicacion(p);
+                                        userIds.add(publicacionModel.getIdUsuario());
+                                        lista.add(publicacionModel);
                                     }
                                 }
-                                destinoQueryPublicaciones.recibirPublicaciones(lista);
+                                HashMap<String,String> userToInfo = new HashMap<String,String>();
+                                db.runTransaction(new Transaction.Function<List<UsuarioModel>>(){
+                                    @Override
+                                    public List<UsuarioModel> apply(Transaction transaction) throws FirebaseFirestoreException {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                                            return userIds.stream()
+                                                    .map(u -> {
+                                                                try {
+                                                                    return transaction.get(db.collection("usuarios").document(u))
+                                                                            .toObject(UsuarioModel.class);
+                                                                } catch (FirebaseFirestoreException e) {
+                                                                    e.printStackTrace();
+                                                                    return null;
+                                                                }
+                                                            }
+                                                    )
+                                                    .collect(Collectors.toList());
+                                        }
+                                        else {
+                                            ArrayList<UsuarioModel> listaUsuarios = new ArrayList<UsuarioModel>();
+                                            for(String usu : userIds){
+                                                listaUsuarios.add(transaction.get(db.collection("usuarios").document(usu))
+                                                        .toObject(UsuarioModel.class)
+                                                );
+                                            }
+                                            return  listaUsuarios;
+                                        }
+                                    }
+
+                                })
+                                .addOnSuccessListener(new OnSuccessListener<List<UsuarioModel>>() {
+                                    @Override
+                                    public void onSuccess(List<UsuarioModel> result){
+                                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                                            result.stream()
+                                                    .forEach(u -> userToInfo.put(u.getId(),u.toString()));
+                                            lista.stream()
+                                                    .forEach(p -> p.setInfoContacto(userToInfo.get(p.getIdUsuario())));
+                                        }
+                                        else {
+                                            for(UsuarioModel u : result){
+                                                userToInfo.put(u.getId(),u.toString());
+                                            }
+                                            for(PublicacionModel p : lista){
+                                                p.setInfoContacto(userToInfo.get(p.getIdUsuario()));
+                                            }
+                                        }
+                                        destinoQueryPublicaciones.recibirPublicaciones(lista);
+                                    }
+
+                                });
 
                             } else {
                                 //Log.d(TAG, "Error getting documents: ", task.getException());
@@ -251,8 +307,97 @@ public class CloudFirestoreService {
             }
             else query = publicacionesRef.whereEqualTo("tipoAnimal",tipoAnimal);
 
-            query.get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        ArrayList<PublicacionModel> lista;
+                        HashSet<String> userIds = new HashSet<String>();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            lista = (ArrayList<PublicacionModel>) task.getResult().getDocuments().stream()
+                                    .map( p -> armarPublicacion((QueryDocumentSnapshot) p))
+                                    .collect(Collectors.toList());
+                            lista.stream()
+                                    .forEach(p -> userIds.add(p.getIdUsuario()));
+                        }
+                        else{
+                            lista = new ArrayList<PublicacionModel>();
+                            for (QueryDocumentSnapshot p : task.getResult()) {
+                                PublicacionModel publicacionModel = armarPublicacion(p);
+                                userIds.add(publicacionModel.getIdUsuario());
+                                lista.add(publicacionModel);
+                            }
+                        }
+                        HashMap<String,String> userToInfo = new HashMap<String,String>();
+                        db.runTransaction(new Transaction.Function<List<UsuarioModel>>(){
+                            @Override
+                            public List<UsuarioModel> apply(Transaction transaction) throws FirebaseFirestoreException {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                                    return userIds.stream()
+                                            .map(u -> {
+                                                        try {
+                                                            return transaction.get(db.collection("usuarios").document(u))
+                                                                    .toObject(UsuarioModel.class);
+                                                        } catch (FirebaseFirestoreException e) {
+                                                            e.printStackTrace();
+                                                            return null;
+                                                        }
+                                                    }
+                                            )
+                                            .collect(Collectors.toList());
+                                }
+                                else {
+                                    ArrayList<UsuarioModel> listaUsuarios = new ArrayList<UsuarioModel>();
+                                    for(String usu : userIds){
+                                        listaUsuarios.add(transaction.get(db.collection("usuarios").document(usu))
+                                                .toObject(UsuarioModel.class)
+                                        );
+                                    }
+                                    return  listaUsuarios;
+                                }
+                            }
+
+                        })
+                                .addOnSuccessListener(new OnSuccessListener<List<UsuarioModel>>() {
+                                    @Override
+                                    public void onSuccess(List<UsuarioModel> result){
+                                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                                            result.stream()
+                                                    .forEach(u -> userToInfo.put(u.getId(),u.toString()));
+                                            lista.stream()
+                                                    .forEach(p -> p.setInfoContacto(userToInfo.get(p.getIdUsuario())));
+                                        }
+                                        else {
+                                            for(UsuarioModel u : result){
+                                                userToInfo.put(u.getId(),u.toString());
+                                            }
+                                            for(PublicacionModel p : lista){
+                                                p.setInfoContacto(userToInfo.get(p.getIdUsuario()));
+                                            }
+                                        }
+                                        destinoQueryPublicaciones.recibirPublicaciones(lista);
+                                    }
+
+                                });
+
+                    } else {
+                        //Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+
+
+    }
+
+
+    public void buscarPublicacionesPorUsuario(String idUsuario, DestinoQueryPublicaciones destinoQueryPublicaciones){
+        // Create a reference to the cities collection
+        CollectionReference publicacionesRef = db.collection("publicaciones");
+
+        publicacionesRef.whereEqualTo("idUsuario",idUsuario)
+            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
@@ -268,6 +413,7 @@ public class CloudFirestoreService {
                                 lista.add(armarPublicacion(p));
                             }
                         }
+
                         destinoQueryPublicaciones.recibirPublicaciones(lista);
 
                     } else {
@@ -277,25 +423,7 @@ public class CloudFirestoreService {
             });
         }
 
-        /*
-        db.collection("cities")
-        .whereEqualTo("capital", true)
-        .get()
-        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
-                    }
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
-         */
 
-    }
 
     private PublicacionModel armarPublicacion(QueryDocumentSnapshot p){
         PublicacionModel publicacionModel = new PublicacionModel();
@@ -313,6 +441,16 @@ public class CloudFirestoreService {
         //aca falta que setearle a publicacionModel los atributos que faltan: imagen(int o bitmap), infoContacto(string)
 
         return publicacionModel;
+    }
+    private UsuarioModel armarUsuario(DocumentSnapshot document){
+        UsuarioModel usuarioModel = new UsuarioModel();
+        usuarioModel.setId(document.getId());
+        usuarioModel.setFotoUrl(document.getString("fotoUrl"));
+        usuarioModel.setMail(document.getString("mail"));
+        usuarioModel.setTelefono(document.getString("telefono"));
+        usuarioModel.setNombreCompleto(document.getString("nombreCompleto"));
+        usuarioModel.setTipoCuenta(document.getString("tipoCuenta"));
+        return  usuarioModel;
     }
 
 }
