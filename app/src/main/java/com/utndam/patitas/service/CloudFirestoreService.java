@@ -33,6 +33,10 @@ public class CloudFirestoreService {
 
     FirebaseFirestore db;
 
+    public interface DestinoQueryPublicaciones{
+        public void recibirPublicaciones(List<PublicacionModel> listaResultado );
+    }
+
     public CloudFirestoreService(){
         db = FirebaseFirestore.getInstance();
     }
@@ -172,7 +176,7 @@ public class CloudFirestoreService {
                 });
     }
 
-    public void buscarPublicaciones(String tipoPublicacion, String tipoAnimal, BusquedaFragment busquedaFragment){
+    public void buscarPublicaciones(String tipoPublicacion, String tipoAnimal, DestinoQueryPublicaciones destinoQueryPublicaciones){
         // Create a reference to the cities collection
         CollectionReference publicacionesRef = db.collection("publicaciones");
         if(tipoPublicacion==null && tipoAnimal==null){
@@ -193,7 +197,7 @@ public class CloudFirestoreService {
                                         lista.add(armarPublicacion(p));
                                     }
                                 }
-                                busquedaFragment.resultadoQuery(lista);
+                                destinoQueryPublicaciones.recibirPublicaciones(lista);
 
                             } else {
                                 //Log.d(TAG, "Error getting documents: ", task.getException());
@@ -227,7 +231,7 @@ public class CloudFirestoreService {
                                 lista.add(armarPublicacion(p));
                             }
                         }
-                        busquedaFragment.resultadoQuery(lista);
+                        destinoQueryPublicaciones.recibirPublicaciones(lista);
 
                     } else {
                         //Log.d(TAG, "Error getting documents: ", task.getException());
