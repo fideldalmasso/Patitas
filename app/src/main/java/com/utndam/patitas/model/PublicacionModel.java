@@ -3,6 +3,7 @@ package com.utndam.patitas.model;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.ServerTimestamp;
 
+import java.util.Comparator;
 import java.util.Date;
 
 public class PublicacionModel {
@@ -142,5 +143,6 @@ public class PublicacionModel {
 
         return getTitulo();
     }
+
 
 }
