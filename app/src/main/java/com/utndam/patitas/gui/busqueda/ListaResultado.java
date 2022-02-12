@@ -20,14 +20,9 @@ public class ListaResultado {
      */
     public static final Map<String, PublicacionModel> ITEM_MAP = new HashMap<String, PublicacionModel>();
 
-    private static final int COUNT = 25;
 
     public ListaResultado(ArrayList<PublicacionModel> lista) {
-//        if(ITEMS.isEmpty()){
-//            for (int i = 1; i <= COUNT; i++) {
-//                addItem(createPlaceholderItem(i));
-//            }
-//        }
+        ITEMS.clear();
         for(PublicacionModel p : lista){
             addItem(p);
         }

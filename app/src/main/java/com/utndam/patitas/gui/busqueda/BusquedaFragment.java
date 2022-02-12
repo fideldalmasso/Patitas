@@ -107,8 +107,7 @@ public class BusquedaFragment extends Fragment  {
                     public void recibirPublicaciones(List<PublicacionModel> listaResultado){
                         for(PublicacionModel p: listaResultado) publis.add(p);
 //                        frag.setLista(filtrar(publis, mapaFrag.getUbicacionElegida().latitude, mapaFrag.getUbicacionElegida().longitude, 100));
-                        Toast toast =  Toast.makeText(getContext(), publis.get(0).getpTitulo(), Toast.LENGTH_LONG);
-                         toast.show();
+
                         frag.setLista(publis);
                         fmanager.beginTransaction()
                                 .setCustomAnimations(
@@ -122,26 +121,6 @@ public class BusquedaFragment extends Fragment  {
                                 .commit();
                     }
                 });
-//                if(todoOk) {
-////                    Toast toast =  Toast.makeText(getContext(), "Buscando" + publis.size(), Toast.LENGTH_LONG);
-////                    toast.show();
-//                    getParentFragmentManager()
-//                            .beginTransaction()
-//                            .setCustomAnimations(
-//                                    R.anim.slide_in,
-//                                    R.anim.fade_out,
-//                                    R.anim.fade_in,
-//                                    R.anim.slide_out
-//                            )
-//                            .replace(R.id.ubicacion, frag)
-//                            .addToBackStack(null)
-//                            .commit();
-//
-//                }
-//                else {
-//                    Toast toast =  Toast.makeText(getContext(), "No busco xd", Toast.LENGTH_LONG);
-//                    toast.show();
-//                }
 
             }
         });

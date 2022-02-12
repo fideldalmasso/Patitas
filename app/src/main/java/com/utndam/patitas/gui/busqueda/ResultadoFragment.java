@@ -93,13 +93,9 @@ public class ResultadoFragment extends Fragment implements onCardSelectedListene
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             ListaResultado holderContent = new ListaResultado(lista);
-
-//            HomeRecyclerAdapter adaptador = new HomeRecyclerAdapter(holderContent.getItems());
             ResultadoRecyclerAdapter adaptador = new ResultadoRecyclerAdapter(holderContent.getItems(), getContext());
             adaptador.setListener(this);
             recyclerView.setAdapter(adaptador);
-
-
         }
 
 

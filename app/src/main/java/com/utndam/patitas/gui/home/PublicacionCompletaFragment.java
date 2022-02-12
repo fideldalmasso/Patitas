@@ -26,6 +26,7 @@ import com.utndam.patitas.gui.mapas.MapsSimpleFragment;
 import com.utndam.patitas.model.PublicacionModel;
 import com.utndam.patitas.model.UsuarioModel;
 import com.utndam.patitas.service.CloudFirestoreService;
+import com.utndam.patitas.service.CloudStorageService;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -131,7 +132,8 @@ public class PublicacionCompletaFragment extends Fragment {
             }
         });
 
-        imagen.setImageResource(item.getpImagen());
+        CloudStorageService css = new CloudStorageService();
+        css.setImagen(imagen, item.getUrlImagen(), getContext());
         imagen.setTransitionName("transicion_imagen");
         titulo.setText(item.getpTitulo());
         secundario.setText(item.getpSecundario());
