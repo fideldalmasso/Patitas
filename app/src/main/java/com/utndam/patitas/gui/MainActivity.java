@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         //cargar fragmentos
         homeFrag = HomeFragment.newInstance(2);
-        busquedaFrag = new BusquedaFragment();
+//        busquedaFrag = new BusquedaFragment();
         blankFrag = new BlankFragment();
         mensajesFrag = new MisMensajesFragment();
 
@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                                 .commit();
                         break;
                     case R.id.boton_buscar:
+                        busquedaFrag = new BusquedaFragment();
                         barraSuperior.setTitle("Buscar");
                         fragmentManager.beginTransaction()
                                 .replace(R.id.contenedor_fragmento, busquedaFrag)

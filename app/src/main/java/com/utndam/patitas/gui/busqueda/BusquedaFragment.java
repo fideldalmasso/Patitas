@@ -1,5 +1,8 @@
 package com.utndam.patitas.gui.busqueda;
 
+import static java.lang.Math.abs;
+
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,18 +19,28 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.utndam.patitas.R;
+import com.utndam.patitas.gui.MainActivity;
+import com.utndam.patitas.gui.home.AltaPublicacionFragment;
+import com.utndam.patitas.gui.home.HomeRecyclerAdapter;
+import com.utndam.patitas.gui.home.ListaEjemploPublicaciones;
+import com.utndam.patitas.gui.home.onCardSelectedListener;
 import com.utndam.patitas.gui.ingreso.AfterTextChangedTextWatcher;
 import com.utndam.patitas.gui.mapas.MapsSimpleFragment;
 import com.utndam.patitas.model.PublicacionModel;
+import com.utndam.patitas.service.CloudFirestoreService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BusquedaFragment extends Fragment {
+public class BusquedaFragment extends Fragment  {
 
     TextInputLayout tipoPublicacion;
     TextInputLayout tipoAnimal;
@@ -38,12 +51,16 @@ public class BusquedaFragment extends Fragment {
     Button buttonBuscar;
     FragmentManager fragmentManager;
     MapsSimpleFragment mapaFrag;
+    LayoutInflater inflater;
+    ViewGroup container;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        this.inflater = inflater;
+        this.container = container;
 
         View view = inflater.inflate(R.layout.fragment_busqueda, container, false);
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
@@ -70,8 +87,7 @@ public class BusquedaFragment extends Fragment {
 //            tituloPublicacionInput.setError(null);
 //        });
 
-
-
+        ResultadoFragment frag = new ResultadoFragment();
         buttonBuscar = view.findViewById(R.id.boton_buscar);
         buttonBuscar.setTag(this);
         buttonBuscar.setOnClickListener(new View.OnClickListener() {
@@ -80,23 +96,68 @@ public class BusquedaFragment extends Fragment {
                 boolean todoOk=true;
                 String animal = tipoAnimalEdit.getText().toString();
                 String publicacion = tipoPublicacionEdit.getText().toString();
+                if(animal.isEmpty()) animal=null;
+                if(publicacion.isEmpty()) publicacion=null;
+                ArrayList<PublicacionModel> publis = new ArrayList<PublicacionModel>();
+                ArrayList<PublicacionModel> porUbicacion;
+                FragmentManager fmanager = getParentFragmentManager();
+                CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
+                cloudFirestoreService.buscarPublicaciones(publicacion, animal, new CloudFirestoreService.DestinoQueryPublicaciones() {
+                    @Override
+                    public void recibirPublicaciones(List<PublicacionModel> listaResultado){
+                        for(PublicacionModel p: listaResultado) publis.add(p);
+//                        frag.setLista(filtrar(publis, mapaFrag.getUbicacionElegida().latitude, mapaFrag.getUbicacionElegida().longitude, 100));
+                        Toast toast =  Toast.makeText(getContext(), publis.get(0).getpTitulo(), Toast.LENGTH_LONG);
+                         toast.show();
+                        frag.setLista(publis);
+                        fmanager.beginTransaction()
+                                .setCustomAnimations(
+                                        R.anim.slide_in,
+                                        R.anim.fade_out,
+                                        R.anim.fade_in,
+                                        R.anim.slide_out
+                                )
+                                .replace(R.id.ubicacion, frag)
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                });
+//                if(todoOk) {
+////                    Toast toast =  Toast.makeText(getContext(), "Buscando" + publis.size(), Toast.LENGTH_LONG);
+////                    toast.show();
+//                    getParentFragmentManager()
+//                            .beginTransaction()
+//                            .setCustomAnimations(
+//                                    R.anim.slide_in,
+//                                    R.anim.fade_out,
+//                                    R.anim.fade_in,
+//                                    R.anim.slide_out
+//                            )
+//                            .replace(R.id.ubicacion, frag)
+//                            .addToBackStack(null)
+//                            .commit();
+//
+//                }
+//                else {
+//                    Toast toast =  Toast.makeText(getContext(), "No busco xd", Toast.LENGTH_LONG);
+//                    toast.show();
+//                }
 
-                if(todoOk) {
-                    Toast toast =  Toast.makeText(getContext(), "Buscando", Toast.LENGTH_LONG);
-                    toast.show(); }
-                else {
-                    Toast toast =  Toast.makeText(getContext(), "No busco xd", Toast.LENGTH_LONG);
-                    toast.show();
-                }
             }
         });
 
+
+
         return view;
     }
-
-    public ArrayList<PublicacionModel> resultadoQuery(ArrayList<PublicacionModel> publis) {
-        ArrayList<PublicacionModel> aux = new ArrayList<PublicacionModel>();
-        return aux;
+    private ArrayList<PublicacionModel> filtrar(ArrayList<PublicacionModel> publis, double lat, double lon, long dif) {
+        ArrayList<PublicacionModel> ret = new ArrayList<PublicacionModel>();
+        for(PublicacionModel p:publis){
+            if(abs(p.getLatitud()-lat) <= dif && abs(p.getLongitud()-lon)<= dif ){
+                ret.add(p);
+            }
+        }
+        return ret;
     }
 
     @Override
@@ -106,9 +167,7 @@ public class BusquedaFragment extends Fragment {
         fragmentManager = getChildFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.contenedor_mapa_busqueda,mapaFrag)
-//                .addToBackStack(null)
                 .commit();
     }
-
 
 }
