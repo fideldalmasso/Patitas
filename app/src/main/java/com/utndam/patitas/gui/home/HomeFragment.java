@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.transition.MaterialFadeThrough;
 import com.utndam.patitas.R;
+import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.model.PublicacionModel;
 
 /**
@@ -68,7 +69,7 @@ public class HomeFragment extends Fragment implements onCardSelectedListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        ((MainActivity)getActivity()).cambiarTextoBarraSuperior("Home");
         this.inflater = inflater;
         this.container = container;
 
@@ -120,6 +121,7 @@ public class HomeFragment extends Fragment implements onCardSelectedListener {
 
         return view;
     }
+
 
 
     @Override

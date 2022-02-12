@@ -1,26 +1,24 @@
 package com.utndam.patitas.model;
 
-import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
-import java.util.List;
 
 public class PublicacionModel {
-    public int pImagen;
-    public String pTitulo;
-    public String pSecundario;
-    public String pSoporte;
-    public String urlImagen;
-    public String id;
-    public String descripcion;
-    public String idUsuario;
-    public String tipoAnimal;
-    public String tipoPublicacion;
+    private int pImagen;
+    private String pTitulo;
+    private String pSecundario;
+    private String pSoporte;
+    private String urlImagen;
+    private String id;
+    private String descripcion;
+    private String idUsuario;
+    private String tipoAnimal;
+    private String tipoPublicacion;
     @ServerTimestamp
-    public Date fecha;
-    public Double latitud;
-    public Double longitud;
+    private Date fecha;
+    private Double latitud;
+    private Double longitud;
 
     public PublicacionModel(int imagen, String titulo, String secundario, String soporte) {
         this.pImagen = imagen;

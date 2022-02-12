@@ -19,8 +19,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.utndam.patitas.R;
+import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.model.PublicacionModel;
 import com.utndam.patitas.model.UsuarioModel;
 import com.utndam.patitas.service.CloudFirestoreService;
@@ -78,7 +78,14 @@ public class PublicacionCompletaFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ((MainActivity)getActivity()).cambiarTextoBarraSuperior("Home");
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ((MainActivity)getActivity()).cambiarTextoBarraSuperior(item.getpTitulo());
         View v =  inflater.inflate(R.layout.fragment_publicacion_completa, container, false);
 
         imagen = v.findViewById(R.id.card_completo_imagen);
@@ -115,11 +122,11 @@ public class PublicacionCompletaFragment extends Fragment {
             }
         });
 
-        imagen.setImageResource(item.pImagen);
+        imagen.setImageResource(item.getpImagen());
         imagen.setTransitionName("transicion_imagen");
-        titulo.setText(item.pTitulo);
-        secundario.setText(item.pSecundario);
-        soporte.setText(item.pSoporte);
+        titulo.setText(item.getpTitulo());
+        secundario.setText(item.getpSecundario());
+        soporte.setText(item.getpSoporte());
 
         botonShare.setOnClickListener(new View.OnClickListener() {
             @Override

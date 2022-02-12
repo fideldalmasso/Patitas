@@ -39,7 +39,7 @@ public class ListaEjemploPublicaciones {
 
     private void addItem(PublicacionModel item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.pTitulo, item);
+        ITEM_MAP.put(item.getpTitulo(), item);
     }
 
     private PublicacionModel createPlaceholderItem(int position) {
