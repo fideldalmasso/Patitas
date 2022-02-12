@@ -2,6 +2,7 @@ package com.utndam.patitas.gui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +28,7 @@ import com.utndam.patitas.gui.home.HomeFragment;
 import com.utndam.patitas.gui.ingreso.IngresoActivity;
 import com.utndam.patitas.gui.mensajes.MisMensajesFragment;
 import com.utndam.patitas.model.UsuarioModel;
+import com.utndam.patitas.service.CloudFirestoreService;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         //barra superior
         barraSuperior = findViewById(R.id.topAppBar);
-        barraSuperior.setTitle("Home > Perdidos");
+        barraSuperior.setTitle("Home");
         setSupportActionBar(barraSuperior);
 
         //drawer
@@ -111,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (id){
                     case R.id.boton_home:
-                        barraSuperior.setTitle("Home > Perdidos");
+                        barraSuperior.setTitle("Home");
 
                         //quitar todos los fragmentos basura
                         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
@@ -152,8 +154,8 @@ public class MainActivity extends AppCompatActivity {
 
        new Thread(() -> {
            FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
-//           CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
-//           cloudFirestoreService.buscarUsuario(usuario.getEmail(),usuario.getProviderId(),MainActivity.this);
+           CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
+           cloudFirestoreService.buscarUsuario(usuario.getEmail(),usuario.getProviderId(),MainActivity.this);
            MainActivity.this.runOnUiThread(() -> {
                drawerNombreCompletoUsuario.setText(usuario.getDisplayName());
                drawerEmailUsuario.setText(usuario.getEmail());
@@ -231,5 +233,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void setUsuarioModel(UsuarioModel usuarioModel) {
         this.usuarioModel = usuarioModel;
+    }
+
+    public void cambiarTextoBarraSuperior(String texto){
+        if(!TextUtils.isEmpty(texto) && texto.length()>0)
+            barraSuperior.setTitle(texto);
     }
 }

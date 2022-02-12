@@ -21,6 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.utndam.patitas.databinding.FragmentSignUpBinding;
 import com.utndam.patitas.gui.MainActivity;
 
@@ -98,6 +99,10 @@ public class SignUpFragment extends Fragment {
 //        return inflater.inflate(R.layout.fragment_sign_in, container, false);
 
 
+        binding.nombreCompletoEdit.addTextChangedListener((AfterTextChangedTextWatcher) e ->{
+            binding.nombreCompletoInput.setError(null);
+        });
+
         binding.emailEdit.addTextChangedListener((AfterTextChangedTextWatcher) e ->{
             binding.emailInput.setError(null);
         });
@@ -123,6 +128,12 @@ public class SignUpFragment extends Fragment {
             public void onClick(View view) {
                 boolean todoOk=true;
 
+
+                if(!nombreValido(binding.nombreCompletoEdit.getText())){
+                    binding.nombreCompletoInput.setErrorEnabled(true);
+                    binding.nombreCompletoInput.setError("Formato: Nombre/s Apellido/s");
+                    todoOk=false;
+                }
                 if(!emailValido(binding.emailEdit.getText())){
                     binding.emailInput.setErrorEnabled(true);
                     binding.emailInput.setError("E-mail no válido");
@@ -146,7 +157,10 @@ public class SignUpFragment extends Fragment {
                 }
 
                 if(todoOk) {
-                    createAccount(binding.emailEdit.getText().toString(),binding.contraseniaEdit.getText().toString());
+                    createAccount(binding.emailEdit.getText().toString(),
+                            binding.contraseniaEdit.getText().toString(),
+                            binding.nombreCompletoEdit.getText().toString());
+
                 }
             }
         });
@@ -155,7 +169,30 @@ public class SignUpFragment extends Fragment {
         return binding.getRoot();
     }
 
+    private void asignarNombreACuenta(String nombreCompleto) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(nombreCompleto)
+                .build();
+
+        if(user!=null){
+            user.updateProfile(profileUpdates)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "User profile updated.");
+                            }
+                        }
+                    });
+        }
+        cambiarAMainActivity();
+    }
+
+    private boolean nombreValido(CharSequence nombre) {
+        return (!TextUtils.isEmpty(nombre) && nombre.length()<=32 && nombre.toString().matches("[a-zA-Z ]+ [a-zA-Z ]+"));
+    }
 
     public static boolean emailValido(CharSequence email) {
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
@@ -177,7 +214,7 @@ public class SignUpFragment extends Fragment {
         return PhoneNumberUtils.stripSeparators("+54"+telefono);
     }
 
-    private void createAccount(String email, String password) {
+    private void createAccount(String email, String password, String nombreCompleto) {
         // [START create_user_with_email]
 
         FirebaseAuth mAuth =FirebaseAuth.getInstance();
@@ -191,9 +228,8 @@ public class SignUpFragment extends Fragment {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(getContext(), "Usuario creado correctamente!! xd.",
                                     Toast.LENGTH_LONG).show();
-                            Intent i = new Intent(getActivity(), MainActivity.class);
-                            getActivity().finish();
-                            startActivity(i);
+                            asignarNombreACuenta(nombreCompleto);
+
 //                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -215,6 +251,11 @@ public class SignUpFragment extends Fragment {
         // [END create_user_with_email]
     }
 
+    private void cambiarAMainActivity() {
+        Intent i = new Intent(getActivity(), MainActivity.class);
+        getActivity().finish();
+        startActivity(i);
+    }
 
 
 }

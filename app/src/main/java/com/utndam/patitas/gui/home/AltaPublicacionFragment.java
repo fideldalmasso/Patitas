@@ -22,9 +22,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -112,6 +110,7 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
+        ((MainActivity)getActivity()).cambiarTextoBarraSuperior("Nueva Publicación");
         View view = inflater.inflate(R.layout.fragment_alta_publicacion, container, false);
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
             view.setBackgroundColor(getResources().getColor(R.color.black, getActivity().getTheme()));
@@ -209,6 +208,12 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
         });
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ((MainActivity)getActivity()).cambiarTextoBarraSuperior("Home");
     }
 
     @Override
