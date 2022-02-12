@@ -1,12 +1,32 @@
 package com.utndam.patitas.model;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.firestore.Exclude;
+
 public class UsuarioModel {
-    public String nombreCompleto;
-    public String fotoUrl;
-    public String telefono;
-    public String id;
-    public String mail;
-    public String tipoCuenta;
+    private String nombreCompleto;
+    private String fotoUrl;
+    private String telefono;
+    private String id;
+    private String mail;
+    private String tipoCuenta;
+    @Exclude
+    private LatLng ubicacionActual;
+
+    public LatLng getUbicacionActual() {
+        return ubicacionActual;
+    }
+
+    public void setUbicacionActual(LatLng ubicacionActual) {
+        this.ubicacionActual = ubicacionActual;
+    }
+
+    public String getInfoContacto(){
+        String resultado=nombreCompleto+"\n";
+        if(telefono!=null)
+            resultado+="Teléfono: "+telefono+"\n";
+        return resultado;
+    }
 
     public UsuarioModel(){}
 

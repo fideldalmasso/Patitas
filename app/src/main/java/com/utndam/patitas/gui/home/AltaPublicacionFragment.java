@@ -296,7 +296,7 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
         publicacionModel.setId(null);
         publicacionModel.setTipoPublicacion(tipoPublicacionEdit.getText().toString());
         publicacionModel.setTipoAnimal(tipoAnimalEdit.getText().toString());
-        publicacionModel.setpTitulo(tituloPublicacionEdit.getText().toString());
+        publicacionModel.setTitulo(tituloPublicacionEdit.getText().toString());
         publicacionModel.setDescripcion(descripcionPublicacionEdit.getText().toString());
         publicacionModel.setUrlImagen(url);
         publicacionModel.setLatitud(mapaFrag.getUbicacionElegida().latitude);
@@ -304,9 +304,7 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
 
         publicacionModel.setIdUsuario(((MainActivity)getActivity()).usuarioModel.getId());
 
-        publicacionModel.setpImagen(0);
-        publicacionModel.setpSecundario(null);
-        publicacionModel.setpSoporte(null);
+
 
         if(((MainActivity)getActivity()).usuarioModel.getId()==null) {
             Toast.makeText(this.getActivity(), "Usuario invalido", Toast.LENGTH_LONG).show();

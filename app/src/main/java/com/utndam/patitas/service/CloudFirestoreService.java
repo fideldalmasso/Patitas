@@ -1,7 +1,6 @@
 package com.utndam.patitas.service;
 
 import android.os.Build;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,7 +20,6 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.utndam.patitas.gui.MainActivity;
-import com.utndam.patitas.gui.busqueda.BusquedaFragment;
 import com.utndam.patitas.gui.home.AltaPublicacionFragment;
 import com.utndam.patitas.model.PublicacionModel;
 import com.utndam.patitas.model.UsuarioModel;
@@ -299,7 +297,7 @@ public class CloudFirestoreService {
     private PublicacionModel armarPublicacion(QueryDocumentSnapshot p){
         PublicacionModel publicacionModel = new PublicacionModel();
         publicacionModel.setIdUsuario(p.getString("idUsuario"));
-        publicacionModel.setpTitulo(p.getString("pTitulo"));
+        publicacionModel.setTitulo(p.getString("pTitulo"));
         publicacionModel.setUrlImagen(p.getString("urlImagen"));
         publicacionModel.setId(p.getId());
         publicacionModel.setDescripcion(p.getString("descripcion"));
@@ -308,6 +306,9 @@ public class CloudFirestoreService {
         publicacionModel.setFecha(p.getDate("fecha"));
         publicacionModel.setLongitud(p.getDouble("longitud"));
         publicacionModel.setLatitud(p.getDouble("latitud"));
+
+        //aca falta que setearle a publicacionModel los atributos que faltan: imagen(int o bitmap), infoContacto(string)
+
         return publicacionModel;
     }
 

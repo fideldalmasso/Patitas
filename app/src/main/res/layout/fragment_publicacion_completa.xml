@@ -30,8 +30,11 @@
             <ImageView
                 android:id="@+id/card_completo_imagen"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
+                android:maxHeight="400dp"
                 android:src="@drawable/ic_baseline_photo_24"
+                android:adjustViewBounds="true"
+
                 />
             <TextView
                 android:id="@+id/card_completo_titulo"
@@ -57,7 +60,7 @@
                 android:id="@+id/card_contenedor_mapa"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-
+                android:paddingBottom="20dp"
                 />
 
 

@@ -13,17 +13,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="190dp">
 
         <ImageView
             android:id="@+id/card_imagen"
-            android:layout_width="fill_parent"
-            android:layout_height="190dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
             android:adjustViewBounds="true"
             android:contentDescription="Descripcion xd"
             android:scaleType="centerCrop"
-            android:transitionName="transicion_imagen"
             android:src="@drawable/ic_baseline_photo_24"
-            />
+            android:transitionName="transicion_imagen"
+           />
+
+        <TextView
+            android:id="@+id/card_distancia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/card_imagen"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:background="?attr/background"
+            android:text="3 km"
+            android:padding="4dp"
+            android:textColor="?attr/colorOnSecondary" />
+    </RelativeLayout>
+
 
 <!--        android:srcCompat="@drawable/media"-->
 
@@ -41,7 +59,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Titulo xd"
-                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:maxLines="2"
+                android:textAppearance="?attr/textAppearanceBody1"
                 android:textColor="?attr/colorOnBackground"
                 android:transitionName="transicion_titulo"
                 />

@@ -69,34 +69,44 @@ public class MapsSimpleFragment extends Fragment {
         public void onMapReady(GoogleMap googleMap) {
             mapa = googleMap;
 
-            mapa.getUiSettings().setAllGesturesEnabled(false);
-            mapa.getUiSettings().setMyLocationButtonEnabled(false);
-            ubicacionElegida = mapa.getCameraPosition().target;
-
-            LatLngBounds limites_argentina = new LatLngBounds( new LatLng(-54.964913124446696, -74.26678541029585),new LatLng(-21.897337, -54.118911));
-
             if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                 mapa.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.mapa_dark));
             }
 
-
-            mapa.setOnMapClickListener(latLng -> {
-                Intent i = new Intent(getActivity(), ElegirUbicacionActivity.class);
-                abrirMapaCompletoLauncher.launch(i);
-            });
+            mapa.getUiSettings().setAllGesturesEnabled(false);
+            mapa.getUiSettings().setMyLocationButtonEnabled(false);
 
 
-            try {
-                mapa.moveCamera(CameraUpdateFactory.newLatLngBounds(limites_argentina,0));
-            }catch (Exception e){
-                Log.d(null,e.toString());
+            if(ubicacionElegida!=null){
+                cambiarPosicion(ubicacionElegida);
             }
-            probarMoverMapaAUbicacionActual();
+            else{
+                ubicacionElegida = mapa.getCameraPosition().target;
+
+                mapa.setOnMapClickListener(latLng -> {
+                    Intent i = new Intent(getActivity(), ElegirUbicacionActivity.class);
+                    abrirMapaCompletoLauncher.launch(i);
+                });
+
+                LatLngBounds limites_argentina = new LatLngBounds( new LatLng(-54.964913124446696, -74.26678541029585),new LatLng(-21.897337, -54.118911));
+                try {
+                    mapa.moveCamera(CameraUpdateFactory.newLatLngBounds(limites_argentina,0));
+                }catch (Exception e){
+                    Log.d(null,e.toString());
+                }
+                probarMoverMapaAUbicacionActual();
+            }
+
 
         }
     };
 
     public MapsSimpleFragment() {
+        super();
+    }
+
+    public MapsSimpleFragment(LatLng posicionInicial) {
+        ubicacionElegida = posicionInicial;
     }
 
     @Nullable
