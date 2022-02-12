@@ -18,7 +18,6 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.utndam.patitas.R;
@@ -27,6 +26,7 @@ import com.utndam.patitas.gui.mapas.MapsSimpleFragment;
 import com.utndam.patitas.model.PublicacionModel;
 import com.utndam.patitas.model.UsuarioModel;
 import com.utndam.patitas.service.CloudFirestoreService;
+import com.utndam.patitas.service.CloudStorageService;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,8 +35,8 @@ public class PublicacionCompletaFragment extends Fragment {
 
     public ImageView imagen;
     public TextView titulo;
-    public TextView descripcion;
-    public TextView infoContacto;
+    public TextView secundario;
+    public TextView soporte;
     public MaterialButton botonShare;
     public MaterialButton boton2;
     private ExtendedFloatingActionButton floatingActionButton;
@@ -44,6 +44,7 @@ public class PublicacionCompletaFragment extends Fragment {
     private FragmentManager fragmentManager;
 
     PublicacionModel item;
+
 
     public PublicacionCompletaFragment() {
 
@@ -62,19 +63,27 @@ public class PublicacionCompletaFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LatLng posicion = new LatLng(item.getLatitud(),item.getLongitud());
-
-        mapaFrag = new MapsSimpleFragment(posicion);
+        mapaFrag = new MapsSimpleFragment();
         fragmentManager = getChildFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.card_contenedor_mapa,mapaFrag)
                 .commit();
+
+//        TransitionInflater inflater = TransitionInflater.from(requireContext());
+//        setEnterTransition(inflater.inflateTransition(R.transition.fade));
+
+//
+//        Transition transition = TransitionInflater.from(requireContext())
+//                .inflateTransition(R.transition.shared_image);
+//        setSharedElementEnterTransition(transition);
 
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+//        iv.setImageResource(id_imagen);
+//        imagen.setTransitionName("transicion_imagen");
 
     }
 
@@ -91,8 +100,8 @@ public class PublicacionCompletaFragment extends Fragment {
 
         imagen = v.findViewById(R.id.card_completo_imagen);
         titulo = v.findViewById(R.id.card_completo_titulo);
-        descripcion = v.findViewById(R.id.card_completo_descripcion);
-        infoContacto = v.findViewById(R.id.card_completo_info_contacto);
+        secundario = v.findViewById(R.id.card_completo_descripcion);
+        soporte = v.findViewById(R.id.card_completo_info_contacto);
         botonShare = v.findViewById(R.id.card_completo_boton1);
 
         floatingActionButton = v.findViewById(R.id.fab2);
@@ -122,11 +131,10 @@ public class PublicacionCompletaFragment extends Fragment {
                 cloudFirestoreService.buscarUsuario("juanperez@gmail.com","Google", (Fragment) floatingActionButton.getTag());
             }
         });
-
-        imagen.setImageResource(item.getImagen());
+        CloudStorageService css = new CloudStorageService();
+        css.setImagen(imagen, item.getUrlImagen(), getContext());
+        imagen.setTransitionName("transicion_imagen");
         titulo.setText(item.getTitulo());
-        descripcion.setText(item.getDescripcion());
-        infoContacto.setText(item.getInfoContacto());
 
         botonShare.setOnClickListener(new View.OnClickListener() {
             @Override
