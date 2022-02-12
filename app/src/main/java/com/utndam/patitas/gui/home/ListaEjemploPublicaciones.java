@@ -39,11 +39,19 @@ public class ListaEjemploPublicaciones {
 
     private void addItem(PublicacionModel item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.getpTitulo(), item);
+        ITEM_MAP.put(item.getTitulo(), item);
     }
 
     private PublicacionModel createPlaceholderItem(int position) {
-        return new PublicacionModel(position%2==0? R.drawable.gato3 : R.drawable.perro1, "Titulo"+String.valueOf(position), "secundario","soporte");
+        PublicacionModel p = new PublicacionModel();
+        p.setLatitud(-31.623018753813945);
+        p.setLongitud(-60.693003602891345);
+        p.setTitulo("Publicación número "+position);
+        p.setTipoPublicacion("perro");
+        p.setDescripcion("Perro perdido en zona centro, ofrecemos recompensa");
+        p.setImagen(position%2==0? R.drawable.perro1 : R.drawable.gato3);
+        p.setInfoContacto("Teléfono: +54342111222\nBarrio Centro");
+        return p;
     }
 
     public List<PublicacionModel> getItems() {

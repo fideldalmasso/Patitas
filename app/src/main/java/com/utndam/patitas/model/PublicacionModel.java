@@ -1,14 +1,12 @@
 package com.utndam.patitas.model;
 
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
 
 public class PublicacionModel {
-    private int pImagen;
-    private String pTitulo;
-    private String pSecundario;
-    private String pSoporte;
+    private String titulo;
     private String urlImagen;
     private String id;
     private String descripcion;
@@ -20,43 +18,41 @@ public class PublicacionModel {
     private Double latitud;
     private Double longitud;
 
-    public PublicacionModel(int imagen, String titulo, String secundario, String soporte) {
-        this.pImagen = imagen;
-        this.pTitulo = titulo;
-        this.pSecundario = secundario;
-        this.pSoporte = soporte;
+    @Exclude
+    private String infoContacto;
+    @Exclude
+    private int imagen;
+
+
+    public PublicacionModel() {
+        super();
     }
 
-    public int getpImagen() {
-        return pImagen;
+    public int getImagen() {
+        return imagen;
     }
 
-    public void setpImagen(int pImagen) {
-        this.pImagen = pImagen;
+    public void setImagen(int imagen) {
+        this.imagen = imagen;
     }
 
-    public String getpTitulo() {
-        return pTitulo;
+
+    public String getInfoContacto() {
+        return infoContacto;
     }
 
-    public void setpTitulo(String pTitulo) {
-        this.pTitulo = pTitulo;
+    public void setInfoContacto(String infoContacto) {
+        this.infoContacto = infoContacto;
     }
 
-    public String getpSecundario() {
-        return pSecundario;
+
+
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setpSecundario(String pSecundario) {
-        this.pSecundario = pSecundario;
-    }
-
-    public String getpSoporte() {
-        return pSoporte;
-    }
-
-    public void setpSoporte(String pSoporte) {
-        this.pSoporte = pSoporte;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public String getUrlImagen() {
@@ -131,11 +127,12 @@ public class PublicacionModel {
         this.longitud = longitud;
     }
 
-    public PublicacionModel() {   }
+
 
     @Override
     public String toString() {
-        return pSecundario;
+
+        return getTitulo();
     }
 
 }
