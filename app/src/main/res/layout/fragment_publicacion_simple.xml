@@ -22,6 +22,7 @@
             android:contentDescription="Descripcion xd"
             android:scaleType="centerCrop"
             android:transitionName="transicion_imagen"
+            android:src="@drawable/ic_baseline_photo_24"
             />
 
 <!--        android:srcCompat="@drawable/media"-->

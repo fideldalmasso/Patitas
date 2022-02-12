@@ -5,18 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:cardCornerRadius="8dp"
-    android:layout_marginBottom="4dp"
+
     android:backgroundTint="?attr/background"
     android:id="@+id/mensaje_completo"
     android:background="?attr/background"
     android:clickable="true"
+
     >
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="4dp"
     android:orientation="vertical"
+    android:padding="20dp"
     >
 
 
@@ -79,13 +80,6 @@
                         android:transitionName="transicion_titulo"
                         />
 
-
-
-
-
-
-
-
                 </LinearLayout>
                 </LinearLayout>
 
@@ -93,63 +87,56 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+
                     >
                         <TextView
-                            android:paddingTop="12dp"
-                            android:paddingHorizontal="12dp"
+                            android:paddingBottom="4dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Info de contacto"
-                            android:maxLines="10"
+                            android:maxLines="1"
                             android:textAppearance="?attr/textAppearanceHeadline6"
                             android:textColor="?attr/colorOnBackground"
                             android:transitionName="transicion_titulo"
                             />
                         <TextView
-                            android:paddingTop="2dp"
-                            android:paddingHorizontal="12dp"
+
                             android:id="@+id/info_contacto"
                             android:layout_width="match_parent"
-                            android:layout_height="60dp"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="20dp"
                             android:text="Teléfono: +54342111222\nBarrio Centro"
                             android:maxLines="10"
                             android:textAppearance="?attr/textAppearanceBody1"
                             android:textColor="?attr/colorOnBackground"
                             android:transitionName="transicion_titulo"
                             />
+                    <TextView
+                        android:paddingBottom="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Mensaje"
+                        android:maxLines="10"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        android:textColor="?attr/colorOnBackground"
+                        android:transitionName="transicion_titulo"
+                        />
+                    <TextView
+
+                        android:id="@+id/contenido"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:text="Hola, lo vi entre San Martin y Suipacha y lo agarré. Quedó en mi laburo. Está muy asustado, vení cuanto antes. Me encuentro entre 8 y 18hs en el local informático de la esquina. Llamame cualquier cosa."
+                        android:maxLines="10"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="?attr/colorOnBackground"
+                        android:transitionName="transicion_titulo"
+                        />
                 </LinearLayout>
 
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-                        <TextView
-                            android:paddingTop="12dp"
-                            android:paddingHorizontal="12dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mensaje"
-                            android:maxLines="10"
-                            android:textAppearance="?attr/textAppearanceHeadline6"
-                            android:textColor="?attr/colorOnBackground"
-                            android:transitionName="transicion_titulo"
-                            />
-                        <TextView
-                            android:paddingTop="2dp"
-                            android:paddingHorizontal="12dp"
-                            android:id="@+id/contenido"
-                            android:layout_width="match_parent"
-                            android:layout_height="120dp"
-                            android:text="Hola, lo vi entre San Martin y Suipacha y lo agarré. Quedó en mi laburo. Está muy asustado, vení cuanto antes. Me encuentro entre 8 y 18hs en el local informático de la esquina. Llamame cualquier cosa."
-                            android:maxLines="10"
-                            android:textAppearance="?attr/textAppearanceBody1"
-                            android:textColor="?attr/colorOnBackground"
-                            android:transitionName="transicion_titulo"
-                            />
-                </LinearLayout>
+
 
 
 

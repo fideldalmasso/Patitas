@@ -16,11 +16,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.utndam.patitas.R;
 import com.utndam.patitas.gui.MainActivity;
+import com.utndam.patitas.gui.mapas.MapsSimpleFragment;
 import com.utndam.patitas.model.PublicacionModel;
 import com.utndam.patitas.model.UsuarioModel;
 import com.utndam.patitas.service.CloudFirestoreService;
@@ -36,9 +38,9 @@ public class PublicacionCompletaFragment extends Fragment {
     public TextView soporte;
     public MaterialButton botonShare;
     public MaterialButton boton2;
-    ExtendedFloatingActionButton floatingActionButton;
-
-
+    private ExtendedFloatingActionButton floatingActionButton;
+    private MapsSimpleFragment mapaFrag;
+    private FragmentManager fragmentManager;
 
     PublicacionModel item;
 
@@ -59,6 +61,13 @@ public class PublicacionCompletaFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mapaFrag = new MapsSimpleFragment();
+        fragmentManager = getChildFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.card_contenedor_mapa,mapaFrag)
+                .commit();
+
 //        TransitionInflater inflater = TransitionInflater.from(requireContext());
 //        setEnterTransition(inflater.inflateTransition(R.transition.fade));
 
@@ -90,8 +99,8 @@ public class PublicacionCompletaFragment extends Fragment {
 
         imagen = v.findViewById(R.id.card_completo_imagen);
         titulo = v.findViewById(R.id.card_completo_titulo);
-        secundario = v.findViewById(R.id.card_completo_secundario);
-        soporte = v.findViewById(R.id.card_completo_soporte);
+        secundario = v.findViewById(R.id.card_completo_descripcion);
+        soporte = v.findViewById(R.id.card_completo_info_contacto);
         botonShare = v.findViewById(R.id.card_completo_boton1);
 
         floatingActionButton = v.findViewById(R.id.fab2);
