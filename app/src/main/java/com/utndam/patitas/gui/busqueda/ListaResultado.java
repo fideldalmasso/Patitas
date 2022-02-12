@@ -1,6 +1,5 @@
 package com.utndam.patitas.gui.busqueda;
 
-import com.utndam.patitas.R;
 import com.utndam.patitas.model.PublicacionModel;
 
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ public class ListaResultado {
 
     private void addItem(PublicacionModel item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.getpTitulo(), item);
+        ITEM_MAP.put(item.getTitulo(), item);
     }
 
 

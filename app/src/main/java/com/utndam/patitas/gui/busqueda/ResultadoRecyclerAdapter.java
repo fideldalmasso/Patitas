@@ -37,7 +37,7 @@ public class ResultadoRecyclerAdapter extends RecyclerView.Adapter<ResultadoRecy
     public void onBindViewHolder(final PublicacionViewHolder holder, int position) {
         CloudStorageService css = new CloudStorageService();
         css.setImagen(holder.imagen, listaPublicaciones.get(position).getUrlImagen(), contextNow);
-        holder.titulo.setText(listaPublicaciones.get(position).getpTitulo());
+        holder.titulo.setText(listaPublicaciones.get(position).getTitulo());
     }
 
     @Override

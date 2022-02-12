@@ -2,7 +2,6 @@ package com.utndam.patitas.gui.busqueda;
 
 import static java.lang.Math.abs;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,19 +16,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.utndam.patitas.R;
-import com.utndam.patitas.gui.MainActivity;
-import com.utndam.patitas.gui.home.AltaPublicacionFragment;
-import com.utndam.patitas.gui.home.HomeRecyclerAdapter;
-import com.utndam.patitas.gui.home.ListaEjemploPublicaciones;
-import com.utndam.patitas.gui.home.onCardSelectedListener;
 import com.utndam.patitas.gui.ingreso.AfterTextChangedTextWatcher;
 import com.utndam.patitas.gui.mapas.MapsSimpleFragment;
 import com.utndam.patitas.model.PublicacionModel;
@@ -107,7 +95,7 @@ public class BusquedaFragment extends Fragment  {
                     public void recibirPublicaciones(List<PublicacionModel> listaResultado){
                         for(PublicacionModel p: listaResultado) publis.add(p);
 //                        frag.setLista(filtrar(publis, mapaFrag.getUbicacionElegida().latitude, mapaFrag.getUbicacionElegida().longitude, 100));
-                        Toast toast =  Toast.makeText(getContext(), publis.get(0).getpTitulo(), Toast.LENGTH_LONG);
+                        Toast toast =  Toast.makeText(getContext(), publis.get(0).getTitulo(), Toast.LENGTH_LONG);
                          toast.show();
                         frag.setLista(publis);
                         fmanager.beginTransaction()

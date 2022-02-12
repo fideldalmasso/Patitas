@@ -21,12 +21,20 @@ public class PublicacionModel {
     @Exclude
     private String infoContacto;
     @Exclude
-    private int imagen;
+    private int imagen; //puede ser un bitmap también
+    @Exclude
+    private float distancia;
 
 
     public PublicacionModel() {
         super();
     }
+
+
+    public float getDistancia() { return distancia; }
+
+    public void setDistancia(float distancia) { this.distancia = distancia;    }
+
 
     public int getImagen() {
         return imagen;
