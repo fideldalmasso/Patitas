@@ -16,17 +16,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-<!--    <style name="LightThemePatitas" parent="Theme.MaterialComponents.DayNight">-->
-<!--        <item name="colorPrimary">@color/black</item>-->
-<!--        <item name="colorPrimaryDark">@color/black</item>-->
-<!--        <item name="colorAccent">@color/black</item>-->
-<!--        <item name="colorOnPrimary">@color/black</item>-->
-<!--        <item name="background">@color/black</item>-->
-<!--        <item name="colorOnBackground">@color/black</item>-->
-<!--        <item name="colorOnSecondary">@color/gris1</item>-->
-<!--        <item name="windowActionBar">false</item>-->
-<!--        <item name="windowNoTitle">true</item>-->
-<!--    </style>-->
+
     <style name="DarkThemePatitas" parent="LightThemePatitas">
         <item name="colorPrimary">@color/primaryDarkColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor2</item>

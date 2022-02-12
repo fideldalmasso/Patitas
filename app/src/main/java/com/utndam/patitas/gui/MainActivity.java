@@ -1,6 +1,7 @@
 package com.utndam.patitas.gui;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -59,11 +60,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //asignar tema correspondiente
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.DarkThemePatitas);
-        } else {
-            setTheme(R.style.LightThemePatitas);
+
+        switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+            case Configuration.UI_MODE_NIGHT_YES:
+                setTheme(R.style.DarkThemePatitas);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case Configuration.UI_MODE_NIGHT_NO:
+                setTheme(R.style.LightThemePatitas);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
         }
+
+//        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+//            setTheme(R.style.DarkThemePatitas);
+//        } else {
+//            setTheme(R.style.LightThemePatitas);
+//        }
 
 
         pantallaActual=R.id.boton_home;
@@ -85,14 +98,15 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(barraSuperior);
 
         //drawer
-        {
-            drawerLayout = findViewById(R.id.drawer_layout);
-            barraSuperior.setNavigationOnClickListener(v -> drawerLayout.openDrawer(Gravity.LEFT));
-            NavigationView drawer = findViewById(R.id.left_drawer);
-            View drawerHeader = drawer.getHeaderView(0);
-            drawerNombreCompletoUsuario = drawerHeader.findViewById(R.id.nombre_completo_usuario);
-            drawerEmailUsuario = drawerHeader.findViewById(R.id.email_usuario);
-        }
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        barraSuperior.setNavigationOnClickListener(v -> drawerLayout.openDrawer(Gravity.LEFT));
+        NavigationView drawer = findViewById(R.id.left_drawer);
+        View drawerHeader = drawer.getHeaderView(0);
+        drawerNombreCompletoUsuario = drawerHeader.findViewById(R.id.nombre_completo_usuario);
+        drawerEmailUsuario = drawerHeader.findViewById(R.id.email_usuario);
+//        drawer.setBackgroundColor(R.attr.background);
+//        drawerHeader.setBackgroundColor(R.attr.background);
 
         //barra inferior
         barraInferior = findViewById(R.id.bottom_toolbar);
@@ -221,8 +235,10 @@ public class MainActivity extends AppCompatActivity {
         //cambiar el tema
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            setTheme(R.style.LightThemePatitas);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            setTheme(R.style.DarkThemePatitas);
         }
 
         //reiniciar la actividad

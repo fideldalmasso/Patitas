@@ -15,18 +15,16 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/topAppBar"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="Mi Toolbar Tuneada"
                 app:menu="@menu/menu_toolbar_superior"
                 app:navigationIcon="@drawable/ic_baseline_menu_24"
-                style="@style/Widget.MaterialComponents.Toolbar.Primary"
-                />
+                app:title="Mi Toolbar Tuneada" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -57,16 +55,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="?attr/background"
         android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/drawer_header"
-        app:itemTextColor="?attr/colorOnBackground"
-        app:itemShapeFillColor="?attr/background"
-
-        app:subheaderColor="?attr/background"
-
-        app:menu="@menu/menu_drawer" />
+        app:menu="@menu/menu_drawer"
+        />
 </androidx.drawerlayout.widget.DrawerLayout>
