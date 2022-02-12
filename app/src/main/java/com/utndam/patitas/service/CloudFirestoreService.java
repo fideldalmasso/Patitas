@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -36,6 +37,9 @@ public class CloudFirestoreService {
     public interface DestinoQueryPublicaciones{
         public void recibirPublicaciones(List<PublicacionModel> listaResultado );
     }
+    public interface DestinoQueryUsuario{
+        public void recibirUsuario(UsuarioModel usuarioModel );
+    }
 
     public CloudFirestoreService(){
         db = FirebaseFirestore.getInstance();
@@ -56,6 +60,38 @@ public class CloudFirestoreService {
                     }
                 });
     }
+
+    public void buscarUsuario(String id, DestinoQueryUsuario destinoQueryUsuario){
+        db.collection("usuarios")
+                .document(id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                // Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                UsuarioModel usuarioModel = new UsuarioModel();
+                                usuarioModel.setId(document.getId());
+                                usuarioModel.setFotoUrl(document.getString("fotoUrl"));
+                                usuarioModel.setMail(document.getString("mail"));
+                                usuarioModel.setTelefono(document.getString("telefono"));
+                                usuarioModel.setNombreCompleto(document.getString("nombreCompleto"));
+                                usuarioModel.setTipoCuenta(document.getString("tipoCuenta"));
+                                destinoQueryUsuario.recibirUsuario(usuarioModel);
+                            } else {
+                                // Log.d(TAG, "No such document");
+                            }
+                        } else {
+                            //Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
+
+    }
+
+
 
     public void buscarUsuario(String mail, String tipoCuenta, Fragment fragment){
         db.collection("usuarios")
