@@ -107,8 +107,7 @@ public class BusquedaFragment extends Fragment  {
                     public void recibirPublicaciones(List<PublicacionModel> listaResultado){
                         for(PublicacionModel p: listaResultado) publis.add(p);
 //                        frag.setLista(filtrar(publis, mapaFrag.getUbicacionElegida().latitude, mapaFrag.getUbicacionElegida().longitude, 100));
-                        Toast toast =  Toast.makeText(getContext(), publis.get(0).getpTitulo(), Toast.LENGTH_LONG);
-                         toast.show();
+
                         frag.setLista(publis);
                         fmanager.beginTransaction()
                                 .setCustomAnimations(

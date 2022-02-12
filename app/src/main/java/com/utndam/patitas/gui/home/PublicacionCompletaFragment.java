@@ -26,6 +26,7 @@ import com.utndam.patitas.gui.mapas.MapsSimpleFragment;
 import com.utndam.patitas.model.PublicacionModel;
 import com.utndam.patitas.model.UsuarioModel;
 import com.utndam.patitas.service.CloudFirestoreService;
+import com.utndam.patitas.service.CloudStorageService;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -94,7 +95,7 @@ public class PublicacionCompletaFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity)getActivity()).cambiarTextoBarraSuperior(item.getpTitulo());
+        ((MainActivity)getActivity()).cambiarTextoBarraSuperior(item.getTitulo());
         View v =  inflater.inflate(R.layout.fragment_publicacion_completa, container, false);
 
         imagen = v.findViewById(R.id.card_completo_imagen);
@@ -130,12 +131,10 @@ public class PublicacionCompletaFragment extends Fragment {
                 cloudFirestoreService.buscarUsuario("juanperez@gmail.com","Google", (Fragment) floatingActionButton.getTag());
             }
         });
-
-        imagen.setImageResource(item.getpImagen());
+        CloudStorageService css = new CloudStorageService();
+        css.setImagen(imagen, item.getUrlImagen(), getContext());
         imagen.setTransitionName("transicion_imagen");
-        titulo.setText(item.getpTitulo());
-        secundario.setText(item.getpSecundario());
-        soporte.setText(item.getpSoporte());
+        titulo.setText(item.getTitulo());
 
         botonShare.setOnClickListener(new View.OnClickListener() {
             @Override
