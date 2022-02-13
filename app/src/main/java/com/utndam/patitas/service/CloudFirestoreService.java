@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -146,7 +147,13 @@ public class CloudFirestoreService {
                                 usuarioModel.setMail(usuario.getEmail());
                                 if(usuario.getPhoneNumber()!=null)usuarioModel.setTelefono(usuario.getPhoneNumber());
                                 if(usuario.getDisplayName()!=null)usuarioModel.setNombreCompleto(usuario.getDisplayName());
-                                if(usuario.getProviderId()!=null)usuarioModel.setTipoCuenta(usuario.getProviderId());
+                                //if(usuario.getProviderId()!=null)usuarioModel.setTipoCuenta(usuario.getProviderId());
+                                usuarioModel.setTipoCuenta("firebase");
+                                for (UserInfo user: usuario.getProviderData()) {
+                                    if (!user.getProviderId().equals("firebase")) {
+                                        usuarioModel.setTipoCuenta(user.getProviderId());
+                                    }
+                                }
                                 db.collection("usuarios").add(usuarioModel)
                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                             @Override
