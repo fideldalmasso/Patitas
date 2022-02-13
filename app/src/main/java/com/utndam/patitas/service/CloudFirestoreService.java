@@ -247,8 +247,9 @@ public class CloudFirestoreService {
                                             return userIds.stream()
                                                     .map(u -> {
                                                                 try {
-                                                                    return transaction.get(db.collection("usuarios").document(u))
-                                                                            .toObject(UsuarioModel.class);
+                                                                    return armarUsuario(
+                                                                            transaction.get(db.collection("usuarios").document(u))
+                                                                    );
                                                                 } catch (FirebaseFirestoreException e) {
                                                                     e.printStackTrace();
                                                                     return null;
@@ -260,8 +261,9 @@ public class CloudFirestoreService {
                                         else {
                                             ArrayList<UsuarioModel> listaUsuarios = new ArrayList<UsuarioModel>();
                                             for(String usu : userIds){
-                                                listaUsuarios.add(transaction.get(db.collection("usuarios").document(usu))
-                                                        .toObject(UsuarioModel.class)
+                                                listaUsuarios.add(armarUsuario(
+                                                        transaction.get(db.collection("usuarios").document(usu))
+                                                )
                                                 );
                                             }
                                             return  listaUsuarios;
@@ -335,8 +337,9 @@ public class CloudFirestoreService {
                                     return userIds.stream()
                                             .map(u -> {
                                                         try {
-                                                            return transaction.get(db.collection("usuarios").document(u))
-                                                                    .toObject(UsuarioModel.class);
+                                                            return armarUsuario(
+                                                                    transaction.get(db.collection("usuarios").document(u))
+                                                            );
                                                         } catch (FirebaseFirestoreException e) {
                                                             e.printStackTrace();
                                                             return null;
@@ -348,8 +351,9 @@ public class CloudFirestoreService {
                                 else {
                                     ArrayList<UsuarioModel> listaUsuarios = new ArrayList<UsuarioModel>();
                                     for(String usu : userIds){
-                                        listaUsuarios.add(transaction.get(db.collection("usuarios").document(usu))
-                                                .toObject(UsuarioModel.class)
+                                        listaUsuarios.add(armarUsuario(
+                                                transaction.get(db.collection("usuarios").document(usu))
+                                                )
                                         );
                                     }
                                     return  listaUsuarios;
