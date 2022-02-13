@@ -19,6 +19,11 @@
         android:roundIcon="@mipmap/logo_patitas_round"
         android:supportsRtl="true"
         android:theme="@style/LightThemePatitas">
+        <receiver
+            android:name=".MyReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
+
         <activity
             android:name=".gui.mapas.ElegirUbicacionActivity"
             android:exported="false" />
@@ -32,6 +37,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -41,7 +47,7 @@
         <activity
             android:name=".gui.MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

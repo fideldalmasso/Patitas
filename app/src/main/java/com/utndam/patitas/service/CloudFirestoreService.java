@@ -1,10 +1,12 @@
 package com.utndam.patitas.service;
 
+import android.content.Intent;
 import android.os.Build;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,6 +24,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Transaction;
+import com.utndam.patitas.MyReceiver;
 import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.gui.home.AltaPublicacionFragment;
 import com.utndam.patitas.model.MensajeModel;
@@ -209,7 +212,12 @@ public class CloudFirestoreService {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        fragment.notificarExito();
+                        //fragment.notificarExito();
+                        Intent i = new Intent();
+                        i.putExtra("tituloPublicacion",publicacionModel.getTitulo());
+                        i.setAction(MyReceiver.EVENTO_PUBLICACION_CREADA);
+                        LocalBroadcastManager.getInstance(fragment.getActivity()).sendBroadcast(i);
+
                         //Toast.makeText(fragment.getActivity(), "DocumentSnapshot successfully written!", Toast.LENGTH_LONG).show();
                     }
                 })

@@ -1,7 +1,12 @@
 package com.utndam.patitas.gui;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -18,12 +23,14 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.utndam.patitas.MyReceiver;
 import com.utndam.patitas.R;
 import com.utndam.patitas.gui.busqueda.BusquedaFragment;
 import com.utndam.patitas.gui.home.HomeFragment;
@@ -49,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int pantallaActual;
 //    public UsuarioModel usuarioModel;
+    public static String CHANNEL_ID= "Canal_Patitas";
 
 
     @Override
@@ -58,6 +66,13 @@ public class MainActivity extends AppCompatActivity {
             savedInstanceState.clear();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        createNotificationChannel();
+        BroadcastReceiver br = new MyReceiver();
+        IntentFilter filtro = new IntentFilter();
+        filtro.addAction(MyReceiver.EVENTO_PUBLICACION_CREADA);
+        LocalBroadcastManager.getInstance(this)
+                .registerReceiver(br,filtro);
+
 
         //asignar tema correspondiente
 
@@ -260,4 +275,20 @@ public class MainActivity extends AppCompatActivity {
         if(!TextUtils.isEmpty(texto) && texto.length()>0)
             barraSuperior.setTitle(texto);
     }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Notificaciones_patitas";
+            String description = "";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    };
 }
