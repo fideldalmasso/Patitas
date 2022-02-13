@@ -5,15 +5,20 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -23,6 +28,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.utndam.patitas.R;
 import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.gui.mapas.MapsSimpleFragment;
+import com.utndam.patitas.model.MensajeModel;
 import com.utndam.patitas.model.PublicacionModel;
 import com.utndam.patitas.model.UsuarioModel;
 import com.utndam.patitas.service.CloudFirestoreService;
@@ -105,19 +111,48 @@ public class PublicacionCompletaFragment extends Fragment {
 
         floatingActionButton = v.findViewById(R.id.fab2);
         floatingActionButton.setTag(this);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UsuarioModel usuarioModel= new UsuarioModel();
-                usuarioModel.setTipoCuenta("Google");
-                usuarioModel.setId(null);
-                usuarioModel.setNombreCompleto("Juan Perez");
-                usuarioModel.setTelefono("4222222");
-                usuarioModel.setMail("juanperez@gmail.com");
-                usuarioModel.setFotoUrl(null);
-                CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
-                cloudFirestoreService.guardarUsuario(usuarioModel, (Fragment) floatingActionButton.getTag());
-            }
+
+        floatingActionButton.setOnClickListener(view ->{
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+            final EditText input = new EditText(getContext());
+            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
+            input.setLines(3);
+            input.setMaxLines(6);
+            input.setSingleLine(false);
+            input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(120)});
+            input.setVerticalScrollBarEnabled(true);
+            input.setMovementMethod(ScrollingMovementMethod.getInstance());
+            input.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);;
+
+            builder
+//                    .setCancelable(false)
+                    .setTitle("Responder a \""+item.getTitulo()+"\"")
+                    .setView(input)
+                    .setPositiveButton("Aceptar", (dialog, i) -> {
+//                        dialog.dismiss();
+                        MensajeModel m = new MensajeModel();
+                        Toast.makeText(getContext(), "Falta implementar guardar el mensaje en DB", Toast.LENGTH_LONG).show();
+                    })
+                    .setNegativeButton("Cancelar", (dialog, id) -> {
+//                        dialog.dismiss();
+                        dialog.cancel();
+                    })
+                    .create()
+                    .show();
+        });
+
+        floatingActionButton.setOnLongClickListener(view -> {
+            UsuarioModel usuarioModel= new UsuarioModel();
+            usuarioModel.setTipoCuenta("Google");
+            usuarioModel.setId(null);
+            usuarioModel.setNombreCompleto("Juan Perez");
+            usuarioModel.setTelefono("4222222");
+            usuarioModel.setMail("juanperez@gmail.com");
+            usuarioModel.setFotoUrl(null);
+            CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
+            cloudFirestoreService.guardarUsuario(usuarioModel, (Fragment) floatingActionButton.getTag());
+            return false;
         });
 
 
