@@ -3,14 +3,16 @@ package com.utndam.patitas.model;
 import com.google.firebase.firestore.Exclude;
 
 public class MensajeModel {
-
+    @Exclude
     public String remitenteFotoUrl;
+    @Exclude
     public  String remitenteNombre;
     public  String publicacionAsociada;
     @Exclude
     public  int remitenteFoto;
     public String idPublicacionAsociada;
     public  String contenido;
+    @Exclude
     public  String contacto;
     public String idReceptor;
     public String idRemitente;

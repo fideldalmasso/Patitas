@@ -24,6 +24,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Transaction;
 import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.gui.home.AltaPublicacionFragment;
+import com.utndam.patitas.model.MensajeModel;
 import com.utndam.patitas.model.PublicacionModel;
 import com.utndam.patitas.model.UsuarioActual;
 import com.utndam.patitas.model.UsuarioModel;
@@ -40,6 +41,9 @@ public class CloudFirestoreService {
 
     public interface DestinoQueryPublicaciones{
         public void recibirPublicaciones(List<PublicacionModel> listaResultado );
+    }
+    public interface DestinoQueryMensajes{
+        public void recibirMensajes(List<MensajeModel> listaResultado );
     }
     public interface DestinoQueryUsuario{
         public void recibirUsuario(UsuarioModel usuarioModel );
@@ -213,6 +217,115 @@ public class CloudFirestoreService {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         //Toast.makeText(fragment.getActivity(), "Error writing document" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    public void guardarMensaje(MensajeModel mensajeModel){
+        DocumentReference newMensajeRef = db.collection("mensajes").document();
+        newMensajeRef.set(mensajeModel)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(fragment.getActivity(), "DocumentSnapshot successfully written!", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(fragment.getActivity(), "Error writing document" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    public void buscarMensajesPorUsuario(String idReceptor, DestinoQueryMensajes destinoQueryMensajes){
+        CollectionReference mensajesRef = db.collection("mensajes");
+        mensajesRef.whereEqualTo("idReceptor",idReceptor).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            ArrayList<MensajeModel> lista;
+                            HashSet<String> userIds = new HashSet<String>();
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                lista = (ArrayList<MensajeModel>) task.getResult().getDocuments().stream()
+                                        .map( p -> armarMensaje((QueryDocumentSnapshot) p))
+                                        .collect(Collectors.toList());
+                                lista.stream()
+                                        .forEach(p -> userIds.add(p.getIdRemitente()));
+                            }
+                            else{
+                                lista = new ArrayList<MensajeModel>();
+                                for (QueryDocumentSnapshot p : task.getResult()) {
+                                    MensajeModel mensajeModel = armarMensaje(p);
+                                    userIds.add(mensajeModel.getIdRemitente());
+                                    lista.add(mensajeModel);
+                                }
+                            }
+                            HashMap<String,UsuarioModel> userToInfo = new HashMap<String,UsuarioModel>();
+                            db.runTransaction(new Transaction.Function<List<UsuarioModel>>(){
+                                @Override
+                                public List<UsuarioModel> apply(Transaction transaction) throws FirebaseFirestoreException {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                                        return userIds.stream()
+                                                .map(u -> {
+                                                            try {
+                                                                return armarUsuario(
+                                                                        transaction.get(db.collection("usuarios").document(u))
+                                                                );
+                                                            } catch (FirebaseFirestoreException e) {
+                                                                e.printStackTrace();
+                                                                return null;
+                                                            }
+                                                        }
+                                                )
+                                                .collect(Collectors.toList());
+                                    }
+                                    else {
+                                        ArrayList<UsuarioModel> listaUsuarios = new ArrayList<UsuarioModel>();
+                                        for(String usu : userIds){
+                                            listaUsuarios.add(armarUsuario(
+                                                    transaction.get(db.collection("usuarios").document(usu))
+                                                    )
+                                            );
+                                        }
+                                        return  listaUsuarios;
+                                    }
+                                }
+
+                            })
+                                    .addOnSuccessListener(new OnSuccessListener<List<UsuarioModel>>() {
+                                        @Override
+                                        public void onSuccess(List<UsuarioModel> result){
+                                            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                                                result.stream()
+                                                        .forEach(u -> userToInfo.put(u.getId(),u));
+                                                lista.stream()
+                                                        .forEach(m -> {
+                                                            m.setRemitenteFotoUrl( userToInfo.get(m.getIdRemitente()).getFotoUrl() );
+                                                            m.setRemitenteNombre(userToInfo.get(m.getIdRemitente()).getNombreCompleto());
+                                                            m.setContacto(userToInfo.get(m.getIdRemitente()).toString());
+                                                        });
+                                            }
+                                            else {
+                                                for(UsuarioModel u : result){
+                                                    userToInfo.put(u.getId(),u);
+                                                }
+                                                for(MensajeModel m : lista){
+                                                    m.setRemitenteFotoUrl( userToInfo.get(m.getIdRemitente()).getFotoUrl() );
+                                                    m.setRemitenteNombre(userToInfo.get(m.getIdRemitente()).getNombreCompleto());
+                                                    m.setContacto(userToInfo.get(m.getIdRemitente()).toString());
+                                                }
+                                            }
+                                            destinoQueryMensajes.recibirMensajes(lista);
+                                        }
+
+                                    });
+
+                        } else {
+                            //Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+
                     }
                 });
     }
@@ -469,6 +582,18 @@ public class CloudFirestoreService {
         usuarioModel.setNombreCompleto(document.getString("nombreCompleto"));
         usuarioModel.setTipoCuenta(document.getString("tipoCuenta"));
         return  usuarioModel;
+    }
+
+    private MensajeModel armarMensaje(QueryDocumentSnapshot m){
+        MensajeModel mensajeModel = new MensajeModel();
+        mensajeModel.setPublicacionAsociada(m.getString("publicacionAsociada"));
+        mensajeModel.setIdPublicacionAsociada(m.getString("idPublicacionAsociada"));
+        mensajeModel.setContenido(m.getString("contenido"));
+        //mensajeModel.setContacto(m.getString("contacto"));
+        mensajeModel.setIdReceptor(m.getString("idReceptor"));
+        mensajeModel.setIdRemitente(m.getString("idRemitente"));
+
+        return mensajeModel;
     }
 
 }
