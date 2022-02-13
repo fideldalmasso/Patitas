@@ -51,7 +51,6 @@ public class ListaEjemploPublicaciones {
         p.setDescripcion("Perro perdido en zona centro, ofrecemos recompensa");
         p.setImagen(position%2==0? R.drawable.perro1 : R.drawable.gato3);
         p.setInfoContacto("Teléfono: +54342111222\nBarrio Centro");
-        p.setUrlImagen("https://firebasestorage.googleapis.com/v0/b/patitas2-f92e8.appspot.com/o/images%2Fj7iI7Epc1YNdn9DVSRpe%2F20220212_0652481.jpg?alt=media&token=36440deb-3809-4a21-ae34-1fea2a918d29");
         return p;
     }
 

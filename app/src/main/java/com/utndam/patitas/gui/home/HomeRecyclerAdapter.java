@@ -29,7 +29,8 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 
     @Override
     public void onBindViewHolder(final PublicacionViewHolder holder, int position) {
-        holder.imagen.setImageResource(listaPublicaciones.get(position).getImagen());
+        holder.imagen.setImageBitmap(listaPublicaciones.get(position).getBitmap());
+//        holder.imagen.setImageResource(listaPublicaciones.get(position).getImagen());
         holder.titulo.setText(listaPublicaciones.get(position).getTitulo());
     }
 

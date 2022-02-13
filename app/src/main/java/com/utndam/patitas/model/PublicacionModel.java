@@ -1,9 +1,10 @@
 package com.utndam.patitas.model;
 
+import android.graphics.Bitmap;
+
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.ServerTimestamp;
 
-import java.util.Comparator;
 import java.util.Date;
 
 public class PublicacionModel {
@@ -23,9 +24,20 @@ public class PublicacionModel {
     private String infoContacto;
     @Exclude
     private int imagen; //puede ser un bitmap también
+
+
+    @Exclude
+    private Bitmap bitmap;
     @Exclude
     private float distancia;
 
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
 
     public PublicacionModel() {
         super();

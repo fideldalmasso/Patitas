@@ -26,7 +26,6 @@ import com.utndam.patitas.gui.mapas.MapsSimpleFragment;
 import com.utndam.patitas.model.PublicacionModel;
 import com.utndam.patitas.model.UsuarioModel;
 import com.utndam.patitas.service.CloudFirestoreService;
-import com.utndam.patitas.service.CloudStorageService;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,8 +34,8 @@ public class PublicacionCompletaFragment extends Fragment {
 
     public ImageView imagen;
     public TextView titulo;
-    public TextView secundario;
-    public TextView soporte;
+    public TextView descripcion;
+    public TextView infoContacto;
     public MaterialButton botonShare;
     public MaterialButton boton2;
     private ExtendedFloatingActionButton floatingActionButton;
@@ -100,8 +99,8 @@ public class PublicacionCompletaFragment extends Fragment {
 
         imagen = v.findViewById(R.id.card_completo_imagen);
         titulo = v.findViewById(R.id.card_completo_titulo);
-        secundario = v.findViewById(R.id.card_completo_descripcion);
-        soporte = v.findViewById(R.id.card_completo_info_contacto);
+        descripcion = v.findViewById(R.id.card_completo_descripcion);
+        infoContacto = v.findViewById(R.id.card_completo_info_contacto);
         botonShare = v.findViewById(R.id.card_completo_boton1);
 
         floatingActionButton = v.findViewById(R.id.fab2);
@@ -131,10 +130,6 @@ public class PublicacionCompletaFragment extends Fragment {
                 cloudFirestoreService.buscarUsuario("juanperez@gmail.com","Google", (Fragment) floatingActionButton.getTag());
             }
         });
-        CloudStorageService css = new CloudStorageService();
-        css.setImagen(imagen, item.getUrlImagen(), getContext());
-        imagen.setTransitionName("transicion_imagen");
-        titulo.setText(item.getTitulo());
 
         botonShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +142,12 @@ public class PublicacionCompletaFragment extends Fragment {
                 shareImageandText(bitmap);
             }
         });
+
+
+        imagen.setImageBitmap(item.getBitmap());
+        titulo.setText(item.getTitulo());
+        descripcion.setText(item.getDescripcion());
+        infoContacto.setText(item.getInfoContacto());
 
         return v;
     }

@@ -30,7 +30,6 @@ import com.utndam.patitas.model.UsuarioModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -428,7 +427,10 @@ public class CloudFirestoreService {
     private PublicacionModel armarPublicacion(QueryDocumentSnapshot p){
         PublicacionModel publicacionModel = new PublicacionModel();
         publicacionModel.setIdUsuario(p.getString("idUsuario"));
-        publicacionModel.setTitulo(p.getString("pTitulo"));
+        String titulo = p.getString("titulo");
+        if(titulo==null)
+            titulo=p.getString("pTitulo");
+        publicacionModel.setTitulo(titulo);
         publicacionModel.setUrlImagen(p.getString("urlImagen"));
         publicacionModel.setId(p.getId());
         publicacionModel.setDescripcion(p.getString("descripcion"));
@@ -439,6 +441,11 @@ public class CloudFirestoreService {
         publicacionModel.setLatitud(p.getDouble("latitud"));
 
         //aca falta que setearle a publicacionModel los atributos que faltan: imagen(int o bitmap), infoContacto(string)
+
+//        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(publicacionModel.getUrlImagen());
+
+
+
 
         return publicacionModel;
     }
