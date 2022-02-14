@@ -107,7 +107,7 @@ public class ResultadoFragment extends Fragment implements onCardSelectedListene
     @Override
     public void onCardSelectedListener(PublicacionModel item) {
 
-        PublicacionCompletaFragment frag = new PublicacionCompletaFragment(item);
+        PublicacionCompletaFragment2 frag = new PublicacionCompletaFragment2(item);
 
         getParentFragmentManager()
                 .beginTransaction()

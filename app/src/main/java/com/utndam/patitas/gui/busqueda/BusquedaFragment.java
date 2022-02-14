@@ -110,7 +110,7 @@ public class BusquedaFragment extends Fragment  {
                     @Override
                     public void recibirPublicaciones(List<PublicacionModel> listaResultado){
                         for(PublicacionModel p: listaResultado) publis.add(p);
-                        frag.setLista(filtrar(publis, mapaFrag.getUbicacionElegida().latitude, mapaFrag.getUbicacionElegida().longitude, 300));
+                        frag.setLista(filtrar(publis, mapaFrag.getUbicacionElegida().latitude, mapaFrag.getUbicacionElegida().longitude, 100));
 
                         fmanager.beginTransaction()
                                 .setCustomAnimations(
@@ -150,10 +150,14 @@ public class BusquedaFragment extends Fragment  {
                return 0;
            }
        });
-        System.out.println("PAZ");
+        System.out.println("PAZ " + lat + " " + lon);
+        double last = -1;
         for(PublicacionModel p : ret){
             System.out.println(p.getTitulo() + " " + p.getDistancia());
+            last = p.getDistancia();
         }
+        Toast toastUbi = Toast.makeText(getContext(), "cerca " + ret.get(0).getDistancia() + " last " + last, Toast.LENGTH_LONG );
+        toastUbi.show();
         return ret;
     }
 
