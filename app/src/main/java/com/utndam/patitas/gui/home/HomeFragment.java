@@ -1,7 +1,6 @@
 package com.utndam.patitas.gui.home;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.transition.MaterialFadeThrough;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.utndam.patitas.R;
 import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.model.PublicacionModel;
 import com.utndam.patitas.service.CloudFirestoreService;
-import com.utndam.patitas.service.GlideApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,26 +128,26 @@ public class HomeFragment extends Fragment implements onCardSelectedListener {
                 public void recibirPublicaciones(List<PublicacionModel> listaResultado) {
 
                     lista.addAll(listaResultado);
-
-                    //descargar imagenes
-                    new Thread(() -> {
-                        for(PublicacionModel p : lista) {
-                            Bitmap bitmap = null;
-                            try {
-                                StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(p.getUrlImagen());
-                                bitmap = GlideApp.with(getContext()).asBitmap().load(storageReference).submit().get();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            p.setBitmap(bitmap);
-                        }
-
-                        //actualizar la ui
-                        getActivity().runOnUiThread(() -> {
-                            adaptador.notifyDataSetChanged();
-                        });
-
-                    }).start();
+                    adaptador.notifyDataSetChanged();
+//                    //descargar imagenes
+//                    new Thread(() -> {
+//                        for(PublicacionModel p : lista) {
+//                            Bitmap bitmap = null;
+//                            try {
+//                                StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(p.getUrlImagen());
+//                                bitmap = GlideApp.with(getContext()).asBitmap().load(storageReference).submit().get();
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                            p.setBitmap(bitmap);
+//                        }
+//
+//                        //actualizar la ui
+//                        getActivity().runOnUiThread(() -> {
+//                            adaptador.notifyDataSetChanged();
+//                        });
+//
+//                    }).start();
 
                 }
             });

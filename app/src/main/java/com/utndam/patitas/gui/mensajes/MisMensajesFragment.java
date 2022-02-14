@@ -13,21 +13,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.utndam.patitas.R;
 import com.utndam.patitas.model.MensajeModel;
+import com.utndam.patitas.model.UsuarioActual;
+import com.utndam.patitas.service.CloudFirestoreService;
 
-/**
- * A fragment representing a list of Items.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class MisMensajesFragment extends Fragment  implements onMensajeSelectedListener {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 1;
+    private CloudFirestoreService service = new CloudFirestoreService();
+    private List<MensajeModel> listaMensajes;
+    private MisMensajesRecyclerAdapter adaptador;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public MisMensajesFragment() {
     }
 
@@ -44,6 +44,7 @@ public class MisMensajesFragment extends Fragment  implements onMensajeSelectedL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        listaMensajes = new ArrayList<>();
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
@@ -65,9 +66,18 @@ public class MisMensajesFragment extends Fragment  implements onMensajeSelectedL
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            MisMensajesRecyclerAdapter adaptador = new MisMensajesRecyclerAdapter(ListaEjemploMensajes.ITEMS);
+
+//            MisMensajesRecyclerAdapter adaptador = new MisMensajesRecyclerAdapter(ListaEjemploMensajes.ITEMS);
+            adaptador = new MisMensajesRecyclerAdapter(listaMensajes);
             adaptador.setListener(this);
             recyclerView.setAdapter(adaptador);
+            service.buscarMensajesPorUsuario(UsuarioActual.getInstance().getId(), new CloudFirestoreService.DestinoQueryMensajes() {
+                @Override
+                public void recibirMensajes(List<MensajeModel> listaResultado) {
+                    listaMensajes.addAll(listaResultado);
+                    adaptador.notifyDataSetChanged();
+                }
+            });
 
         }
         return view;

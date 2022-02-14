@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.utndam.patitas.R;
 import com.utndam.patitas.model.MensajeModel;
+import com.utndam.patitas.service.CloudStorageService;
 
 public class MensajeCompletoFragment extends Fragment {
 
@@ -21,7 +22,7 @@ public class MensajeCompletoFragment extends Fragment {
     public TextView publicacionAsociada;
     public TextView infoContacto;
     public TextView contenido;
-
+    private CloudStorageService service2 = new CloudStorageService();
 
 
     MensajeModel item;
@@ -73,7 +74,8 @@ public class MensajeCompletoFragment extends Fragment {
         contenido = v.findViewById(R.id.contenido);
 
 
-        remitenteFoto.setImageResource(item.remitenteFoto);
+//        remitenteFoto.setImageResource(item.remitenteFoto);
+        service2.setImagen(remitenteFoto, item.getRemitenteFotoUrl(),remitenteFoto.getContext());
         remitenteNombre.setText(item.remitenteNombre);
         publicacionAsociada.setText(item.publicacionAsociada);
         infoContacto.setText(item.contacto);

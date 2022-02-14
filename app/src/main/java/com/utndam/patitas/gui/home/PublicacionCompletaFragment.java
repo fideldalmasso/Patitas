@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +29,9 @@ import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.gui.mapas.MapsSimpleFragment;
 import com.utndam.patitas.model.MensajeModel;
 import com.utndam.patitas.model.PublicacionModel;
-import com.utndam.patitas.model.UsuarioModel;
+import com.utndam.patitas.model.UsuarioActual;
 import com.utndam.patitas.service.CloudFirestoreService;
+import com.utndam.patitas.service.CloudStorageService;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -47,6 +47,8 @@ public class PublicacionCompletaFragment extends Fragment {
     private ExtendedFloatingActionButton floatingActionButton;
     private MapsSimpleFragment mapaFrag;
     private FragmentManager fragmentManager;
+    private CloudFirestoreService service = new CloudFirestoreService();
+    private CloudStorageService service2 = new CloudStorageService();
 
     PublicacionModel item;
 
@@ -117,13 +119,13 @@ public class PublicacionCompletaFragment extends Fragment {
 
             final EditText input = new EditText(getContext());
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
-            input.setLines(3);
-            input.setMaxLines(6);
+//            input.setLines(3);
+//            input.setMaxLines(6);
             input.setSingleLine(false);
             input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(120)});
-            input.setVerticalScrollBarEnabled(true);
-            input.setMovementMethod(ScrollingMovementMethod.getInstance());
-            input.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);;
+//            input.setVerticalScrollBarEnabled(true);
+//            input.setMovementMethod(ScrollingMovementMethod.getInstance());
+//            input.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);;
 
             builder
 //                    .setCancelable(false)
@@ -131,8 +133,15 @@ public class PublicacionCompletaFragment extends Fragment {
                     .setView(input)
                     .setPositiveButton("Aceptar", (dialog, i) -> {
 //                        dialog.dismiss();
-                        MensajeModel m = new MensajeModel();
                         Toast.makeText(getContext(), "Falta implementar guardar el mensaje en DB", Toast.LENGTH_LONG).show();
+                        MensajeModel m = new MensajeModel();
+                        m.setPublicacionAsociada(item.getTitulo());
+                        m.setIdPublicacionAsociada(item.getId());
+                        m.setIdReceptor(item.getIdUsuario());
+                        m.setIdRemitente(UsuarioActual.getInstance().getId());
+                        m.setContenido(input.getText().toString());
+                        service.guardarMensaje(m);
+
                     })
                     .setNegativeButton("Cancelar", (dialog, id) -> {
 //                        dialog.dismiss();
@@ -142,18 +151,18 @@ public class PublicacionCompletaFragment extends Fragment {
                     .show();
         });
 
-        floatingActionButton.setOnLongClickListener(view -> {
-            UsuarioModel usuarioModel= new UsuarioModel();
-            usuarioModel.setTipoCuenta("Google");
-            usuarioModel.setId(null);
-            usuarioModel.setNombreCompleto("Juan Perez");
-            usuarioModel.setTelefono("4222222");
-            usuarioModel.setMail("juanperez@gmail.com");
-            usuarioModel.setFotoUrl(null);
-            CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
-            cloudFirestoreService.guardarUsuario(usuarioModel, (Fragment) floatingActionButton.getTag());
-            return false;
-        });
+//        floatingActionButton.setOnLongClickListener(view -> {
+//            UsuarioModel usuarioModel= new UsuarioModel();
+//            usuarioModel.setTipoCuenta("Google");
+//            usuarioModel.setId(null);
+//            usuarioModel.setNombreCompleto("Juan Perez");
+//            usuarioModel.setTelefono("4222222");
+//            usuarioModel.setMail("juanperez@gmail.com");
+//            usuarioModel.setFotoUrl(null);
+//            CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
+//            cloudFirestoreService.guardarUsuario(usuarioModel, (Fragment) floatingActionButton.getTag());
+//            return false;
+//        });
 
 
         boton2 = v.findViewById(R.id.card_completo_boton2);
@@ -179,7 +188,8 @@ public class PublicacionCompletaFragment extends Fragment {
         });
 
 
-        imagen.setImageBitmap(item.getBitmap());
+//        imagen.setImageBitmap(item.getBitmap());
+        service2.setImagen(imagen, item.getUrlImagen(),imagen.getContext());
         titulo.setText(item.getTitulo());
         descripcion.setText(item.getDescripcion());
         infoContacto.setText(item.getInfoContacto());

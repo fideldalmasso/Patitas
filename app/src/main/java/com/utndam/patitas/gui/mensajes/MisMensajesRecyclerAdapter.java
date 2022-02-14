@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.utndam.patitas.databinding.FragmentMensajeSimpleBinding;
 import com.utndam.patitas.model.MensajeModel;
+import com.utndam.patitas.service.CloudStorageService;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class MisMensajesRecyclerAdapter extends RecyclerView.Adapter<MisMensajes
     }
 
     private onMensajeSelectedListener listener;
+    private CloudStorageService service2 = new CloudStorageService();
 
     @Override
     public MensajeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -42,7 +44,8 @@ public class MisMensajesRecyclerAdapter extends RecyclerView.Adapter<MisMensajes
     public void onBindViewHolder(final MensajeViewHolder holder, int position) {
 //        holder.mItem = listaMensajes.get(position);
 
-        holder.senderFoto.setImageResource(listaMensajes.get(position).remitenteFoto);
+//        holder.senderFoto.setImageResource(listaMensajes.get(position).remitenteFoto);
+        service2.setImagen(holder.senderFoto, listaMensajes.get(position).getRemitenteFotoUrl(),holder.senderFoto.getContext());
         holder.senderNombre.setText(listaMensajes.get(position).remitenteNombre);
         holder.contenido.setText(listaMensajes.get(position).contenido);
         holder.publicacionAsociada.setText(listaMensajes.get(position).publicacionAsociada);

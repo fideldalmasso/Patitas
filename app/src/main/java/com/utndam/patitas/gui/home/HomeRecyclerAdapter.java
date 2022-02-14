@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.utndam.patitas.databinding.FragmentPublicacionSimpleBinding;
 import com.utndam.patitas.model.PublicacionModel;
+import com.utndam.patitas.service.CloudStorageService;
+
 import java.util.List;
 
 
@@ -15,6 +17,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 
     private final List<PublicacionModel> listaPublicaciones;
     private onCardSelectedListener listener;
+    private CloudStorageService service = new CloudStorageService();
 
     public HomeRecyclerAdapter(List<PublicacionModel> items) {
         listaPublicaciones = items;
@@ -29,9 +32,11 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 
     @Override
     public void onBindViewHolder(final PublicacionViewHolder holder, int position) {
-        holder.imagen.setImageBitmap(listaPublicaciones.get(position).getBitmap());
+//        holder.imagen.setImageBitmap(listaPublicaciones.get(position).getBitmap());
 //        holder.imagen.setImageResource(listaPublicaciones.get(position).getImagen());
+        service.setImagen(holder.imagen, listaPublicaciones.get(position).getUrlImagen(),holder.imagen.getContext());
         holder.titulo.setText(listaPublicaciones.get(position).getTitulo());
+
     }
 
     @Override
