@@ -312,7 +312,9 @@ public class CloudFirestoreService {
                                                         .forEach(m -> {
                                                             m.setRemitenteFotoUrl( userToInfo.get(m.getIdRemitente()).getFotoUrl() );
                                                             m.setRemitenteNombre(userToInfo.get(m.getIdRemitente()).getNombreCompleto());
-                                                            m.setContacto(userToInfo.get(m.getIdRemitente()).toString());
+                                                            if(!userToInfo.get(m.getIdRemitente()).getTelefono().isEmpty())
+                                                                m.setContacto("Telefono: " + userToInfo.get(m.getIdRemitente()).getTelefono());
+                                                            else m.setContacto("");
                                                         });
                                             }
                                             else {
@@ -322,7 +324,9 @@ public class CloudFirestoreService {
                                                 for(MensajeModel m : lista){
                                                     m.setRemitenteFotoUrl( userToInfo.get(m.getIdRemitente()).getFotoUrl() );
                                                     m.setRemitenteNombre(userToInfo.get(m.getIdRemitente()).getNombreCompleto());
-                                                    m.setContacto(userToInfo.get(m.getIdRemitente()).toString());
+                                                    if(!userToInfo.get(m.getIdRemitente()).getTelefono().isEmpty())
+                                                        m.setContacto("Telefono: " + userToInfo.get(m.getIdRemitente()).getTelefono());
+                                                    else m.setContacto("");
                                                 }
                                             }
                                             destinoQueryMensajes.recibirMensajes(lista);
