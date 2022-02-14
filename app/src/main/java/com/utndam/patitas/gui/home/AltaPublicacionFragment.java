@@ -235,9 +235,6 @@ val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
                 .replace(R.id.contenedor_mapa,mapaFrag)
 //                .addToBackStack(null)
                 .commit();
-
-
-
     }
 /*
     public void setImagen(Bitmap bitmap){

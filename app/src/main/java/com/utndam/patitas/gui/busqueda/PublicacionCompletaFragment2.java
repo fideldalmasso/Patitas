@@ -35,8 +35,8 @@ public class PublicacionCompletaFragment2 extends Fragment {
 
     public ImageView imagen;
     public TextView titulo;
-    public TextView secundario;
-    public TextView soporte;
+    public TextView descripcion;
+    public TextView infoContacto;
     public MaterialButton botonShare;
     public MaterialButton boton2;
     private ExtendedFloatingActionButton floatingActionButton;
@@ -100,8 +100,8 @@ public class PublicacionCompletaFragment2 extends Fragment {
 
         imagen = v.findViewById(R.id.card_completo_imagen);
         titulo = v.findViewById(R.id.card_completo_titulo);
-        secundario = v.findViewById(R.id.card_completo_descripcion);
-        soporte = v.findViewById(R.id.card_completo_info_contacto);
+        descripcion = v.findViewById(R.id.card_completo_descripcion);
+        infoContacto = v.findViewById(R.id.card_completo_info_contacto);
         botonShare = v.findViewById(R.id.card_completo_boton1);
 
         floatingActionButton = v.findViewById(R.id.fab2);
@@ -135,6 +135,8 @@ public class PublicacionCompletaFragment2 extends Fragment {
         css.setImagen(imagen, item.getUrlImagen(), getContext());
         imagen.setTransitionName("transicion_imagen");
         titulo.setText(item.getTitulo());
+        descripcion.setText(item.getDescripcion());
+        infoContacto.setText(item.getInfoContacto());
 
         botonShare.setOnClickListener(new View.OnClickListener() {
             @Override

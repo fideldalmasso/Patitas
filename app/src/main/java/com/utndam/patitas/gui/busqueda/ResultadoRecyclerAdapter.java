@@ -14,6 +14,7 @@ import com.utndam.patitas.gui.home.onCardSelectedListener;
 import com.utndam.patitas.model.PublicacionModel;
 import com.utndam.patitas.service.CloudStorageService;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 
@@ -40,6 +41,8 @@ public class ResultadoRecyclerAdapter extends RecyclerView.Adapter<ResultadoRecy
         CloudStorageService css = new CloudStorageService();
         css.setImagen(holder.imagen, listaPublicaciones.get(position).getUrlImagen(), contextNow);
         holder.titulo.setText(listaPublicaciones.get(position).getTitulo());
+        DecimalFormat df = new DecimalFormat("###.##");
+        holder.distancia.setText(df.format(listaPublicaciones.get(position).getDistancia()) + " km");
     }
 
     @Override
@@ -55,12 +58,14 @@ public class ResultadoRecyclerAdapter extends RecyclerView.Adapter<ResultadoRecy
     public class PublicacionViewHolder extends RecyclerView.ViewHolder {
         public final ImageView imagen;
         public final TextView titulo;
+        public final TextView distancia;
 
         public PublicacionViewHolder(FragmentPublicacionSimpleBinding binding) {
             super(binding.getRoot());
 
             this.imagen = binding.cardImagen;
             this.titulo = binding.cardTitulo;
+            this.distancia = binding.cardDistancia;
 
             this.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
