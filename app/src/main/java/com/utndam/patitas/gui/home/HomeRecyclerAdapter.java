@@ -10,6 +10,7 @@ import com.utndam.patitas.databinding.FragmentPublicacionSimpleBinding;
 import com.utndam.patitas.model.PublicacionModel;
 import com.utndam.patitas.service.CloudStorageService;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 
@@ -36,6 +37,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 //        holder.imagen.setImageResource(listaPublicaciones.get(position).getImagen());
         service.setImagen(holder.imagen, listaPublicaciones.get(position).getUrlImagen(),holder.imagen.getContext());
         holder.titulo.setText(listaPublicaciones.get(position).getTitulo());
+        holder.distancia.setText(new DecimalFormat("###.##").format(listaPublicaciones.get(position).getDistancia()) + " km");
 
     }
 
@@ -52,11 +54,13 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     public class PublicacionViewHolder extends RecyclerView.ViewHolder {
         public final ImageView imagen;
         public final TextView titulo;
+        public final TextView distancia;
 
         public PublicacionViewHolder(FragmentPublicacionSimpleBinding binding) {
             super(binding.getRoot());
             this.imagen = binding.cardImagen;
             this.titulo = binding.cardTitulo;
+            this.distancia = binding.cardDistancia;
 
             this.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

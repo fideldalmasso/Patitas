@@ -1,5 +1,7 @@
 package com.utndam.patitas.gui.home;
 
+import static java.lang.Math.abs;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,14 +13,18 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.transition.MaterialFadeThrough;
 import com.utndam.patitas.R;
 import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.model.PublicacionModel;
+import com.utndam.patitas.model.UsuarioActual;
 import com.utndam.patitas.service.CloudFirestoreService;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -127,7 +133,9 @@ public class HomeFragment extends Fragment implements onCardSelectedListener {
                 @Override
                 public void recibirPublicaciones(List<PublicacionModel> listaResultado) {
 
-                    lista.addAll(listaResultado);
+                    LatLng ubicacionActual = UsuarioActual.getInstance().getUbicacionActual();
+                    lista.addAll(filtrar(listaResultado,ubicacionActual.latitude,ubicacionActual.longitude,100));
+
                     adaptador.notifyDataSetChanged();
 //                    //descargar imagenes
 //                    new Thread(() -> {
@@ -175,5 +183,36 @@ public class HomeFragment extends Fragment implements onCardSelectedListener {
                 .addToBackStack(null)
                 .commit();
 
+    }
+
+
+
+    private ArrayList<PublicacionModel> filtrar(List<PublicacionModel> publis, double lat, double lon, long dif) {
+        ArrayList<PublicacionModel> ret = new ArrayList<PublicacionModel>();
+        for(PublicacionModel p:publis){
+            double dist = abs(p.getLongitud()-lon)+abs(p.getLatitud()-lat);
+            p.setDistancia((float) dist);
+            if(abs(p.getLatitud()-lat) <= dif && abs(p.getLongitud()-lon)<= dif ){
+                ret.add(p);
+            }
+        }
+        Collections.sort(ret, new Comparator<PublicacionModel>(){
+
+            @Override
+            public int compare(PublicacionModel p1, PublicacionModel p2) {
+                if(p1.getDistancia() < p2.getDistancia()) return -1;
+                else if(p1.getDistancia() < p2.getDistancia()) return 1;
+                return 0;
+            }
+        });
+        System.out.println("PAZ " + lat + " " + lon);
+        double last = -1;
+        for(PublicacionModel p : ret){
+            System.out.println(p.getTitulo() + " " + p.getDistancia());
+            last = p.getDistancia();
+        }
+//        Toast toastUbi = Toast.makeText(getContext(), "cerca " + ret.get(0).getDistancia() + " last " + last, Toast.LENGTH_LONG );
+//        toastUbi.show();
+        return ret;
     }
 }
