@@ -47,6 +47,8 @@ public class MapsSimpleFragment extends Fragment {
     private ActivityResultLauncher<String[]> requestPermissionLauncher;
     private ActivityResultLauncher<Intent> abrirMapaCompletoLauncher;
     private LatLng ubicacionElegida;
+    private LatLng ubicacionFija;
+    private boolean permitirMovimiento;
 
     private void cambiarPosicion(LatLng pos){
         mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(pos,15));
@@ -77,8 +79,15 @@ public class MapsSimpleFragment extends Fragment {
             mapa.getUiSettings().setMyLocationButtonEnabled(false);
 
 
-            if(ubicacionElegida!=null){
-                cambiarPosicion(ubicacionElegida);
+            if(ubicacionFija!=null){
+                cambiarPosicion(ubicacionFija);
+                mapa.setOnMapClickListener(latLng -> {
+                    Intent i = new Intent(getActivity(), ElegirUbicacionActivity.class);
+//                    i.putExtra("permitirMovimiento",false);
+                    i.putExtra("latitud",ubicacionFija.latitude);
+                    i.putExtra("longitud",ubicacionFija.longitude);
+                    abrirMapaCompletoLauncher.launch(i);
+                });
             }
             else{
                 ubicacionElegida = mapa.getCameraPosition().target;
@@ -105,8 +114,10 @@ public class MapsSimpleFragment extends Fragment {
         super();
     }
 
+
     public MapsSimpleFragment(LatLng posicionInicial) {
-        ubicacionElegida = posicionInicial;
+        ubicacionFija = posicionInicial;
+        permitirMovimiento = false;
     }
 
     @Nullable

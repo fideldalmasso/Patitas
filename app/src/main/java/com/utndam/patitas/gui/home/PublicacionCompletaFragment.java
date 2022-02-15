@@ -22,6 +22,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.utndam.patitas.R;
@@ -53,24 +54,25 @@ public class PublicacionCompletaFragment extends Fragment {
     PublicacionModel item;
 
 
-    public PublicacionCompletaFragment() {
+//    public PublicacionCompletaFragment() {
+//    }
 
-    }
     public PublicacionCompletaFragment(PublicacionModel i){
         super();
         item = i;
     }
 
-    public static PublicacionCompletaFragment newInstance(String param1, String param2) {
-        PublicacionCompletaFragment fragment = new PublicacionCompletaFragment();
-        return fragment;
-    }
+//    public static PublicacionCompletaFragment newInstance(String param1, String param2) {
+//        PublicacionCompletaFragment fragment = new PublicacionCompletaFragment();
+//        return fragment;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mapaFrag = new MapsSimpleFragment();
+        LatLng ubicacionPublicacion = new LatLng(item.getLatitud(),item.getLongitud());
+        mapaFrag = new MapsSimpleFragment(ubicacionPublicacion);
         fragmentManager = getChildFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.card_contenedor_mapa,mapaFrag)

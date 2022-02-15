@@ -38,11 +38,16 @@ public class MapsCompletoFragment extends Fragment {
 
     private GoogleMap mapa;
     private FusedLocationProviderClient fusedLocationClient;
-
+//    private boolean permitirMovimiento;
 
 
     private ActivityResultLauncher<String[]> requestPermissionLauncher;
     private LatLng ubicacionElegida;
+    private LatLng ubicacionFija;
+
+    private void cambiarPosicion(LatLng pos){
+        mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(pos,15));
+    }
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -63,8 +68,9 @@ public class MapsCompletoFragment extends Fragment {
             mapa.getUiSettings().setTiltGesturesEnabled(false);
             LatLngBounds limites_argentina = new LatLngBounds( new LatLng(-54.964913124446696, -74.26678541029585),new LatLng(-21.897337, -54.118911));
 
-            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                 mapa.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.mapa_dark));
+            }
 
 
             ubicacionElegida = mapa.getCameraPosition().target;
@@ -79,7 +85,15 @@ public class MapsCompletoFragment extends Fragment {
             }catch (Exception e){
                 Log.d(null,e.toString());
             }
-            probarMoverMapaAUbicacionActual();
+
+
+            if(ubicacionFija!=null){
+                mapa.getUiSettings().setScrollGesturesEnabled(false);
+                cambiarPosicion(ubicacionFija);
+            }
+            else{
+                probarMoverMapaAUbicacionActual();
+            }
 
         }
 
@@ -87,6 +101,11 @@ public class MapsCompletoFragment extends Fragment {
     };
 
     public MapsCompletoFragment() {
+//        this.permitirMovimiento = true;
+    }
+
+    public MapsCompletoFragment(LatLng posicionInicial) {
+        ubicacionFija = posicionInicial;
     }
 
     @Nullable
@@ -97,6 +116,10 @@ public class MapsCompletoFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_maps_completo, container, false);
 
         Button botonConfirmar = view.findViewById(R.id.confirmar_ubicacion);
+
+        if(ubicacionFija!=null){
+            botonConfirmar.setText("Volver");
+        }
         botonConfirmar.setOnClickListener(view1 -> {
             Intent intentResultado = new Intent();
             intentResultado.putExtra("lat",ubicacionElegida.latitude);
