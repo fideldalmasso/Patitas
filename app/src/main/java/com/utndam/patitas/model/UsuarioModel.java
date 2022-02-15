@@ -19,10 +19,11 @@ public class UsuarioModel {
 
 
     public String getInfoContacto(){
-        String resultado=nombreCompleto+"\n";
+        StringBuilder res = new StringBuilder();
+        res.append(nombreCompleto + "\n");
         if(telefono!=null)
-            resultado+="Teléfono: "+telefono+"\n";
-        return resultado;
+            res.append("Teléfono: " + telefono + "\n");
+        return res.toString();
     }
 
     public UsuarioModel(){}

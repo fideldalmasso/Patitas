@@ -426,13 +426,13 @@ public class CloudFirestoreService {
                                     public void onSuccess(List<UsuarioModel> result){
                                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
                                             result.stream()
-                                                    .forEach(u -> userToInfo.put(u.getId(),u.toString()));
+                                                    .forEach(u -> userToInfo.put(u.getId(),u.getInfoContacto()));
                                             lista.stream()
                                                     .forEach(p -> p.setInfoContacto(userToInfo.get(p.getIdUsuario())));
                                         }
                                         else {
                                             for(UsuarioModel u : result){
-                                                userToInfo.put(u.getId(),u.toString());
+                                                userToInfo.put(u.getId(),u.getInfoContacto());
                                             }
                                             for(PublicacionModel p : lista){
                                                 p.setInfoContacto(userToInfo.get(p.getIdUsuario()));
@@ -516,13 +516,13 @@ public class CloudFirestoreService {
                                     public void onSuccess(List<UsuarioModel> result){
                                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
                                             result.stream()
-                                                    .forEach(u -> userToInfo.put(u.getId(),u.toString()));
+                                                    .forEach(u -> userToInfo.put(u.getId(),u.getInfoContacto()));
                                             lista.stream()
                                                     .forEach(p -> p.setInfoContacto(userToInfo.get(p.getIdUsuario())));
                                         }
                                         else {
                                             for(UsuarioModel u : result){
-                                                userToInfo.put(u.getId(),u.toString());
+                                                userToInfo.put(u.getId(),u.getInfoContacto());
                                             }
                                             for(PublicacionModel p : lista){
                                                 p.setInfoContacto(userToInfo.get(p.getIdUsuario()));

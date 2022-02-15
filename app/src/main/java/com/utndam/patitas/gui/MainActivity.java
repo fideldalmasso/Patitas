@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements UsuarioActual.Usu
         filtro.addAction(MyReceiver.EVENTO_PUBLICACION_CREADA);
         LocalBroadcastManager.getInstance(this)
                 .registerReceiver(br,filtro);
+
 
 
         //asignar tema correspondiente
