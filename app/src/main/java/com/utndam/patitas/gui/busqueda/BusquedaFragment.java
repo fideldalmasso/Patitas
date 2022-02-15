@@ -106,7 +106,6 @@ public class BusquedaFragment extends Fragment  {
                 ArrayList<PublicacionModel> publis = new ArrayList<PublicacionModel>();
                 ArrayList<PublicacionModel> porUbicacion;
                 FragmentManager fmanager = getParentFragmentManager();
-                System.out.println(mapaFrag.getUbicacionElegida().latitude + "  " + mapaFrag.getUbicacionElegida().longitude);
 
                 CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
                 cloudFirestoreService.buscarPublicaciones(publicacion, animal, new CloudFirestoreService.DestinoQueryPublicaciones() {

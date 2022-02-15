@@ -17,7 +17,7 @@ public class MyReceiver extends BroadcastReceiver {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
         //throw new UnsupportedOperationException("Not yet implemented");
-        Toast.makeText(context, "ola", Toast.LENGTH_SHORT).show();
+
         switch (intent.getAction()){
             case EVENTO_PUBLICACION_CREADA:
                 Toast.makeText(context, "Publicacion " +intent.getExtras().getString("tituloPublicacion") + " creada exitosamente", Toast.LENGTH_LONG).show();
