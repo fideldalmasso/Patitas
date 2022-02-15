@@ -167,6 +167,7 @@ public class MapsSimpleFragment extends Fragment {
                             LatLng pos = new LatLng(
                                     data.getDoubleExtra("lat",0.0),
                                     data.getDoubleExtra("lng",0.0));
+                            ubicacionElegida=pos;
                             cambiarPosicion(pos);
                         }
                     }

@@ -3,19 +3,22 @@ package com.utndam.patitas.model;
 import com.google.firebase.firestore.Exclude;
 
 public class MensajeModel {
+
+    public  String publicacionAsociada;
+    public String idPublicacionAsociada;
+    public  String contenido;
+    public String idReceptor;
+    public String idRemitente;
+
+
     @Exclude
     public String remitenteFotoUrl;
     @Exclude
     public  String remitenteNombre;
-    public  String publicacionAsociada;
-    @Exclude
-    public  int remitenteFoto;
-    public String idPublicacionAsociada;
-    public  String contenido;
     @Exclude
     public  String contacto;
-    public String idReceptor;
-    public String idRemitente;
+    @Exclude
+    public  int remitenteFoto;
 
     public MensajeModel(int remitenteFoto, String remitenteNombre, String contenido,  String publicacionAsociada, String contacto) {
         this.remitenteFoto = remitenteFoto;
