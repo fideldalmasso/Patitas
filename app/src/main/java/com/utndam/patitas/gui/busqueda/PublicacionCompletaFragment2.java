@@ -24,8 +24,6 @@ import com.utndam.patitas.R;
 import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.gui.mapas.MapsSimpleFragment;
 import com.utndam.patitas.model.PublicacionModel;
-import com.utndam.patitas.model.UsuarioModel;
-import com.utndam.patitas.service.CloudFirestoreService;
 import com.utndam.patitas.service.CloudStorageService;
 
 import java.io.File;
@@ -38,7 +36,7 @@ public class PublicacionCompletaFragment2 extends Fragment {
     public TextView descripcion;
     public TextView infoContacto;
     public MaterialButton botonShare;
-    public MaterialButton boton2;
+//    public MaterialButton boton2;
     private ExtendedFloatingActionButton floatingActionButton;
     private MapsSimpleFragment mapaFrag;
     private FragmentManager fragmentManager;
@@ -113,13 +111,13 @@ public class PublicacionCompletaFragment2 extends Fragment {
         });
 
 
-        boton2 = v.findViewById(R.id.card_completo_boton2);
+//        boton2 = v.findViewById(R.id.card_completo_boton2);
 
-        boton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
+//        boton2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//            }
+//        });
         CloudStorageService css = new CloudStorageService();
         css.setImagen(imagen, item.getUrlImagen(), getContext());
         imagen.setTransitionName("transicion_imagen");

@@ -44,7 +44,6 @@ public class PublicacionCompletaFragment extends Fragment {
     public TextView descripcion;
     public TextView infoContacto;
     public MaterialButton botonShare;
-    public MaterialButton boton2;
     private ExtendedFloatingActionButton floatingActionButton;
     private MapsSimpleFragment mapaFrag;
     private FragmentManager fragmentManager;
@@ -53,9 +52,6 @@ public class PublicacionCompletaFragment extends Fragment {
 
     PublicacionModel item;
 
-
-//    public PublicacionCompletaFragment() {
-//    }
 
     public PublicacionCompletaFragment(PublicacionModel i){
         super();
@@ -78,22 +74,12 @@ public class PublicacionCompletaFragment extends Fragment {
                 .replace(R.id.card_contenedor_mapa,mapaFrag)
                 .commit();
 
-//        TransitionInflater inflater = TransitionInflater.from(requireContext());
-//        setEnterTransition(inflater.inflateTransition(R.transition.fade));
-
-//
-//        Transition transition = TransitionInflater.from(requireContext())
-//                .inflateTransition(R.transition.shared_image);
-//        setSharedElementEnterTransition(transition);
 
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        iv.setImageResource(id_imagen);
-//        imagen.setTransitionName("transicion_imagen");
-
     }
 
     @Override
@@ -121,20 +107,14 @@ public class PublicacionCompletaFragment extends Fragment {
 
             final EditText input = new EditText(getContext());
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
-//            input.setLines(3);
-//            input.setMaxLines(6);
             input.setSingleLine(false);
             input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(120)});
-//            input.setVerticalScrollBarEnabled(true);
-//            input.setMovementMethod(ScrollingMovementMethod.getInstance());
-//            input.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);;
+
 
             builder
-//                    .setCancelable(false)
                     .setTitle("Responder a \""+item.getTitulo()+"\"")
                     .setView(input)
                     .setPositiveButton("Aceptar", (dialog, i) -> {
-//                        dialog.dismiss();
                         Toast.makeText(getContext(), "Falta implementar guardar el mensaje en DB", Toast.LENGTH_LONG).show();
                         MensajeModel m = new MensajeModel();
                         m.setPublicacionAsociada(item.getTitulo());
@@ -146,7 +126,6 @@ public class PublicacionCompletaFragment extends Fragment {
 
                     })
                     .setNegativeButton("Cancelar", (dialog, id) -> {
-//                        dialog.dismiss();
                         dialog.cancel();
                     })
                     .create()
@@ -156,20 +135,11 @@ public class PublicacionCompletaFragment extends Fragment {
 
 
 
-        boton2 = v.findViewById(R.id.card_completo_boton2);
 
-        boton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
 
         botonShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Now share image function will be called
-                // here we  will be passing the text to share
-                // Getting drawable value from image
                 BitmapDrawable bitmapDrawable = (BitmapDrawable) imagen.getDrawable();
                 Bitmap bitmap = bitmapDrawable.getBitmap();
                 shareImageandText(bitmap);
@@ -177,7 +147,6 @@ public class PublicacionCompletaFragment extends Fragment {
         });
 
 
-//        imagen.setImageBitmap(item.getBitmap());
         service2.setImagen(imagen, item.getUrlImagen(),imagen.getContext());
         titulo.setText(item.getTitulo());
         descripcion.setText(item.getDescripcion());
