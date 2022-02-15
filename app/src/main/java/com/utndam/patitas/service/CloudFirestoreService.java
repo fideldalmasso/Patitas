@@ -2,6 +2,7 @@ package com.utndam.patitas.service;
 
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -96,7 +97,7 @@ public class CloudFirestoreService {
     }
 
 
-
+/*
     public void buscarUsuario(String mail, Fragment fragment){
         db.collection("usuarios")
                 .whereEqualTo("mail", mail)
@@ -124,16 +125,13 @@ public class CloudFirestoreService {
                                 //falta retornar usuario
                             }
 
-                           /* for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }*/
+
                         } else {
-                            //Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
     }
-
+*/
 
     public void buscarUsuario(String mail, MainActivity mainActivity){
         db.collection("usuarios")
@@ -147,25 +145,55 @@ public class CloudFirestoreService {
                                 //Toast.makeText(mainActivity, "No se encontro usuario", Toast.LENGTH_LONG).show();
                                 UsuarioModel usuarioModel = new UsuarioModel();
                                 FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
-                                if(usuario.getPhotoUrl()!=null)usuarioModel.setFotoUrl(usuario.getPhotoUrl().toString());
+                                //if(usuario.getPhotoUrl()!=null)usuarioModel.setFotoUrl(usuario.getPhotoUrl().toString());
                                 usuarioModel.setMail(usuario.getEmail());
                                 if(usuario.getPhoneNumber()!=null)usuarioModel.setTelefono(usuario.getPhoneNumber());
                                 if(usuario.getDisplayName()!=null)usuarioModel.setNombreCompleto(usuario.getDisplayName());
-                                db.collection("usuarios").add(usuarioModel)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                usuarioModel.setId(documentReference.getId());
-//                                                mainActivity.setUsuarioModel(usuarioModel);
-                                                UsuarioActual.getInstance().copiar(usuarioModel); // ----> es preferible usar este Singleton
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(mainActivity, "Error: no se pudo registrar usuario", Toast.LENGTH_LONG).show();
-                                            }
-                                        });
+                                if(usuario.getPhotoUrl()!=null){
+                                    new CloudStorageService().subirImagenPerfil(usuario.getPhotoUrl().toString(), usuario.getUid(), new CloudStorageService.DestinoSubirPerfil() {
+                                        @Override
+                                        public void recibirUrlNuevo(String url) {
+                                            usuarioModel.setFotoUrl(url);
+                                            db.collection("usuarios")
+                                                    .document(usuario.getUid())
+                                                    .set(usuarioModel)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+                                                            usuarioModel.setId(usuario.getUid());
+                                                            UsuarioActual.getInstance().copiar(usuarioModel);
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.d("lrpm","fuuuuuuuuuck");
+                                                }
+                                            })
+                                            ;
+
+                                        }
+                                    });
+
+                                }
+                                else {
+                                    db.collection("usuarios")
+                                            .document(usuario.getUid())
+                                            .set(usuarioModel)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    usuarioModel.setId(usuario.getUid());
+                                                    UsuarioActual.getInstance().copiar(usuarioModel);
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d("lrpm","fuuuuuuuuuck");
+                                        }
+                                    })
+                                    ;
+                                }
+
                             }
                             else if(task.getResult().size()>1){
                                 Toast.makeText(mainActivity, "Error: demasiados usuarios con el mismo nombre", Toast.LENGTH_LONG).show();
