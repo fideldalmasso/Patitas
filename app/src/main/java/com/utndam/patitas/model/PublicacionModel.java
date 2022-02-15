@@ -2,6 +2,7 @@ package com.utndam.patitas.model;
 
 import android.graphics.Bitmap;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.ServerTimestamp;
 
@@ -25,11 +26,13 @@ public class PublicacionModel {
     @Exclude
     private int imagen; //puede ser un bitmap también
 
-
+    public LatLng getLatLng(){
+        return new LatLng(latitud,longitud);
+    }
     @Exclude
     private Bitmap bitmap;
     @Exclude
-    private float distancia;
+    private double distancia;
 
     public Bitmap getBitmap() {
         return bitmap;
@@ -44,9 +47,9 @@ public class PublicacionModel {
     }
 
 
-    public float getDistancia() { return distancia; }
+    public double getDistancia() { return distancia; }
 
-    public void setDistancia(float distancia) { this.distancia = distancia;    }
+    public void setDistancia(double distancia) { this.distancia = distancia;    }
 
 
     public int getImagen() {

@@ -1,8 +1,7 @@
 package com.utndam.patitas.gui.home;
 
-import static java.lang.Math.abs;
-
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -134,28 +133,9 @@ public class HomeFragment extends Fragment implements onCardSelectedListener {
                 public void recibirPublicaciones(List<PublicacionModel> listaResultado) {
 
                     LatLng ubicacionActual = UsuarioActual.getInstance().getUbicacionActual();
-                    lista.addAll(filtrar(listaResultado,ubicacionActual.latitude,ubicacionActual.longitude,100));
+                    lista.addAll(filtrar(listaResultado,ubicacionActual,99));
 
                     adaptador.notifyDataSetChanged();
-//                    //descargar imagenes
-//                    new Thread(() -> {
-//                        for(PublicacionModel p : lista) {
-//                            Bitmap bitmap = null;
-//                            try {
-//                                StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(p.getUrlImagen());
-//                                bitmap = GlideApp.with(getContext()).asBitmap().load(storageReference).submit().get();
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                            p.setBitmap(bitmap);
-//                        }
-//
-//                        //actualizar la ui
-//                        getActivity().runOnUiThread(() -> {
-//                            adaptador.notifyDataSetChanged();
-//                        });
-//
-//                    }).start();
 
                 }
             });
@@ -187,12 +167,15 @@ public class HomeFragment extends Fragment implements onCardSelectedListener {
 
 
 
-    private ArrayList<PublicacionModel> filtrar(List<PublicacionModel> publis, double lat, double lon, long dif) {
+    private ArrayList<PublicacionModel> filtrar(List<PublicacionModel> publis, LatLng ubic, long dif) {
         ArrayList<PublicacionModel> ret = new ArrayList<PublicacionModel>();
         for(PublicacionModel p:publis){
-            double dist = abs(p.getLongitud()-lon)+abs(p.getLatitud()-lat);
-            p.setDistancia((float) dist);
-            if(abs(p.getLatitud()-lat) <= dif && abs(p.getLongitud()-lon)<= dif ){
+            float [] dist2 = new float[1];
+            Location.distanceBetween(ubic.latitude,ubic.longitude,p.getLatitud(),p.getLongitud(),dist2); //guarda la distancia en metros en dist[0]
+            float dist = dist2[0];
+            dist = (dist != 0) ? (dist / 1000) : 0; //pasar a km
+            p.setDistancia(dist);
+            if(dist<= dif ){
                 ret.add(p);
             }
         }
@@ -205,14 +188,7 @@ public class HomeFragment extends Fragment implements onCardSelectedListener {
                 return 0;
             }
         });
-        System.out.println("PAZ " + lat + " " + lon);
-        double last = -1;
-        for(PublicacionModel p : ret){
-            System.out.println(p.getTitulo() + " " + p.getDistancia());
-            last = p.getDistancia();
-        }
-//        Toast toastUbi = Toast.makeText(getContext(), "cerca " + ret.get(0).getDistancia() + " last " + last, Toast.LENGTH_LONG );
-//        toastUbi.show();
+
         return ret;
     }
 }

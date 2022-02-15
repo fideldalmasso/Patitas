@@ -10,7 +10,8 @@ public class UsuarioActual extends  UsuarioModel{
     private UsuarioActualCargadoListener listener;
 
     private UsuarioActual(){
-        ubicacionActual = new LatLng(1,1);
+//        ubicacionActual = new LatLng(1,1);
+        ubicacionActual = null;
     }
 
     public static UsuarioActual getInstance(){

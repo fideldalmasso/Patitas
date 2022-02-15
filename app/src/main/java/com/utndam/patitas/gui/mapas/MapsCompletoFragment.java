@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.material.transition.MaterialFadeThrough;
 import com.utndam.patitas.R;
+import com.utndam.patitas.model.UsuarioActual;
 
 public class MapsCompletoFragment extends Fragment {
 
@@ -73,7 +74,6 @@ public class MapsCompletoFragment extends Fragment {
             }
 
 
-            ubicacionElegida = mapa.getCameraPosition().target;
 
             mapa.setOnCameraMoveListener(() -> ubicacionElegida = mapa.getCameraPosition().target);
 
@@ -86,14 +86,28 @@ public class MapsCompletoFragment extends Fragment {
                 Log.d(null,e.toString());
             }
 
+            ubicacionElegida = mapa.getCameraPosition().target;
 
+            // si tengo que mostrar una posicion exacta, no permito movimiento
             if(ubicacionFija!=null){
+                ubicacionElegida = ubicacionFija;
                 mapa.getUiSettings().setScrollGesturesEnabled(false);
                 cambiarPosicion(ubicacionFija);
+                probarMoverMapaAUbicacionActual(false);
+                return;
             }
-            else{
-                probarMoverMapaAUbicacionActual();
+
+            // si el usuario ya eligio una ubicacion al lanzar la aplicacion, muestro esa y no la real
+            LatLng ubic = UsuarioActual.getInstance().getUbicacionActual();
+            if(ubic!=null){
+                ubicacionElegida=ubic;
+                cambiarPosicion(ubic);
+                probarMoverMapaAUbicacionActual(false);
+                return;
             }
+
+            // este es el caso en que el usuario recien lanza la aplicacion o recien inicia sesion / crea una cuenta
+            probarMoverMapaAUbicacionActual(true);
 
         }
 
@@ -152,32 +166,33 @@ public class MapsCompletoFragment extends Fragment {
         if (isGranted.containsValue(false)) {
 
         } else {
-            moverMapaAUbicacionActual();
+            moverMapaAUbicacionActual(false);
         }
         });
     }
 
     @SuppressLint("MissingPermission")
-    public void moverMapaAUbicacionActual(){
+    public void moverMapaAUbicacionActual(boolean mover){
         mapa.setMyLocationEnabled(true);
 
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(location -> {
-                    if (location != null) {
-                        ubicacionElegida = new LatLng(location.getLatitude(),location.getLongitude());
-                        mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacionElegida,15),3,null);
-                    }
-                });
-
+        if(mover) {
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(location -> {
+                        if (location != null) {
+                            ubicacionElegida = new LatLng(location.getLatitude(), location.getLongitude());
+                            mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacionElegida, 15), 3, null);
+                        }
+                    });
+        }
 
     }
 
 
 
-    public void probarMoverMapaAUbicacionActual(){
+    public void probarMoverMapaAUbicacionActual(boolean mover){
 
         if (tienePermisoAcceso()) {
-            moverMapaAUbicacionActual();
+            moverMapaAUbicacionActual(mover);
         } else {
             if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
                     || shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {

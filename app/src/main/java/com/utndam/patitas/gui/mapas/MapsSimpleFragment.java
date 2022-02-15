@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,9 +32,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.transition.MaterialFadeThrough;
 import com.utndam.patitas.R;
+import com.utndam.patitas.model.UsuarioActual;
 
 public class MapsSimpleFragment extends Fragment {
 
@@ -90,19 +89,25 @@ public class MapsSimpleFragment extends Fragment {
                 });
             }
             else{
-                ubicacionElegida = mapa.getCameraPosition().target;
-
                 mapa.setOnMapClickListener(latLng -> {
                     Intent i = new Intent(getActivity(), ElegirUbicacionActivity.class);
                     abrirMapaCompletoLauncher.launch(i);
                 });
-
-                LatLngBounds limites_argentina = new LatLngBounds( new LatLng(-54.964913124446696, -74.26678541029585),new LatLng(-21.897337, -54.118911));
-                try {
-                    mapa.moveCamera(CameraUpdateFactory.newLatLngBounds(limites_argentina,0));
-                }catch (Exception e){
-                    Log.d(null,e.toString());
+                ubicacionElegida = UsuarioActual.getInstance().getUbicacionActual();
+                if(ubicacionElegida!=null){
+                    cambiarPosicion(ubicacionElegida);
+                }else{
+                    LatLngBounds limites_argentina = new LatLngBounds( new LatLng(-54.964913124446696, -74.26678541029585),new LatLng(-21.897337, -54.118911));
+                    try {
+                        mapa.moveCamera(CameraUpdateFactory.newLatLngBounds(limites_argentina,0));
+                    }catch (Exception e){
+                        Log.d(null,e.toString());
+                    }
+                    ubicacionElegida = mapa.getCameraPosition().target;
                 }
+
+
+
                 probarMoverMapaAUbicacionActual();
             }
 
@@ -177,19 +182,19 @@ public class MapsSimpleFragment extends Fragment {
     @SuppressLint("MissingPermission")
     public void moverMapaAUbicacionActual(){
         mapa.setMyLocationEnabled(true);
-
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener( new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            ubicacionElegida = new LatLng(location.getLatitude(),location.getLongitude());
-                            mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacionElegida,15),3,null);
-
-                        }
-                    }
-                });
+//        cambiarPosicion()
+//        fusedLocationClient.getLastLocation()
+//                .addOnSuccessListener( new OnSuccessListener<Location>() {
+//                    @Override
+//                    public void onSuccess(Location location) {
+//                        // Got last known location. In some rare situations this can be null.
+//                        if (location != null) {
+//                            ubicacionElegida = new LatLng(location.getLatitude(),location.getLongitude());
+//                            mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacionElegida,15),3,null);
+//
+//                        }
+//                    }
+//                });
 
 
     }

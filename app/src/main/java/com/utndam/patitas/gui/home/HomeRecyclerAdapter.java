@@ -37,7 +37,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 //        holder.imagen.setImageResource(listaPublicaciones.get(position).getImagen());
         service.setImagen(holder.imagen, listaPublicaciones.get(position).getUrlImagen(),holder.imagen.getContext());
         holder.titulo.setText(listaPublicaciones.get(position).getTitulo());
-        holder.distancia.setText(new DecimalFormat("###.##").format(listaPublicaciones.get(position).getDistancia()) + " km");
+        holder.distancia.setText(new DecimalFormat("##.##").format(listaPublicaciones.get(position).getDistancia()) + " km");
 
     }
 
