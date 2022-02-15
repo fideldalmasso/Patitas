@@ -153,18 +153,7 @@ public class PublicacionCompletaFragment extends Fragment {
                     .show();
         });
 
-//        floatingActionButton.setOnLongClickListener(view -> {
-//            UsuarioModel usuarioModel= new UsuarioModel();
-//            usuarioModel.setTipoCuenta("Google");
-//            usuarioModel.setId(null);
-//            usuarioModel.setNombreCompleto("Juan Perez");
-//            usuarioModel.setTelefono("4222222");
-//            usuarioModel.setMail("juanperez@gmail.com");
-//            usuarioModel.setFotoUrl(null);
-//            CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
-//            cloudFirestoreService.guardarUsuario(usuarioModel, (Fragment) floatingActionButton.getTag());
-//            return false;
-//        });
+
 
 
         boton2 = v.findViewById(R.id.card_completo_boton2);
@@ -172,8 +161,6 @@ public class PublicacionCompletaFragment extends Fragment {
         boton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
-                cloudFirestoreService.buscarUsuario("juanperez@gmail.com","Google", (Fragment) floatingActionButton.getTag());
             }
         });
 

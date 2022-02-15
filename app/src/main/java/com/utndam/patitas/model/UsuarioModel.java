@@ -6,7 +6,6 @@ public class UsuarioModel {
     private String telefono;
     private String id;
     private String mail;
-    private String tipoCuenta;
 
     // copy constructor
     public void copiar(UsuarioModel otro) {
@@ -15,7 +14,6 @@ public class UsuarioModel {
         this.telefono = otro.telefono;
         this.id = otro.id;
         this.mail = otro.mail;
-        this.tipoCuenta = otro.tipoCuenta;
     }
 
 
@@ -69,14 +67,6 @@ public class UsuarioModel {
         this.mail = mail;
     }
 
-    public String getTipoCuenta() {
-        return tipoCuenta;
-    }
-
-    public void setTipoCuenta(String tipoCuenta) {
-        this.tipoCuenta = tipoCuenta;
-    }
-
     @Override
     public String toString() {
         return "UsuarioModel{" +
@@ -85,7 +75,6 @@ public class UsuarioModel {
                 ", telefono='" + telefono + '\'' +
                 ", id='" + id + '\'' +
                 ", mail='" + mail + '\'' +
-                ", tipoCuenta='" + tipoCuenta + '\'' +
                 '}';
     }
 }

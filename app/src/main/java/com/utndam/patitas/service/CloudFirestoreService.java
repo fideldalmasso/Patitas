@@ -97,9 +97,8 @@ public class CloudFirestoreService {
 
 
 
-    public void buscarUsuario(String mail, String tipoCuenta, Fragment fragment){
+    public void buscarUsuario(String mail, Fragment fragment){
         db.collection("usuarios")
-                .whereEqualTo("tipoCuenta", tipoCuenta)
                 .whereEqualTo("mail", mail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -121,7 +120,6 @@ public class CloudFirestoreService {
                                 usuarioModel.setMail(document.getString("mail"));
                                 usuarioModel.setTelefono(document.getString("telefono"));
                                 usuarioModel.setNombreCompleto(document.getString("nombreCompleto"));
-                                usuarioModel.setTipoCuenta(document.getString("tipoCuenta"));
                                 Toast.makeText(fragment.getActivity(), usuarioModel.toString(), Toast.LENGTH_LONG).show();
                                 //falta retornar usuario
                             }
@@ -137,9 +135,8 @@ public class CloudFirestoreService {
     }
 
 
-    public void buscarUsuario(String mail, String tipoCuenta, MainActivity mainActivity){
+    public void buscarUsuario(String mail, MainActivity mainActivity){
         db.collection("usuarios")
-                .whereEqualTo("tipoCuenta", tipoCuenta)
                 .whereEqualTo("mail", mail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -154,13 +151,6 @@ public class CloudFirestoreService {
                                 usuarioModel.setMail(usuario.getEmail());
                                 if(usuario.getPhoneNumber()!=null)usuarioModel.setTelefono(usuario.getPhoneNumber());
                                 if(usuario.getDisplayName()!=null)usuarioModel.setNombreCompleto(usuario.getDisplayName());
-                                //if(usuario.getProviderId()!=null)usuarioModel.setTipoCuenta(usuario.getProviderId());
-                                usuarioModel.setTipoCuenta("firebase");
-                                for (UserInfo user: usuario.getProviderData()) {
-                                    if (!user.getProviderId().equals("firebase")) {
-                                        usuarioModel.setTipoCuenta(user.getProviderId());
-                                    }
-                                }
                                 db.collection("usuarios").add(usuarioModel)
                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                             @Override
@@ -189,7 +179,6 @@ public class CloudFirestoreService {
                                 usuarioModel.setMail(document.getString("mail"));
                                 usuarioModel.setTelefono(document.getString("telefono"));
                                 usuarioModel.setNombreCompleto(document.getString("nombreCompleto"));
-                                usuarioModel.setTipoCuenta(document.getString("tipoCuenta"));
 //                                mainActivity.setUsuarioModel(usuarioModel);
                                 UsuarioActual.getInstance().copiar(usuarioModel); // ----> es preferible usar este Singleton
                                 //Toast.makeText(mainActivity, usuarioModel.toString(), Toast.LENGTH_LONG).show();
@@ -592,7 +581,6 @@ public class CloudFirestoreService {
         usuarioModel.setMail(document.getString("mail"));
         usuarioModel.setTelefono(document.getString("telefono"));
         usuarioModel.setNombreCompleto(document.getString("nombreCompleto"));
-        usuarioModel.setTipoCuenta(document.getString("tipoCuenta"));
         return  usuarioModel;
     }
 
