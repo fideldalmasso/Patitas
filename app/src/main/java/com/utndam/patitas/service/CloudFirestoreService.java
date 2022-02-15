@@ -150,7 +150,7 @@ public class CloudFirestoreService {
                                 if(usuario.getPhoneNumber()!=null)usuarioModel.setTelefono(usuario.getPhoneNumber());
                                 if(usuario.getDisplayName()!=null)usuarioModel.setNombreCompleto(usuario.getDisplayName());
                                 if(usuario.getPhotoUrl()!=null){
-                                    new CloudStorageService().subirImagenPerfil(usuario.getPhotoUrl().toString(), usuario.getUid(), new CloudStorageService.DestinoSubirPerfil() {
+                                    new CloudStorageService().subirImagenPerfil(usuario.getPhotoUrl().toString(), usuario.getUid(),mainActivity, new CloudStorageService.DestinoSubirPerfil() {
                                         @Override
                                         public void recibirUrlNuevo(String url) {
                                             usuarioModel.setFotoUrl(url);

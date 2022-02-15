@@ -2,13 +2,20 @@ package com.utndam.patitas.service;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -17,12 +24,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.utndam.patitas.gui.MainActivity;
 import com.utndam.patitas.gui.home.AltaPublicacionFragment;
 import com.utndam.patitas.model.UsuarioModel;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -53,46 +62,53 @@ public class CloudStorageService {
           //   .into(imageView);
     }
 
-    public void subirImagenPerfil(String urlExterno,String idUsuario, DestinoSubirPerfil destinoSubirPerfil){
-        URL url = null;
-        try {
-            url = new URL(urlExterno);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+    public void subirImagenPerfil(String urlExterno,String idUsuario, Context context, DestinoSubirPerfil destinoSubirPerfil){
+
         StorageReference ref = storage.getReference()
                 .child("images/" + idUsuario + "/" + "profile" + ".jpg");
-        InputStream stream = null;
-        try {
-            stream = url.openConnection().getInputStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        UploadTask uploadTask = ref.putStream(stream);
-        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    throw task.getException();
-                }
+        //Bitmap bitmap = getBitmapFromURL(urlExterno,context);
+        GlideApp.with(context)
+                .asBitmap()
+                .load(urlExterno)
+                .into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        resource.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] data = baos.toByteArray();
 
-                // Continue with the task to get the download URL
-                return ref.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    Uri downloadUri = task.getResult();
-                    //stream.close();
-                    destinoSubirPerfil.recibirUrlNuevo(downloadUri.toString());
+                        UploadTask uploadTask = ref.putBytes(data);
+                        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                            @Override
+                            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                                if (!task.isSuccessful()) {
+                                    throw task.getException();
+                                }
 
-                } else {
-                    // Handle failures
-                    // ...
-                }
-            }
-        });
+                                // Continue with the task to get the download URL
+                                return ref.getDownloadUrl();
+                            }
+                        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                if (task.isSuccessful()) {
+                                    Uri downloadUri = task.getResult();
+                                    //stream.close();
+                                    destinoSubirPerfil.recibirUrlNuevo(downloadUri.toString());
+
+                                } else {
+                                    Log.d("Cagamo","LCDTM ALL BOYS");
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
+
 
     }
 
@@ -138,5 +154,8 @@ public class CloudStorageService {
         });
         return;
     }
+
+
+
 
 }
