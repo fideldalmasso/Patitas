@@ -3,6 +3,7 @@ package com.utndam.patitas.gui.busqueda;
 import static java.lang.Math.abs;
 
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -35,6 +37,7 @@ import com.utndam.patitas.gui.home.onCardSelectedListener;
 import com.utndam.patitas.gui.ingreso.AfterTextChangedTextWatcher;
 import com.utndam.patitas.gui.mapas.MapsSimpleFragment;
 import com.utndam.patitas.model.PublicacionModel;
+import com.utndam.patitas.model.UsuarioActual;
 import com.utndam.patitas.service.CloudFirestoreService;
 
 import java.util.ArrayList;
@@ -110,7 +113,8 @@ public class BusquedaFragment extends Fragment  {
                     @Override
                     public void recibirPublicaciones(List<PublicacionModel> listaResultado){
                         for(PublicacionModel p: listaResultado) publis.add(p);
-                        frag.setLista(filtrar(publis, mapaFrag.getUbicacionElegida().latitude, mapaFrag.getUbicacionElegida().longitude, 100));
+                        LatLng ubicacionActual = UsuarioActual.getInstance().getUbicacionActual();
+                        frag.setLista(filtrar(publis, ubicacionActual, 50000));
 
                         fmanager.beginTransaction()
                                 .setCustomAnimations(
@@ -132,32 +136,28 @@ public class BusquedaFragment extends Fragment  {
 
         return view;
     }
-    private ArrayList<PublicacionModel> filtrar(ArrayList<PublicacionModel> publis, double lat, double lon, long dif) {
+    private ArrayList<PublicacionModel> filtrar(List<PublicacionModel> publis, LatLng ubic, long dif) {
         ArrayList<PublicacionModel> ret = new ArrayList<PublicacionModel>();
         for(PublicacionModel p:publis){
-            double dist = abs(p.getLongitud()-lon)+abs(p.getLatitud()-lat);
-            p.setDistancia((float) dist);
-            if(abs(p.getLatitud()-lat) <= dif && abs(p.getLongitud()-lon)<= dif ){
+            float [] dist2 = new float[1];
+            Location.distanceBetween(ubic.latitude,ubic.longitude,p.getLatitud(),p.getLongitud(),dist2); //guarda la distancia en metros en dist[0]
+            float dist = dist2[0];
+            dist = (dist != 0) ? (dist / 1000) : 0; //pasar a km
+            p.setDistancia(dist);
+            if(dist<= dif ){
                 ret.add(p);
             }
         }
-       Collections.sort(ret, new Comparator<PublicacionModel>(){
+        Collections.sort(ret, new Comparator<PublicacionModel>(){
 
-           @Override
-           public int compare(PublicacionModel p1, PublicacionModel p2) {
-               if(p1.getDistancia() < p2.getDistancia()) return -1;
-               else if(p1.getDistancia() < p2.getDistancia()) return 1;
-               return 0;
-           }
-       });
-        System.out.println("PAZ " + lat + " " + lon);
-        double last = -1;
-        for(PublicacionModel p : ret){
-            System.out.println(p.getTitulo() + " " + p.getDistancia());
-            last = p.getDistancia();
-        }
-        Toast toastUbi = Toast.makeText(getContext(), "cerca " + ret.get(0).getDistancia() + " last " + last, Toast.LENGTH_LONG );
-        toastUbi.show();
+            @Override
+            public int compare(PublicacionModel p1, PublicacionModel p2) {
+                if(p1.getDistancia() < p2.getDistancia()) return -1;
+                else if(p1.getDistancia() < p2.getDistancia()) return 1;
+                return 0;
+            }
+        });
+
         return ret;
     }
 

@@ -70,7 +70,6 @@ public class PublicacionModel {
     }
 
 
-
     public String getTitulo() {
         return titulo;
     }
