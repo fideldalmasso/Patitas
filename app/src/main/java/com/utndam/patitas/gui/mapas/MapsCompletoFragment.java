@@ -174,6 +174,7 @@ public class MapsCompletoFragment extends Fragment {
     @SuppressLint("MissingPermission")
     public void moverMapaAUbicacionActual(boolean mover){
         mapa.setMyLocationEnabled(true);
+        mapa.getUiSettings().setMyLocationButtonEnabled(mover);
 
         if(mover) {
             fusedLocationClient.getLastLocation()
