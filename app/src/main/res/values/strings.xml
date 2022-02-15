@@ -127,6 +127,21 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Apariencia</string>
+    <string name="datos_personales_header">Datos personales</string>
+
+    <!-- Messages Preferences -->
+    <string name="dark_mode_enabled">Modo oscuro</string>
+    <string name="dark_mode_summary">Los cambios se aplicarán al reiniciar la aplicacion
+    </string>
+
+
+    <!-- Sync Preferences -->
+    <string name="nombre_title">Nombre completo</string>
+    <string name="telefono_title">Teléfono</string>
+    <string name="telefono_summary">Número de contacto que se muestra en las interacciones con otros usuarios</string>
+    <string name="nombre_summary">Nombre que se muestra en las interacciones con otros usuarios</string>
     <!--    <string name="default_web_client_id">324198664571-lep1r1anars94ilfe986ige60mrh9e7f.apps.googleusercontent.com</string>-->
 
 </resources>

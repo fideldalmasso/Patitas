@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements UsuarioActual.Usu
     private HomeFragment homeFrag;
     private BusquedaFragment busquedaFrag;
     private BlankFragment blankFrag;
+    private SettingsFragment settingsFragment;
     private MisMensajesFragment mensajesFrag;
     private TextView drawerEmailUsuario;
     private TextView drawerNombreCompletoUsuario;
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements UsuarioActual.Usu
         homeFrag = HomeFragment.newInstance(2);
 //        busquedaFrag = new BusquedaFragment();
         blankFrag = new BlankFragment();
+        settingsFragment = new SettingsFragment();
         mensajesFrag = new MisMensajesFragment();
 
         fragmentManager = getSupportFragmentManager();
@@ -176,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements UsuarioActual.Usu
                     case R.id.boton_ajustes:
                         barraSuperior.setTitle("Ajustes");
                         fragmentManager.beginTransaction()
-                                .replace(R.id.contenedor_fragmento,blankFrag)
+                                .replace(R.id.contenedor_fragmento,settingsFragment)
                                 .commit();
                         break;
                 }
@@ -309,5 +312,11 @@ public class MainActivity extends AppCompatActivity implements UsuarioActual.Usu
         drawerNombreCompletoUsuario.setText(usuario.getNombreCompleto());
         drawerEmailUsuario.setText(usuario.getMail());
         service2.setImagen(drawerFotoUsuario,usuario.getFotoUrl(),this);
+    }
+
+
+
+    public TextView getDrawerNombreCompletoUsuario() {
+        return drawerNombreCompletoUsuario;
     }
 }

@@ -56,19 +56,19 @@ public class CloudFirestoreService {
     public CloudFirestoreService(){
         db = FirebaseFirestore.getInstance();
     }
-    public void guardarUsuario(UsuarioModel usuarioModel, Fragment fragment){
-        DocumentReference newUserRef = db.collection("usuarios").document();
+    public void actualizarUsuario(UsuarioModel usuarioModel, Fragment fragment){
+        DocumentReference newUserRef = db.collection("usuarios").document(usuarioModel.getId());
         newUserRef.set(usuarioModel)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(fragment.getActivity(), "DocumentSnapshot successfully written!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(fragment.getActivity(), "Datos actualizados exitosamente", Toast.LENGTH_LONG).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(fragment.getActivity(), "Error writing document" + e.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(fragment.getActivity(), "No se pudo actualizar los datos" , Toast.LENGTH_LONG).show();
                     }
                 });
     }
