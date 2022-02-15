@@ -176,6 +176,7 @@ public class CloudFirestoreService {
 
                                 }
                                 else {
+                                    usuarioModel.setFotoUrl("gs://patitas2-f92e8.appspot.com/images/default_profile.jpg");
                                     db.collection("usuarios")
                                             .document(usuario.getUid())
                                             .set(usuarioModel)
