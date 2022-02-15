@@ -22,7 +22,7 @@
             android:scaleType="centerCrop"
             android:transitionName="transicion_imagen"
             android:src="@drawable/ic_baseline_person_24"
-            app:tint="?attr/colorOnSecondary"
+
             />
 
 

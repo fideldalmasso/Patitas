@@ -29,17 +29,18 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.utndam.patitas.MyReceiver;
 import com.utndam.patitas.R;
 import com.utndam.patitas.gui.busqueda.BusquedaFragment;
 import com.utndam.patitas.gui.home.HomeFragment;
 import com.utndam.patitas.gui.ingreso.IngresoActivity;
 import com.utndam.patitas.gui.mensajes.MisMensajesFragment;
+import com.utndam.patitas.model.UsuarioActual;
 import com.utndam.patitas.service.CloudFirestoreService;
+import com.utndam.patitas.service.CloudStorageService;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements UsuarioActual.UsuarioActualCargadoListener {
 
 
     private MaterialToolbar barraSuperior;
@@ -65,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState!=null)
             savedInstanceState.clear();
         super.onCreate(savedInstanceState);
+
+        UsuarioActual.getInstance().setListener(this);
         setContentView(R.layout.activity_main);
         createNotificationChannel();
         BroadcastReceiver br = new MyReceiver();
@@ -182,19 +185,25 @@ public class MainActivity extends AppCompatActivity {
         cargarDatosUsuario();
     }
 
+
+    private CloudFirestoreService service1 = new CloudFirestoreService();
+    private CloudStorageService service2 = new CloudStorageService();
+
     public void cargarDatosUsuario(){
 
-       new Thread(() -> {
-           FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
-           CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
-           cloudFirestoreService.buscarUsuario(usuario.getEmail(),MainActivity.this);
-           MainActivity.this.runOnUiThread(() -> {
-               drawerNombreCompletoUsuario.setText(usuario.getDisplayName());
-               drawerEmailUsuario.setText(usuario.getEmail());
-               //falta cargar imagen de usuario con URL y setearla en drawerFotoUsuario
+        service1.buscarUsuario(FirebaseAuth.getInstance().getCurrentUser().getEmail(),MainActivity.this);
 
-           });
-       }).start();
+//        new Thread(() -> {
+//           FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
+//           CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
+////           MainActivity.this.runOnUiThread(() -> {
+////               drawerNombreCompletoUsuario.setText(usuario.getDisplayName());
+////               drawerEmailUsuario.setText(usuario.getEmail());
+////               //falta cargar imagen de usuario con URL y setearla en drawerFotoUsuario
+////
+////           });
+//       }).start();
+
 
     }
 
@@ -291,4 +300,12 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     };
+
+    @Override
+    public void onUsuarioCargado() {
+        UsuarioActual usuario = UsuarioActual.getInstance();
+        drawerNombreCompletoUsuario.setText(usuario.getNombreCompleto());
+        drawerEmailUsuario.setText(usuario.getMail());
+        service2.setImagen(drawerFotoUsuario,usuario.getFotoUrl(),this);
+    }
 }

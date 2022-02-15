@@ -17,11 +17,12 @@ import com.utndam.patitas.service.CloudStorageService;
 
 public class MensajeCompletoFragment extends Fragment {
 
-    public ImageView remitenteFoto;
-    public TextView remitenteNombre;
-    public TextView publicacionAsociada;
-    public TextView infoContacto;
-    public TextView contenido;
+    private ImageView remitenteFoto;
+    private TextView remitenteNombre;
+    private TextView publicacionAsociada;
+    private TextView infoContacto;
+    private TextView contenido;
+    private TextView fecha;
     private CloudStorageService service2 = new CloudStorageService();
 
 
@@ -72,14 +73,16 @@ public class MensajeCompletoFragment extends Fragment {
         publicacionAsociada = v.findViewById(R.id.publicacion_asociada);
         infoContacto = v.findViewById(R.id.info_contacto);
         contenido = v.findViewById(R.id.contenido);
+        fecha = v.findViewById(R.id.fecha);
 
 
 //        remitenteFoto.setImageResource(item.remitenteFoto);
         service2.setImagen(remitenteFoto, item.getRemitenteFotoUrl(),remitenteFoto.getContext());
         remitenteNombre.setText(item.remitenteNombre);
-        publicacionAsociada.setText(item.publicacionAsociada);
+        publicacionAsociada.setText("Publicación: " + item.publicacionAsociada);
         infoContacto.setText(item.contacto);
         contenido.setText(item.contenido);
+//        fecha.setText(item.getFecha());
 
         return v;
     }
