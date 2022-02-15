@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
        new Thread(() -> {
            FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
            CloudFirestoreService cloudFirestoreService = new CloudFirestoreService();
-           cloudFirestoreService.buscarUsuario(usuario.getEmail(),usuario.getProviderId(),MainActivity.this);
+           cloudFirestoreService.buscarUsuario(usuario.getEmail(),MainActivity.this);
            MainActivity.this.runOnUiThread(() -> {
                drawerNombreCompletoUsuario.setText(usuario.getDisplayName());
                drawerEmailUsuario.setText(usuario.getEmail());
