@@ -90,6 +90,7 @@ public class MapsCompletoFragment extends Fragment {
 
             // si tengo que mostrar una posicion exacta, no permito movimiento
             if(ubicacionFija!=null){
+                mapa.getUiSettings().setMyLocationButtonEnabled(false);
                 ubicacionElegida = ubicacionFija;
                 mapa.getUiSettings().setScrollGesturesEnabled(false);
                 cambiarPosicion(ubicacionFija);
@@ -101,12 +102,14 @@ public class MapsCompletoFragment extends Fragment {
             LatLng ubic = UsuarioActual.getInstance().getUbicacionActual();
             if(ubic!=null){
                 ubicacionElegida=ubic;
+                mapa.getUiSettings().setMyLocationButtonEnabled(true);
                 cambiarPosicion(ubic);
                 probarMoverMapaAUbicacionActual(false);
                 return;
             }
 
             // este es el caso en que el usuario recien lanza la aplicacion o recien inicia sesion / crea una cuenta
+            mapa.getUiSettings().setMyLocationButtonEnabled(true);
             probarMoverMapaAUbicacionActual(true);
 
         }
@@ -174,7 +177,7 @@ public class MapsCompletoFragment extends Fragment {
     @SuppressLint("MissingPermission")
     public void moverMapaAUbicacionActual(boolean mover){
         mapa.setMyLocationEnabled(true);
-        mapa.getUiSettings().setMyLocationButtonEnabled(mover);
+
 
         if(mover) {
             fusedLocationClient.getLastLocation()

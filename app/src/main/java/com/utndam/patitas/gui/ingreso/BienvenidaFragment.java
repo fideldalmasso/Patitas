@@ -30,7 +30,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.utndam.patitas.R;
 import com.utndam.patitas.databinding.FragmentBienvenidaBinding;
-import com.utndam.patitas.gui.MainActivity;
 
 
 /**
@@ -164,9 +163,10 @@ public class BienvenidaFragment extends Fragment {
                             FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
                             if(usuario!=null)
                                 Toast.makeText(getContext(), "Bienvenido "+usuario.getDisplayName(), Toast.LENGTH_LONG).show();
-                            Intent i = new Intent(getActivity(), MainActivity.class);
-                            getActivity().finish();
-                            startActivity(i);
+//                            Intent i = new Intent(getActivity(), MainActivity.class);
+//                            getActivity().finish();
+//                            startActivity(i);
+                            ((IngresoActivity)getActivity()).reiniciarActivity();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
