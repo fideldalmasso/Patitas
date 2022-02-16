@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.utndam.patitas.databinding.FragmentSignUpBinding;
+import com.utndam.patitas.model.UsuarioActual;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -157,7 +158,8 @@ public class SignUpFragment extends Fragment {
                 if(todoOk) {
                     createAccount(binding.emailEdit.getText().toString(),
                             binding.contraseniaEdit.getText().toString(),
-                            binding.nombreCompletoEdit.getText().toString());
+                            binding.nombreCompletoEdit.getText().toString(),
+                            obtenerTelefono(binding.celularEdit.getText()));
 
                 }
             }
@@ -167,7 +169,9 @@ public class SignUpFragment extends Fragment {
         return binding.getRoot();
     }
 
-    private void asignarNombreACuenta(String nombreCompleto) {
+    private void asignarNombreYTelefonoACuenta(String nombreCompleto, String telefono) {
+
+        UsuarioActual.getInstance().setTelefono(telefono);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
@@ -214,7 +218,7 @@ public class SignUpFragment extends Fragment {
         return PhoneNumberUtils.stripSeparators("+54"+telefono);
     }
 
-    private void createAccount(String email, String password, String nombreCompleto) {
+    private void createAccount(String email, String password, String nombreCompleto, String telefono) {
         // [START create_user_with_email]
 
         FirebaseAuth mAuth =FirebaseAuth.getInstance();
@@ -228,7 +232,7 @@ public class SignUpFragment extends Fragment {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(getContext(), "Usuario creado correctamente!! xd.",
                                     Toast.LENGTH_LONG).show();
-                            asignarNombreACuenta(nombreCompleto);
+                            asignarNombreYTelefonoACuenta(nombreCompleto,telefono);
 
 //                            updateUI(user);
                         } else {
