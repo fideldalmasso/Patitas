@@ -147,7 +147,7 @@ public class CloudFirestoreService {
                                 FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
                                 //if(usuario.getPhotoUrl()!=null)usuarioModel.setFotoUrl(usuario.getPhotoUrl().toString());
                                 usuarioModel.setMail(usuario.getEmail());
-                                if(usuario.getPhoneNumber()!=null)usuarioModel.setTelefono(usuario.getPhoneNumber());
+                                if(UsuarioActual.getInstance().getTelefono()!=null)usuarioModel.setTelefono(UsuarioActual.getInstance().getTelefono());
                                 if(usuario.getDisplayName()!=null)usuarioModel.setNombreCompleto(usuario.getDisplayName());
                                 if(usuario.getPhotoUrl()!=null){
                                     new CloudStorageService().subirImagenPerfil(usuario.getPhotoUrl().toString(), usuario.getUid(),mainActivity, new CloudStorageService.DestinoSubirPerfil() {
@@ -166,7 +166,6 @@ public class CloudFirestoreService {
                                                     }).addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
-                                                    Log.d("lrpm","fuuuuuuuuuck");
                                                 }
                                             })
                                             ;
@@ -189,7 +188,6 @@ public class CloudFirestoreService {
                                             }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Log.d("lrpm","fuuuuuuuuuck");
                                         }
                                     })
                                     ;
@@ -213,9 +211,6 @@ public class CloudFirestoreService {
                                 //Toast.makeText(mainActivity, usuarioModel.toString(), Toast.LENGTH_LONG).show();
                             }
 
-                           /* for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }*/
                         } else {
                             //Log.d(TAG, "Error getting documents: ", task.getException());
                         }
