@@ -90,7 +90,7 @@ public class PublicacionCompletaFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity)getActivity()).cambiarTextoBarraSuperior(item.getTitulo());
+        ((MainActivity)getActivity()).cambiarTextoBarraSuperior(item.getTipoPublicacion());
         View v =  inflater.inflate(R.layout.fragment_publicacion_completa, container, false);
 
         imagen = v.findViewById(R.id.card_completo_imagen);

@@ -42,7 +42,7 @@ public class ResultadoRecyclerAdapter extends RecyclerView.Adapter<ResultadoRecy
         css.setImagen(holder.imagen, listaPublicaciones.get(position).getUrlImagen(), contextNow);
         holder.titulo.setText(listaPublicaciones.get(position).getTitulo());
         DecimalFormat df = new DecimalFormat("###.##");
-        holder.distancia.setText(df.format(listaPublicaciones.get(position).getDistancia()) + " km");
+        holder.distancia.setText(df.format(listaPublicaciones.get(position).getDistancia()) + " km\n" + listaPublicaciones.get(position).getTipoPublicacion());
     }
 
     @Override
