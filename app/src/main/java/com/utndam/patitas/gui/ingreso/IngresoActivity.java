@@ -113,7 +113,7 @@ public class IngresoActivity extends FragmentActivity {
     }
 
     public void reiniciarActivity(){
-        Intent i = getIntent();
+        Intent i = new Intent(this,IngresoActivity.class);
         startActivity(i);
         IngresoActivity.this.finish();
     }
