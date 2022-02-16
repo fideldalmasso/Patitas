@@ -115,7 +115,7 @@ public class PublicacionCompletaFragment extends Fragment {
                     .setTitle("Responder a \""+item.getTitulo()+"\"")
                     .setView(input)
                     .setPositiveButton("Aceptar", (dialog, i) -> {
-                        Toast.makeText(getContext(), "Falta implementar guardar el mensaje en DB", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Respuesta enviada", Toast.LENGTH_LONG).show();
                         MensajeModel m = new MensajeModel();
                         m.setPublicacionAsociada(item.getTitulo());
                         m.setIdPublicacionAsociada(item.getId());
