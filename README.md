@@ -35,20 +35,30 @@ Para realizar dichas actividades, la aplicación permite crear publicaciones, qu
 
 
 # Screenshots
+<p float="left">
 <img src="screenshots/Screenshot_20221013-212409.png" width="150"/>
 <img src="screenshots/Screenshot_20221013-212452.png" width="150"/>
 <img src="screenshots/Screenshot_20221013-212533.png" width="150"/>
+</p>
+<p float="left">
 <img src="screenshots/Screenshot_20221013-212619.png" width="150"/>
 <img src="screenshots/Screenshot_20221013-212628.png" width="150"/>
 <img src="screenshots/Screenshot_20221013-212653.png" width="150"/>
+</p>
+<p float="left">
 <img src="screenshots/Screenshot_20221013-212657.png" width="150"/>
 <img src="screenshots/Screenshot_20221013-212708.png" width="150"/>
 <img src="screenshots/Screenshot_20221013-212718.png" width="150"/>
+</p>
+<p float="left">
 <img src="screenshots/Screenshot_20221013-212725.png" width="150"/>
 <img src="screenshots/Screenshot_20221013-212740.png" width="150"/>
 <img src="screenshots/Screenshot_20221013-212815.png" width="150"/>
+</p>
+<p float="left">
 <img src="screenshots/Screenshot_20221013-212846.png" width="150"/>
 <img src="screenshots/Screenshot_20221013-212852.png" width="150"/>
+</p>
 
 
 
