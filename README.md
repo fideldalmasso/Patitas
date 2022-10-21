@@ -59,13 +59,4 @@ Para realizar dichas actividades, la aplicación permite crear publicaciones, qu
 <img src="screenshots/Screenshot_20221013-212846.png" width="32%"/>
 <img src="screenshots/Screenshot_20221013-212852.png" width="32%"/>
 </p>
-<p float="left">
-<img src="screenshots/Screenshot_20221013-212846.png" width="32%"/>
-<img src="screenshots/Screenshot_20221013-212852.png" width="32%"/>
-</p>
-
-
-
-
-
 Logo: [Victoria Rodriguez](https://www.behance.net/vickyrodriguez2)
